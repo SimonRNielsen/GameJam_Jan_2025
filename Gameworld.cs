@@ -9,6 +9,7 @@ namespace GameJam_Jan_2025
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        //lists that are important
         private List<GameObject> activeGameObjects = new List<GameObject>();
         private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
         private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
@@ -77,12 +78,20 @@ namespace GameJam_Jan_2025
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Gameobject will be added after next Update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
             gameObject.LoadContent(Content);
         }
 
+        /// <summary>
+        /// Gameobject will be removed after next Update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveGameObject(GameObject gameObject)
         {
             gameObjectsToBeRemoved.Add(gameObject);
