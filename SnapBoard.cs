@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    internal class SnapBoard
+    public class SnapBoard
     {
     }
 }
