@@ -9,8 +9,10 @@ namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
     {
+        //Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        //lists that are important
         private List<GameObject> activeGameObjects = new List<GameObject>();
         private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
         private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
@@ -27,6 +29,9 @@ namespace GameJam_Jan_2025
         public static bool MouseLeftClick { get => mouseLeftClick; }
         public static bool MouseRightClick { get => mouseRightClick; }
 
+        //Properties
+
+        //Constructors
         public Gameworld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -34,6 +39,7 @@ namespace GameJam_Jan_2025
             IsMouseVisible = false;
         }
 
+        //Methods
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -132,12 +138,20 @@ namespace GameJam_Jan_2025
 
         }
 
+/// <summary>
+        /// Gameobject will be added after next Update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
             gameObject.LoadContent(Content);
         }
 
+        /// <summary>
+        /// Gameobject will be removed after next Update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveGameObject(GameObject gameObject)
         {
             gameObjectsToBeRemoved.Add(gameObject);
