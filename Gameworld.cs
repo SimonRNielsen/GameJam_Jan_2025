@@ -27,6 +27,8 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
 
+        internal static SnapBoard snapBoard;
+
         #endregion
 
         #region Properties
@@ -75,6 +77,7 @@ namespace GameJam_Jan_2025
 
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
+            snapBoard = new SnapBoard();
 
             base.Initialize();
         }
@@ -101,6 +104,7 @@ namespace GameJam_Jan_2025
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Update(gameTime, screenSize);
+                mousePointer.Update(gameTime, gameObject);
             }
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {

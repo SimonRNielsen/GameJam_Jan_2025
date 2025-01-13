@@ -18,10 +18,20 @@ namespace GameJam_Jan_2025
         //where the object/sprite originates, currently top left corner
         private Vector2 origin;
         protected float scale;
+        private float rotation = 0;
 
         //Properties
         public Vector2 Position { get => position; set => position = value; }
 
+        /// <summary>
+        /// Handles external rotation of GameObject
+        /// </summary>
+        public float Rotation { get => rotation; set => rotation = value; }
+
+        public Rectangle CollisionBox
+        {
+            get { return new Rectangle((int)Gameworld.MousePosition.X, (int)Gameworld.MousePosition.Y, sprite.Width, sprite.Height); }
+        }
 
         //Constructors
         public GameObject() { }
@@ -37,7 +47,7 @@ namespace GameJam_Jan_2025
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
         }
     }
 }
