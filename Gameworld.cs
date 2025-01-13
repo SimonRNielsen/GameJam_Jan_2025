@@ -63,6 +63,7 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            activeGameObjects.Add(new Head());    
 
         }
 
@@ -120,6 +121,56 @@ namespace GameJam_Jan_2025
             Texture2D mouse = Content.Load<Texture2D>("Sprites\\Mouse\\screwdriver_mousepointer");
 
             sprites.Add("mouse", mouse);
+
+            #region parts
+            Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+
+            Texture2D robotBody1 = Content.Load<Texture2D>("Sprites\\Robotparts\\body1");
+            Texture2D robotBody2 = Content.Load<Texture2D>("Sprites\\Robotparts\\body2");
+            Texture2D robotBody3 = Content.Load<Texture2D>("Sprites\\Robotparts\\body3");
+
+            Texture2D robotArmL1 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL1");
+            Texture2D robotArmL2 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL2");
+            Texture2D robotArmL3 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL3");
+
+            Texture2D robotArmR1 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR1");
+            Texture2D robotArmR2 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR2");
+            Texture2D robotArmR3 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR3");
+
+            Texture2D robotLegL1 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL1");
+            Texture2D robotLegL2 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL2");
+            Texture2D robotLegL3 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL3");
+
+            Texture2D robotLegR1 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR1");
+            Texture2D robotLegR2 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR2");
+            Texture2D robotLegR3 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR3");
+
+            sprites.Add("head1", robotHead1); 
+            sprites.Add("head2", robotHead2); 
+            sprites.Add("head3", robotHead3);
+
+            sprites.Add("robotBody1", robotBody1);
+            sprites.Add("robotBody2", robotBody2);
+            sprites.Add("robotBody3", robotBody3);
+
+            sprites.Add("robotArmL1", robotArmL1);
+            sprites.Add("robotArmL2", robotArmL2);
+            sprites.Add("robotArmL3", robotArmL3);
+
+            sprites.Add("robotArmR1", robotArmR1);
+            sprites.Add("robotArmR2", robotArmR2);
+            sprites.Add("robotArmR3", robotArmR3);
+
+            sprites.Add("robotLegL1", robotLegL1);
+            sprites.Add("robotLegL2", robotLegL2);
+            sprites.Add("robotLegL3", robotLegL3);
+
+            sprites.Add("robotLegR1", robotLegR1);
+            sprites.Add("robotLegR2", robotLegR2);
+            sprites.Add("robotLegR3", robotLegR3);
+            #endregion
 
         }
 
