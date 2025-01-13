@@ -19,6 +19,7 @@ namespace GameJam_Jan_2025
         private Vector2 origin;
         protected float scale;
         private float rotation = 0;
+        private bool removeThis = false;
 
         //Properties
         public Vector2 Position { get => position; set => position = value; }
@@ -27,6 +28,9 @@ namespace GameJam_Jan_2025
         /// Handles external rotation of GameObject
         /// </summary>
         public float Rotation { get => rotation; set => rotation = value; }
+
+
+        public bool RemoveThis { get => removeThis; set => removeThis = value; }
 
         public Rectangle CollisionBox
         {

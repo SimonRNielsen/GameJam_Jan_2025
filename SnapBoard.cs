@@ -32,7 +32,6 @@ namespace GameJam_Jan_2025
         public List<Rectangle> Slots = new List<Rectangle>();
         public Dictionary<Rectangle, Part> Parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> PartsPositions = new Dictionary<Rectangle, Vector2>();
-        public Dictionary<Rectangle, Part> Storage = new Dictionary<Rectangle, Part>();
 
         /// <summary>
         /// Constructor for SnapBoard
@@ -52,7 +51,16 @@ namespace GameJam_Jan_2025
         /// <param name="screenSize">Huh?</param>
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+
+            RobotBuilt(out bool robotBuilt, out bool incompatible);
+            if (robotBuilt && !incompatible)
+                ClearBench(robotBuilt);
+            else if (robotBuilt && incompatible)
+            {
+
+            }
             base.Update(gameTime, screenSize);
+
         }
 
         /// <summary>
@@ -60,11 +68,11 @@ namespace GameJam_Jan_2025
         /// </summary>
         private void AddAssemblyArea()
         {
+
             int size = 256;
 
             float robotPosX = 300;
             float robotPosY = 10;
-
             float storagePosY = 800;
 
             headPos = new Vector2(robotPosX, robotPosY);
@@ -150,6 +158,43 @@ namespace GameJam_Jan_2025
                     Parts[part.Key] = null;
                 }
             }
+        }
+
+
+        private void RobotBuilt(out bool completed, out bool incompatible)
+        {
+            completed = false;
+            incompatible = true;
+
+            if (Parts[head] != null && Parts[torso] != null && Parts[leftArm] != null && Parts[rightArm] != null && Parts[leftLeg] != null && Parts[rightLeg] != null)
+            {
+
+                completed = true;
+
+                incompatible = false;
+
+            }
+
+        }
+
+
+        private void ClearBench(bool robotBuilt)
+        {
+
+            Parts[head].RemoveThis = true;
+            Parts[torso].RemoveThis = true;
+            Parts[leftArm].RemoveThis = true;
+            Parts[rightArm].RemoveThis = true;
+            Parts[leftLeg].RemoveThis = true;
+            Parts[rightLeg].RemoveThis = true;
+
+            Parts[head] = null;
+            Parts[torso] = null;
+            Parts[leftArm] = null;
+            Parts[rightArm] = null;
+            Parts[leftLeg] = null;
+            Parts[rightLeg] = null;
+
         }
 
     }

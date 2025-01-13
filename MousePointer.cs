@@ -13,12 +13,6 @@ namespace GameJam_Jan_2025
         private int grabbed;
         private float oldMouseX;
         private float oldMouseY;
-        private bool headSlotCollision = false;
-        private bool torsoSlotCollision = false;
-        private bool leftArmSlotCollision = false;
-        private bool rightArmSlotCollision = false;
-        private bool leftLegSlotCollision = false;
-        private bool rightLegSlotCollision = false;
         GameObject tempObject;
         Vector2 previousLocation;
 
@@ -70,10 +64,12 @@ namespace GameJam_Jan_2025
             if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
                 grabbed = 0;
 
-            if (MouseOver(gameObject))
+            if (Gameworld.MouseLeftClick && MouseOver(gameObject) || Gameworld.MouseRightClick && MouseOver(gameObject))
             {
-                LeftClickEvent(Gameworld.MouseLeftClick, gameObject);
-                RightClickEvent(Gameworld.MouseRightClick, gameObject);
+                if (Gameworld.MouseLeftClick)
+                    LeftClickEvent(gameObject);
+                if (Gameworld.MouseRightClick)
+                    RightClickEvent(gameObject);
             }
 
             if (!Gameworld.MouseRightClick && !Gameworld.MouseLeftClick && tempObject != null)
@@ -88,72 +84,71 @@ namespace GameJam_Jan_2025
                 else if (tempObject.Rotation > (MathHelper.Pi / 4) * 5 && tempObject.Rotation < (MathHelper.Pi / 4) * 7)
                     tempObject.Rotation = (MathHelper.Pi / 2) * 3;
 
-                Gameworld.snapBoard.UpdateSlot(tempObject);
+                bool intersection = false;
+
+                foreach (Rectangle rectangle in Gameworld.snapBoard.Slots)
+                {
+                    if (tempObject.CollisionBox.Intersects(rectangle))
+                    {
+                        intersection = true;
+                        break;
+                    }
+                }
+
+                if (intersection)
+                    Gameworld.snapBoard.UpdateSlot(tempObject);
+                else
+                    gameObject.Position = previousLocation;
 
                 tempObject = null;
             }
 
-            ResetBools();
         }
 
         /// <summary>
         /// Actions to perform or not perform if left mousebutton is pressed
         /// </summary>
         /// <param name="leftClick">Checks state of left mousebutton</param>
-        private void LeftClickEvent(bool leftClick, GameObject gameObject)
+        private void LeftClickEvent(GameObject gameObject)
         {
-            if (leftClick)
+
+            if (tempObject == null)
+                previousLocation = gameObject.Position;
+            tempObject = gameObject;
+            grabbed++;
+            if (gameObject is ISnapable && grabbed <= grabLimit)
             {
-                if (tempObject == null)
-                    previousLocation = gameObject.Position;
-                tempObject = gameObject;
-                grabbed++;
-                if (gameObject is ISnapable && grabbed <= grabLimit)
-                {
-                    gameObject.Position = Gameworld.MousePosition;
-                }
+                gameObject.Position = Gameworld.MousePosition;
             }
+
         }
 
         /// <summary>
         /// Actions to perform or not perform if right mousebutton is pressed
         /// </summary>
         /// <param name="rightClick">Checks state of right mousebutton</param>
-        private void RightClickEvent(bool rightClick, GameObject gameObject)
+        private void RightClickEvent(GameObject gameObject)
         {
-            if (rightClick)
+            if (tempObject == null)
+                oldMouseX = Gameworld.MousePosition.X;
+            tempObject = gameObject;
+            grabbed++;
+            if (gameObject is ISnapable && grabbed <= grabLimit)
             {
-                tempObject = gameObject;
-                grabbed++;
-                if (gameObject is ISnapable && grabbed <= grabLimit)
-                {
-                    gameObject.Rotation += (oldMouseX - Gameworld.MousePosition.X) / 100;
-                    if (gameObject.Rotation > (MathHelper.Pi * 2))
-                        gameObject.Rotation -= MathHelper.Pi * 2;
-                }
+                gameObject.Rotation += (oldMouseX - Gameworld.MousePosition.X) / 100;
+                if (gameObject.Rotation > (MathHelper.Pi * 2))
+                    gameObject.Rotation -= MathHelper.Pi * 2;
             }
+
         }
 
         /// <summary>
         /// Handles collision of mouse
         /// </summary>
         /// <param name="gameObject">Facilitates interaction with object</param>
-        private bool MouseOver(GameObject gameObject)
+        public bool MouseOver(GameObject gameObject)
         {
             return gameObject.CollisionBox.Intersects(CollisionBox);
-        }
-
-        /// <summary>
-        /// Resets bools for next pass
-        /// </summary>
-        private void ResetBools()
-        {
-            headSlotCollision = false;
-            torsoSlotCollision = false;
-            leftArmSlotCollision = false;
-            rightArmSlotCollision = false;
-            leftLegSlotCollision = false;
-            rightLegSlotCollision = false;
         }
 
         #endregion

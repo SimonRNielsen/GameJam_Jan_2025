@@ -78,6 +78,7 @@ namespace GameJam_Jan_2025
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
+            activeGameObjects.Add(new TestDummy(new Vector2(1000, 500)));
 
             base.Initialize();
         }
@@ -103,8 +104,10 @@ namespace GameJam_Jan_2025
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                mousePointer.CheckCollision(gameObject);
+                mousePointer.MouseOver(gameObject);
                 gameObject.Update(gameTime, screenSize);
+                if (gameObject.RemoveThis)
+                    RemoveGameObject(gameObject);
             }
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {
@@ -164,8 +167,10 @@ namespace GameJam_Jan_2025
 #if DEBUG
 
             Texture2D debug = Content.Load<Texture2D>("Sprites\\DEBUG\\pixel");
+            Texture2D testdummy = Content.Load<Texture2D>("Sprites\\DEBUG\\testdummy");
 
             sprites.Add("debug", debug);
+            sprites.Add("testdummy", testdummy);
 
 #endif
 
