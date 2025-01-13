@@ -13,6 +13,7 @@ namespace GameJam_Jan_2025
         private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
         private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
         private Vector2 screenSize;
+        public static Vector2 MousePosition;
 
         public Gameworld()
         {
