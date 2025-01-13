@@ -9,7 +9,8 @@ namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
     {
-        //Fields
+        #region Fields
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //lists that are important
@@ -17,7 +18,7 @@ namespace GameJam_Jan_2025
         private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
         private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
         private Vector2 screenSize;
-        public static Vector2 MousePosition;
+        private static Vector2 mousePosition;
         private static bool mouseLeftClick;
         private static bool mouseRightClick;
         private static MousePointer mousePointer;
@@ -26,12 +27,28 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Property to register left click on mouse
+        /// </summary>
         public static bool MouseLeftClick { get => mouseLeftClick; }
+
+        /// <summary>
+        /// Property to register right click on mouse
+        /// </summary>
         public static bool MouseRightClick { get => mouseRightClick; }
 
-        //Properties
+        /// <summary>
+        /// Property to register the position of the mouse
+        /// </summary>
+        public static Vector2 MousePosition { get => mousePosition; }
 
-        //Constructors
+        #endregion
+
+        #region Constructors
         public Gameworld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -39,7 +56,9 @@ namespace GameJam_Jan_2025
             IsMouseVisible = false;
         }
 
-        //Methods
+        #endregion
+
+        #region Methods
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -48,11 +67,13 @@ namespace GameJam_Jan_2025
             _graphics.ApplyChanges();
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
+            //Adds assets
             AddSprites(sprites);
             AddAnimation(animations);
             AddSounds(sounds);
             AddMusic(music);
 
+            //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
 
             base.Initialize();
@@ -63,6 +84,7 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            activeGameObjects.Add(new Head());    
 
         }
 
@@ -71,7 +93,13 @@ namespace GameJam_Jan_2025
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach(GameObject gameObject in activeGameObjects)
+            // Handling and updating mouse input
+            var mouseState = Mouse.GetState();
+            mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
+            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
+
+            foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Update(gameTime, screenSize);
             }
@@ -80,17 +108,11 @@ namespace GameJam_Jan_2025
                 activeGameObjects.Remove(gameObject);
             }
             gameObjectsToBeRemoved.Clear();
-            foreach(GameObject gameObject in gameObjectsToBeAdded)
+            foreach (GameObject gameObject in gameObjectsToBeAdded)
             {
                 activeGameObjects.Add(gameObject);
             }
             gameObjectsToBeAdded.Clear();
-            // TODO: Add your update logic here
-
-            var mouseState = Mouse.GetState();
-            MousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
-            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
-            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
 
             base.Update(gameTime);
         }
@@ -105,7 +127,7 @@ namespace GameJam_Jan_2025
             {
                 gameObject.Draw(_spriteBatch);
             }
-            
+
             mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -113,32 +135,109 @@ namespace GameJam_Jan_2025
             base.Draw(gameTime);
         }
 
+        #region Assets
 
+        /// <summary>
+        /// Method to supply "sprites" dictionary with content
+        /// </summary>
+        /// <param name="sprites">Dictionary to have sprites added to</param>
         private void AddSprites(Dictionary<string, Texture2D> sprites)
         {
+
+#if DEBUG
+
+            Texture2D debug = Content.Load<Texture2D>("Sprites\\DEBUG\\pixel");
+
+            sprites.Add("debug", debug);
+
+#endif
 
             Texture2D mouse = Content.Load<Texture2D>("Sprites\\Mouse\\screwdriver_mousepointer");
 
             sprites.Add("mouse", mouse);
 
+            #region parts
+            Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+
+            Texture2D robotBody1 = Content.Load<Texture2D>("Sprites\\Robotparts\\body1");
+            Texture2D robotBody2 = Content.Load<Texture2D>("Sprites\\Robotparts\\body2");
+            Texture2D robotBody3 = Content.Load<Texture2D>("Sprites\\Robotparts\\body3");
+
+            Texture2D robotArmL1 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL1");
+            Texture2D robotArmL2 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL2");
+            Texture2D robotArmL3 = Content.Load<Texture2D>("Sprites\\Robotparts\\armL3");
+
+            Texture2D robotArmR1 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR1");
+            Texture2D robotArmR2 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR2");
+            Texture2D robotArmR3 = Content.Load<Texture2D>("Sprites\\Robotparts\\armR3");
+
+            Texture2D robotLegL1 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL1");
+            Texture2D robotLegL2 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL2");
+            Texture2D robotLegL3 = Content.Load<Texture2D>("Sprites\\Robotparts\\legL3");
+
+            Texture2D robotLegR1 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR1");
+            Texture2D robotLegR2 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR2");
+            Texture2D robotLegR3 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR3");
+
+            sprites.Add("head1", robotHead1); 
+            sprites.Add("head2", robotHead2); 
+            sprites.Add("head3", robotHead3);
+
+            sprites.Add("robotBody1", robotBody1);
+            sprites.Add("robotBody2", robotBody2);
+            sprites.Add("robotBody3", robotBody3);
+
+            sprites.Add("robotArmL1", robotArmL1);
+            sprites.Add("robotArmL2", robotArmL2);
+            sprites.Add("robotArmL3", robotArmL3);
+
+            sprites.Add("robotArmR1", robotArmR1);
+            sprites.Add("robotArmR2", robotArmR2);
+            sprites.Add("robotArmR3", robotArmR3);
+
+            sprites.Add("robotLegL1", robotLegL1);
+            sprites.Add("robotLegL2", robotLegL2);
+            sprites.Add("robotLegL3", robotLegL3);
+
+            sprites.Add("robotLegR1", robotLegR1);
+            sprites.Add("robotLegR2", robotLegR2);
+            sprites.Add("robotLegR3", robotLegR3);
+            #endregion
+
         }
 
+        /// <summary>
+        /// Method to supply "animations" dictionary with content
+        /// </summary>
+        /// <param name="animations">Dictionary to have animation arrays added to</param>
         private void AddAnimation(Dictionary<string, Texture2D[]> animations)
         {
 
         }
 
+        /// <summary>
+        /// Method to supply "sounds" dictionary with content
+        /// </summary>
+        /// <param name="sounds">Dictionary to have soundeffects added to</param>
         private void AddSounds(Dictionary<string, SoundEffect> sounds)
         {
 
         }
 
+        /// <summary>
+        /// Method to supply "music" dictionary with content
+        /// </summary>
+        /// <param name="music">Dictionary to have "Songs" added to</param>
         private void AddMusic(Dictionary<string, Song> music)
         {
 
         }
 
-/// <summary>
+        #endregion
+
+        /// <summary>
         /// Gameobject will be added after next Update
         /// </summary>
         /// <param name="gameObject"></param>
@@ -156,5 +255,7 @@ namespace GameJam_Jan_2025
         {
             gameObjectsToBeRemoved.Add(gameObject);
         }
+
+        #endregion
     }
 }

@@ -26,7 +26,7 @@ namespace GameJam_Jan_2025
         #region Constructor
 
         /// <summary>
-        /// Constructs a MousePointer with the intent of enabling "collision" with Button- & Item-class objects
+        /// Constructs a MousePointer for interacting with objects
         /// </summary>
         public MousePointer()
         {
@@ -37,8 +37,10 @@ namespace GameJam_Jan_2025
 
         #region Methods
 
-        
-
+        /// <summary>
+        /// Draws a custom mousecursor at the location its detected to be in
+        /// </summary>
+        /// <param name="spriteBatch">Gameworld logic</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
