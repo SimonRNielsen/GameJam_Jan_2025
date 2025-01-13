@@ -30,7 +30,7 @@ namespace GameJam_Jan_2025
         /// </summary>
         public MousePointer()
         {
-            
+            sprite = Gameworld.sprites["mouse"];
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace GameJam_Jan_2025
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.FlipHorizontally, 1f);
+            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
         }
 
         #endregion
