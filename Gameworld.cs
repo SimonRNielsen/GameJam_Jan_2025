@@ -8,6 +8,7 @@ namespace GameJam_Jan_2025
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        public static Vector2 MousePosition;
 
         public Gameworld()
         {
