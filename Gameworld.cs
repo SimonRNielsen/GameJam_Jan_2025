@@ -7,6 +7,7 @@ namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
     {
+        //Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //lists that are important
@@ -16,6 +17,9 @@ namespace GameJam_Jan_2025
         private Vector2 screenSize;
         public static Vector2 MousePosition;
 
+        //Properties
+
+        //Constructors
         public Gameworld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -23,6 +27,7 @@ namespace GameJam_Jan_2025
             IsMouseVisible = true;
         }
 
+        //Methods
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
