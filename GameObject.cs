@@ -16,8 +16,8 @@ namespace GameJam_Jan_2025
         protected Vector2 position;
         protected float layer;
         //where the object/sprite originates, currently top left corner
-        private Vector2 origin;
-        protected float scale;
+        protected Vector2 origin;
+        protected float scale=1;
 
         //Properties
         public Vector2 Position { get => position; set => position = value; }
@@ -31,7 +31,7 @@ namespace GameJam_Jan_2025
         {
 
         }
-        public virtual void Update(GameTime gameTime, Vector2 screenSize)
+        public virtual void Update(GameTime gameTime)
         {
 
         }
