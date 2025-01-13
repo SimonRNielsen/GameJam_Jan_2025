@@ -42,10 +42,6 @@ namespace GameJam_Jan_2025
             _graphics.ApplyChanges();
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.ApplyChanges();
-
             AddSprites(sprites);
             AddAnimation(animations);
             AddSounds(sounds);
@@ -96,14 +92,14 @@ namespace GameJam_Jan_2025
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin(SpriteSortMode.BackToFront);
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Draw(_spriteBatch);
             }
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
-
+            
             mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -114,9 +110,11 @@ namespace GameJam_Jan_2025
 
         private void AddSprites(Dictionary<string, Texture2D> sprites)
         {
+
             Texture2D mouse = Content.Load<Texture2D>("Sprites\\Mouse\\screwdriver_mousepointer");
 
             sprites.Add("mouse", mouse);
+
         }
 
         private void AddAnimation(Dictionary<string, Texture2D[]> animations)
