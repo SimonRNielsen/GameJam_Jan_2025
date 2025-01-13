@@ -9,7 +9,8 @@ namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
     {
-        //Fields
+        #region Fields
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //lists that are important
@@ -17,7 +18,7 @@ namespace GameJam_Jan_2025
         private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
         private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
         private Vector2 screenSize;
-        public static Vector2 MousePosition;
+        private static Vector2 mousePosition;
         private static bool mouseLeftClick;
         private static bool mouseRightClick;
         private static MousePointer mousePointer;
@@ -26,12 +27,28 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Property to register left click on mouse
+        /// </summary>
         public static bool MouseLeftClick { get => mouseLeftClick; }
+
+        /// <summary>
+        /// Property to register right click on mouse
+        /// </summary>
         public static bool MouseRightClick { get => mouseRightClick; }
 
-        //Properties
+        /// <summary>
+        /// Property to register the position of the mouse
+        /// </summary>
+        public static Vector2 MousePosition { get => mousePosition; }
 
-        //Constructors
+        #endregion
+
+        #region Constructors
         public Gameworld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -39,7 +56,9 @@ namespace GameJam_Jan_2025
             IsMouseVisible = false;
         }
 
-        //Methods
+        #endregion
+
+        #region Methods
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -48,11 +67,13 @@ namespace GameJam_Jan_2025
             _graphics.ApplyChanges();
             screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
+            //Adds assets
             AddSprites(sprites);
             AddAnimation(animations);
             AddSounds(sounds);
             AddMusic(music);
 
+            //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
 
             base.Initialize();
@@ -72,7 +93,13 @@ namespace GameJam_Jan_2025
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach(GameObject gameObject in activeGameObjects)
+            // Handling and updating mouse input
+            var mouseState = Mouse.GetState();
+            mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
+            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
+
+            foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Update(gameTime, screenSize);
             }
@@ -81,17 +108,11 @@ namespace GameJam_Jan_2025
                 activeGameObjects.Remove(gameObject);
             }
             gameObjectsToBeRemoved.Clear();
-            foreach(GameObject gameObject in gameObjectsToBeAdded)
+            foreach (GameObject gameObject in gameObjectsToBeAdded)
             {
                 activeGameObjects.Add(gameObject);
             }
             gameObjectsToBeAdded.Clear();
-            // TODO: Add your update logic here
-
-            var mouseState = Mouse.GetState();
-            MousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
-            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
-            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
 
             base.Update(gameTime);
         }
@@ -106,7 +127,7 @@ namespace GameJam_Jan_2025
             {
                 gameObject.Draw(_spriteBatch);
             }
-            
+
             mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -114,9 +135,22 @@ namespace GameJam_Jan_2025
             base.Draw(gameTime);
         }
 
+        #region Assets
 
+        /// <summary>
+        /// Method to supply "sprites" dictionary with content
+        /// </summary>
+        /// <param name="sprites">Dictionary to have sprites added to</param>
         private void AddSprites(Dictionary<string, Texture2D> sprites)
         {
+
+#if DEBUG
+
+            Texture2D debug = Content.Load<Texture2D>("Sprites\\DEBUG\\pixel");
+
+            sprites.Add("debug", debug);
+
+#endif
 
             Texture2D mouse = Content.Load<Texture2D>("Sprites\\Mouse\\screwdriver_mousepointer");
 
@@ -174,22 +208,36 @@ namespace GameJam_Jan_2025
 
         }
 
+        /// <summary>
+        /// Method to supply "animations" dictionary with content
+        /// </summary>
+        /// <param name="animations">Dictionary to have animation arrays added to</param>
         private void AddAnimation(Dictionary<string, Texture2D[]> animations)
         {
 
         }
 
+        /// <summary>
+        /// Method to supply "sounds" dictionary with content
+        /// </summary>
+        /// <param name="sounds">Dictionary to have soundeffects added to</param>
         private void AddSounds(Dictionary<string, SoundEffect> sounds)
         {
 
         }
 
+        /// <summary>
+        /// Method to supply "music" dictionary with content
+        /// </summary>
+        /// <param name="music">Dictionary to have "Songs" added to</param>
         private void AddMusic(Dictionary<string, Song> music)
         {
 
         }
 
-/// <summary>
+        #endregion
+
+        /// <summary>
         /// Gameobject will be added after next Update
         /// </summary>
         /// <param name="gameObject"></param>
@@ -207,5 +255,7 @@ namespace GameJam_Jan_2025
         {
             gameObjectsToBeRemoved.Add(gameObject);
         }
+
+        #endregion
     }
 }
