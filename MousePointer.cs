@@ -13,6 +13,12 @@ namespace GameJam_Jan_2025
         private int grabbed;
         private float oldMouseX;
         private float oldMouseY;
+        private bool headSlotCollision = false;
+        private bool torsoSlotCollision = false;
+        private bool leftArmSlotCollision = false;
+        private bool rightArmSlotCollision = false;
+        private bool leftLegSlotCollision = false;
+        private bool rightLegSlotCollision = false;
         GameObject tempObject;
         Vector2 previousLocation;
 
@@ -50,21 +56,26 @@ namespace GameJam_Jan_2025
         /// <param name="spriteBatch">Gameworld logic</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+            if (tempObject == null)
+                spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
         }
 
         /// <summary>
         /// Used to handle events for MousePointer
         /// </summary>
         /// <param name="gameTime">Gameworld logic</param>
-        public void Update(GameTime gameTime, GameObject gameObject)
+        public void CheckCollision(GameObject gameObject)
         {
-            grabbed = 0;
+
+            if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
+                grabbed = 0;
+
             if (MouseOver(gameObject))
             {
                 LeftClickEvent(Gameworld.MouseLeftClick, gameObject);
                 RightClickEvent(Gameworld.MouseRightClick, gameObject);
             }
+
             if (!Gameworld.MouseRightClick && !Gameworld.MouseLeftClick && tempObject != null)
             {
 
@@ -77,8 +88,12 @@ namespace GameJam_Jan_2025
                 else if (tempObject.Rotation > (MathHelper.Pi / 4) * 5 && tempObject.Rotation < (MathHelper.Pi / 4) * 7)
                     tempObject.Rotation = (MathHelper.Pi / 2) * 3;
 
+                Gameworld.snapBoard.UpdateSlot(tempObject);
+
                 tempObject = null;
             }
+
+            ResetBools();
         }
 
         /// <summary>
@@ -95,7 +110,7 @@ namespace GameJam_Jan_2025
                 grabbed++;
                 if (gameObject is ISnapable && grabbed <= grabLimit)
                 {
-
+                    gameObject.Position = Gameworld.MousePosition;
                 }
             }
         }
@@ -126,6 +141,19 @@ namespace GameJam_Jan_2025
         private bool MouseOver(GameObject gameObject)
         {
             return gameObject.CollisionBox.Intersects(CollisionBox);
+        }
+
+        /// <summary>
+        /// Resets bools for next pass
+        /// </summary>
+        private void ResetBools()
+        {
+            headSlotCollision = false;
+            torsoSlotCollision = false;
+            leftArmSlotCollision = false;
+            rightArmSlotCollision = false;
+            leftLegSlotCollision = false;
+            rightLegSlotCollision = false;
         }
 
         #endregion

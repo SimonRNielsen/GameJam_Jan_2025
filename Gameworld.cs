@@ -103,8 +103,8 @@ namespace GameJam_Jan_2025
 
             foreach (GameObject gameObject in activeGameObjects)
             {
+                mousePointer.CheckCollision(gameObject);
                 gameObject.Update(gameTime, screenSize);
-                mousePointer.Update(gameTime, gameObject);
             }
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {
@@ -123,14 +123,28 @@ namespace GameJam_Jan_2025
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+#if DEBUG
+            bool disableCollisionDrawing = Keyboard.GetState().IsKeyDown(Keys.Space);
+#endif
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Draw(_spriteBatch);
+#if DEBUG
+                if (disableCollisionDrawing)
+                {
+                    DrawCollisionBox(gameObject);
+                }
+#endif
             }
 
+#if DEBUG
+            foreach (Rectangle rectangle in snapBoard.Slots)
+            {
+                DrawDragNDropBoxes(rectangle);
+            }
+#endif
             mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -209,6 +223,36 @@ namespace GameJam_Jan_2025
             gameObjectsToBeRemoved.Add(gameObject);
         }
 
+
+        private void DrawCollisionBox(GameObject gameObject)
+        {
+            Color color = Color.Red;
+            Rectangle collisionBox = gameObject.CollisionBox;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+
+            _spriteBatch.Draw(sprites["debug"], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+        }
+
+        private void DrawDragNDropBoxes(Rectangle rectangle)
+        {
+            Color color = Color.Red;
+            Rectangle collisionBox = rectangle;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+
+            _spriteBatch.Draw(sprites["debug"], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+        }
         #endregion
     }
 }
