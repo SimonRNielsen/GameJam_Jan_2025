@@ -15,13 +15,13 @@ namespace GameJam_Jan_2025
         
 
 
-        public Head( Vector2 placement, int robotType)
+        public Head(int partType)
         {
-            position = placement;
+            position = Gameworld.startingPosition;
             layer = 1;
             scale = 0.5f;
 
-            switch (robotType)
+            switch (partType)
             {
                 case 1:
                     this.sprite = Gameworld.sprites["head1"];

@@ -9,25 +9,24 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    public class Torso : Part
+    internal class trickParts : Part
     {
-        public Torso(int partType)
+        public trickParts(int partType)
         {
-
             position = Gameworld.startingPosition;
             layer = 1;
-            scale = 0.5f;
+            scale = 0.2f;
 
             switch (partType)
             {
                 case 1:
-                    this.sprite = Gameworld.sprites["robotBody1"];
+                    this.sprite = Gameworld.sprites["trickPart1"];
                     break;
                 case 2:
-                    this.sprite = Gameworld.sprites["robotBody2"];
+                    this.sprite = Gameworld.sprites["trickPart2"];
                     break;
                 case 3:
-                    this.sprite = Gameworld.sprites["robotBody3"];
+                    this.sprite = Gameworld.sprites["trickPart3"];
                     break;
                 default:
                     break;

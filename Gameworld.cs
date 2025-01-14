@@ -27,6 +27,8 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
         private static Gameworld activeGameWorld;
+        public static Vector2 startingPosition = new Vector2(1400, -100);
+        public static bool orderOnGoing;
 
         #endregion
 
@@ -91,6 +93,13 @@ namespace GameJam_Jan_2025
             AddGameObject(new Head(new Vector2(200,200), 1));
             AddGameObject(new ConveyorBelt(new Vector2(1200, 100)));
 
+            gameObjectsToBeAdded.Add(new Head(1));
+            gameObjectsToBeAdded.Add(new Torso(1));
+            gameObjectsToBeAdded.Add(new Arm(4));
+            gameObjectsToBeAdded.Add(new Arm(1));
+            gameObjectsToBeAdded.Add(new Leg(4));
+            gameObjectsToBeAdded.Add(new Leg(1));
+            gameObjectsToBeAdded.Add(new trickParts(1));
         }
 
         protected override void Update(GameTime gameTime)
@@ -218,6 +227,16 @@ namespace GameJam_Jan_2025
             sprites.Add("robotLegR2", robotLegR2);
             sprites.Add("robotLegR3", robotLegR3);
             #endregion
+            #region trickParts
+            Texture2D trickPart1 = Content.Load<Texture2D>("Sprites\\trickParts\\trickPart1");
+            Texture2D trickPart2 = Content.Load<Texture2D>("Sprites\\trickParts\\trickPart2");
+            Texture2D trickPart3 = Content.Load<Texture2D>("Sprites\\trickParts\\trickPart3");
+
+            sprites.Add("trickPart1", trickPart1);
+            sprites.Add("trickPart2", trickPart2);
+            sprites.Add("trickPart3", trickPart3);
+            #endregion
+
         }
 
         /// <summary>
@@ -268,6 +287,22 @@ namespace GameJam_Jan_2025
             gameObjectsToBeRemoved.Add(gameObject);
         }
 
+        //Spawning robot parts
+        static void spawnParts()
+        {
+            //if (orderOnGoing)
+            //{
+                
+
+            //    gameObjectsToBeAdded.Add(new Head(1));
+            //    gameObjectsToBeAdded.Add(new Torso(1));
+            //    gameObjectsToBeAdded.Add(new Arm(4));
+            //    gameObjectsToBeAdded.Add(new Arm(1));
+            //    gameObjectsToBeAdded.Add(new Leg(4));
+            //    gameObjectsToBeAdded.Add(new Leg(1));
+            //    gameObjectsToBeAdded.Add(new trickParts(1));
+            //}
+        }
         #endregion
     }
 }
