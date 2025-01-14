@@ -28,7 +28,8 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
-        public static bool orderOnGoing;
+        public static string order;
+        public static int point;
 
         #endregion
 
@@ -90,16 +91,16 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AddGameObject(new Head( 1));
+            AddGameObject(new Head( 1, RobotType.Soldier));
             AddGameObject(new ConveyorBelt(new Vector2(1200, 100)));
 
-            gameObjectsToBeAdded.Add(new Head(1));
+            gameObjectsToBeAdded.Add(new Head(1, RobotType.Baker));
             gameObjectsToBeAdded.Add(new Torso(1));
             gameObjectsToBeAdded.Add(new Arm(4));
             gameObjectsToBeAdded.Add(new Arm(1));
             gameObjectsToBeAdded.Add(new Leg(4));
             gameObjectsToBeAdded.Add(new Leg(1));
-            gameObjectsToBeAdded.Add(new trickParts(1));
+            gameObjectsToBeAdded.Add(new TrickPart(1));
         }
 
         protected override void Update(GameTime gameTime)

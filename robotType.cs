@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    enum RobotType
+    public enum RobotType
     {
         Baker, 
         Soldier, 
