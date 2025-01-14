@@ -41,9 +41,9 @@ namespace GameJam_Jan_2025
             scale = 0.8f;
             chainNumber = 1;
             sprite = Gameworld.sprites["conveyorBelt"];
-            if (position.Y < 1080 - (sprite.Height * scale))
+            if (position.Y < 1080 - ((sprite.Height * scale)/2))
             {
-                Position = new Vector2(position.X, 1080 - (sprite.Height * scale));
+                Position = new Vector2(position.X, 1080 - ((sprite.Height * scale)/2));
             }
             else
             {
@@ -94,33 +94,53 @@ namespace GameJam_Jan_2025
                     Gameworld.AddGameObject(allParts[i]);
                 }
                 //checks whteher the positions are on the conveyor, adjusts them, then sets the parts to those positions
-                if (itemPos1.X > (sprite.Width * scale) -200)
+                if (itemPos1.X > (sprite.Width * scale/2) -100)
                 {
-                    itemPos1 = new Vector2(itemPos1.X, (sprite.Width * scale) - 200);
+                    itemPos1 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos1.Y);
+                }
+                else if (itemPos1.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos1.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[0].Position = new Vector2(objectPos.X+itemPos1.X,-itemPos1.Y);
 
-                if (itemPos2.X > (sprite.Width * scale) - 200)
+                if (itemPos2.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos2 = new Vector2(itemPos2.X, (sprite.Width * scale) - 200);
+                    itemPos2 = new Vector2((sprite.Width * scale)/2 - 100, itemPos2.Y);
+                }
+                else if (itemPos2.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos2.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[1].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
 
-                if (itemPos3.X > (sprite.Width * scale) - 200)
+                if (itemPos3.X > (sprite.Width * scale)/2 - 100)
                 {
-                    itemPos3 = new Vector2(itemPos3.X, (sprite.Width * scale) - 200);
+                    itemPos3 = new Vector2((sprite.Width * scale)/2 - 100, itemPos3.Y);
+                }
+                else if (itemPos3.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos3.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[2].Position = new Vector2(objectPos.X + itemPos3.X, -itemPos3.Y);
 
-                if (itemPos4.X > (sprite.Width * scale) - 200)
+                if (itemPos4.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos4 = new Vector2(itemPos4.X, (sprite.Width * scale) - 200);
+                    itemPos4 = new Vector2((sprite.Width * scale)/2 - 100, itemPos4.Y);
+                }
+                else if (itemPos4.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos4.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[3].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
 
-                if (itemPos5.X > (sprite.Width * scale) - 200)
+                if (itemPos5.X > (sprite.Width * scale)/2 - 100)
                 {
-                    itemPos5 = new Vector2(itemPos5.X, (sprite.Width * scale) - 200);
+                    itemPos5 = new Vector2((sprite.Width * scale)/2 - 100, itemPos5.Y);
+                }
+                else if (itemPos5.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos5.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[4].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
             }
@@ -138,10 +158,10 @@ namespace GameJam_Jan_2025
             Position = new Vector2(position.X, position.Y + speed);
 
             //if past the bottom of the screen, conveyor is teleported to the top
-            if (Position.Y >= 1080) 
+            if (Position.Y >= 1080+(sprite.Height * scale/2)) 
             {
-                float difference = Position.Y-1080;
-                Position = new Vector2(objectPos.X, 1080-(sprite.Height * scale*3)+difference);
+                float difference = Position.Y-(1080+ (sprite.Height * scale / 2));
+                Position = new Vector2(objectPos.X, 1080+ (sprite.Height * scale / 2) - (sprite.Height * scale*2.5f)+difference);
             }
             base.Update(gameTime);
 
@@ -152,7 +172,7 @@ namespace GameJam_Jan_2025
                 {
                     allParts[i].Position= new Vector2(allParts[i].Position.X, allParts[i].Position.Y + speed);
                     //teleports part to the top as with conveyor, but rerandomizes them
-                    if (allParts[i].Position.Y >= 1080) 
+                    if (allParts[i].Position.Y >= 1180) 
                     {
                         allParts[i] = RandomizeItem();
                         Gameworld.AddGameObject(allParts[i]);
