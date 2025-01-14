@@ -14,6 +14,7 @@ namespace GameJam_Jan_2025
     {
         //Fields
         private Rectangle hitbox;
+
         //Properties
 
         //Constructors

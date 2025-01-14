@@ -206,6 +206,31 @@
 /build:Sprites/Robotparts/legL1.png
 
 #begin Sprites/Robotparts/legL2.png
+#begin Sprites/DEBUG/pixel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/DEBUG/pixel.png
+
+#begin Sprites/DEBUG/testdummy.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/DEBUG/testdummy.png
+
+#begin Sprites/head1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -326,6 +351,7 @@
 /build:Sprites/trickParts/trickPart2.jpg
 
 #begin Sprites/trickParts/trickPart3.jpg
+#begin Sprites/Mouse/screwdriver_mousepointer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

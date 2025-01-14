@@ -22,6 +22,7 @@ namespace GameJam_Jan_2025
         private static bool mouseLeftClick;
         private static bool mouseRightClick;
         private static MousePointer mousePointer;
+        private static bool grabbing = false;
         public static Dictionary<string, Texture2D> sprites = new Dictionary<string, Texture2D>();
         public static Dictionary<string, Texture2D[]> animations = new Dictionary<string, Texture2D[]>();
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
@@ -30,6 +31,8 @@ namespace GameJam_Jan_2025
         public static Vector2 startingPosition = new Vector2(1400, -100);
         public static string order;
         public static int point;
+
+        internal static SnapBoard snapBoard;
 
         #endregion
 
@@ -49,6 +52,9 @@ namespace GameJam_Jan_2025
         /// Property to register the position of the mouse
         /// </summary>
         public static Vector2 MousePosition { get => mousePosition; }
+
+
+        public static bool Grabbing { get => grabbing; set => grabbing = value; }
 
         #endregion
 
@@ -80,6 +86,14 @@ namespace GameJam_Jan_2025
 
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
+            snapBoard = new SnapBoard();
+            activeGameObjects.Add(snapBoard);
+            activeGameObjects.Add(new TestDummy(new Vector2(1250, 200)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1000, 200)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1750, 500)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1500, 500)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1250, 500)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1000, 500)));
 
             AddGameObject(new Timer());
 
@@ -113,9 +127,14 @@ namespace GameJam_Jan_2025
             mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
             mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
             mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
+            mousePointer.Update();
 
             foreach (GameObject gameObject in activeGameObjects)
             {
+                if (!grabbing)
+                    mousePointer.CheckCollision(gameObject);
+                if (gameObject.RemoveThis)
+                    RemoveGameObject(gameObject);
                 gameObject.Update(gameTime);
             }
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
@@ -132,14 +151,28 @@ namespace GameJam_Jan_2025
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+#if DEBUG
+            bool disableCollisionDrawing = Keyboard.GetState().IsKeyDown(Keys.Space);
+#endif
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Draw(_spriteBatch);
+#if DEBUG
+                if (disableCollisionDrawing)
+                {
+                    DrawCollisionBox(gameObject);
+                }
+#endif
             }
 
+#if DEBUG
+            foreach (Rectangle rectangle in snapBoard.parts.Keys)
+            {
+                DrawDragNDropBoxes(rectangle);
+            }
+#endif
             mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -159,8 +192,10 @@ namespace GameJam_Jan_2025
 #if DEBUG
 
             Texture2D debug = Content.Load<Texture2D>("Sprites\\DEBUG\\pixel");
+            Texture2D testdummy = Content.Load<Texture2D>("Sprites\\DEBUG\\testdummy");
 
             sprites.Add("debug", debug);
+            sprites.Add("testdummy", testdummy);
 
 #endif
 
@@ -288,6 +323,36 @@ namespace GameJam_Jan_2025
             gameObjectsToBeRemoved.Add(gameObject);
         }
 
+
+        private void DrawCollisionBox(GameObject gameObject)
+        {
+            Color color = Color.Red;
+            Rectangle collisionBox = gameObject.CollisionBox;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+
+            _spriteBatch.Draw(sprites["debug"], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+        }
+
+        private void DrawDragNDropBoxes(Rectangle rectangle)
+        {
+            Color color = Color.Red;
+            Rectangle collisionBox = rectangle;
+            Rectangle topLine = new Rectangle(collisionBox.X, collisionBox.Y, collisionBox.Width, 1);
+            Rectangle bottomLine = new Rectangle(collisionBox.X, collisionBox.Y + collisionBox.Height, collisionBox.Width, 1);
+            Rectangle rightLine = new Rectangle(collisionBox.X + collisionBox.Width, collisionBox.Y, 1, collisionBox.Height);
+            Rectangle leftLine = new Rectangle(collisionBox.X, collisionBox.Y, 1, collisionBox.Height);
+
+            _spriteBatch.Draw(sprites["debug"], topLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], bottomLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
+        }
         //Spawning robot parts
         static void spawnParts()
         {
