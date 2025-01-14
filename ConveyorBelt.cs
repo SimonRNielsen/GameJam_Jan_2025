@@ -225,6 +225,10 @@ namespace GameJam_Jan_2025
             }
         }
 
+        /// <summary>
+        /// Locates and removes specified object from AllParts-array
+        /// </summary>
+        /// <param name="gameObject">Object to compare</param>
         public void RemoveFromAllParts(GameObject gameObject)
         {
             int index = 0;
@@ -236,7 +240,10 @@ namespace GameJam_Jan_2025
             allParts[index] = null;
         }
 
-
+        /// <summary>
+        /// Function to create a new random Part
+        /// </summary>
+        /// <returns>New random Part</returns>
         private Part RandomPart()
         {
 
