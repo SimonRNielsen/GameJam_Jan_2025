@@ -150,7 +150,7 @@ namespace GameJam_Jan_2025
             }
 
 #if DEBUG
-            foreach (Rectangle rectangle in snapBoard.Slots)
+            foreach (Rectangle rectangle in snapBoard.parts.Keys)
             {
                 DrawDragNDropBoxes(rectangle);
             }

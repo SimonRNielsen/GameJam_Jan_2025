@@ -120,7 +120,7 @@ namespace GameJam_Jan_2025
                 //"Drop" logic
                 bool intersection = false;
 
-                foreach (Rectangle rectangle in Gameworld.snapBoard.Slots)
+                foreach (Rectangle rectangle in Gameworld.snapBoard.parts.Keys)
                 {
                     if (tempObject.CollisionBox.Intersects(rectangle))
                     {

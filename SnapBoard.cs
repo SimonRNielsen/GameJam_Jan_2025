@@ -28,10 +28,9 @@ namespace GameJam_Jan_2025
         private Rectangle storage2;
         private Rectangle storage3;
 
-        //Reference dictionaries and list
-        public List<Rectangle> Slots = new List<Rectangle>();
-        public Dictionary<Rectangle, Part> Parts = new Dictionary<Rectangle, Part>();
-        public Dictionary<Rectangle, Vector2> PartsPositions = new Dictionary<Rectangle, Vector2>();
+        //Reference dictionaries
+        public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
+        public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
 
         /// <summary>
         /// Constructor for SnapBoard
@@ -94,36 +93,26 @@ namespace GameJam_Jan_2025
             storage1 = new Rectangle((int)storagePos1.X - (size / 2), (int)storagePos1.Y - (size / 2), size, size);
             storage2 = new Rectangle((int)storagePos2.X - (size / 2), (int)storagePos2.Y - (size / 2), size, size);
             storage3 = new Rectangle((int)storagePos3.X - (size / 2), (int)storagePos3.Y - (size / 2), size, size);
+            
+            parts.Add(head, null);
+            parts.Add(torso, null);
+            parts.Add(leftArm, null);
+            parts.Add(rightArm, null);
+            parts.Add(leftLeg, null);
+            parts.Add(rightLeg, null);
+            parts.Add(storage1, null);
+            parts.Add(storage2, null);
+            parts.Add(storage3, null);
 
-            Slots.Add(head);
-            Slots.Add(torso);
-            Slots.Add(leftArm);
-            Slots.Add(rightArm);
-            Slots.Add(leftLeg);
-            Slots.Add(rightLeg);
-            Slots.Add(storage1);
-            Slots.Add(storage2);
-            Slots.Add(storage3);
-
-            Parts.Add(head, null);
-            Parts.Add(torso, null);
-            Parts.Add(leftArm, null);
-            Parts.Add(rightArm, null);
-            Parts.Add(leftLeg, null);
-            Parts.Add(rightLeg, null);
-            Parts.Add(storage1, null);
-            Parts.Add(storage2, null);
-            Parts.Add(storage3, null);
-
-            PartsPositions.Add(head, headPos);
-            PartsPositions.Add(torso, torsoPos);
-            PartsPositions.Add(leftArm, leftArmPos);
-            PartsPositions.Add(rightArm, rightArmPos);
-            PartsPositions.Add(leftLeg, leftLegPos);
-            PartsPositions.Add(rightLeg, rightLegPos);
-            PartsPositions.Add(storage1, storagePos1);
-            PartsPositions.Add(storage2, storagePos2);
-            PartsPositions.Add(storage3, storagePos3);
+            partsPositions.Add(head, headPos);
+            partsPositions.Add(torso, torsoPos);
+            partsPositions.Add(leftArm, leftArmPos);
+            partsPositions.Add(rightArm, rightArmPos);
+            partsPositions.Add(leftLeg, leftLegPos);
+            partsPositions.Add(rightLeg, rightLegPos);
+            partsPositions.Add(storage1, storagePos1);
+            partsPositions.Add(storage2, storagePos2);
+            partsPositions.Add(storage3, storagePos3);
 
         }
 
@@ -137,7 +126,7 @@ namespace GameJam_Jan_2025
             float distance = 1000;
             Rectangle rectangle = new Rectangle();
 
-            foreach (var partPosition in PartsPositions)
+            foreach (var partPosition in partsPositions)
             {
                 float newDistance = Vector2.Distance(partPosition.Value, gameObject.Position);
                 if (distance > newDistance)
@@ -147,21 +136,21 @@ namespace GameJam_Jan_2025
                 }
             }
 
-            if (Parts[rectangle] == null)
+            if (parts[rectangle] == null)
             {
-                gameObject.Position = PartsPositions[rectangle];
-                Parts[rectangle] = gameObject as Part;
+                gameObject.Position = partsPositions[rectangle];
+                parts[rectangle] = gameObject as Part;
             }
             else
                 success = false;
 
-            foreach (var part in Parts)
+            foreach (var part in parts)
             {
                 if (part.Key == rectangle)
                     continue;
                 else if (part.Value == gameObject as Part)
                 {
-                    Parts[part.Key] = null;
+                    parts[part.Key] = null;
                 }
             }
 
@@ -174,7 +163,7 @@ namespace GameJam_Jan_2025
             completed = false;
             incompatible = true;
 
-            if (Parts[head] != null && Parts[torso] != null && Parts[leftArm] != null && Parts[rightArm] != null && Parts[leftLeg] != null && Parts[rightLeg] != null)
+            if (parts[head] != null && parts[torso] != null && parts[leftArm] != null && parts[rightArm] != null && parts[leftLeg] != null && parts[rightLeg] != null)
             {
 
                 completed = true;
@@ -189,19 +178,19 @@ namespace GameJam_Jan_2025
         private void ClearBench(bool robotBuilt)
         {
 
-            Parts[head].RemoveThis = true;
-            Parts[torso].RemoveThis = true;
-            Parts[leftArm].RemoveThis = true;
-            Parts[rightArm].RemoveThis = true;
-            Parts[leftLeg].RemoveThis = true;
-            Parts[rightLeg].RemoveThis = true;
+            parts[head].RemoveThis = true;
+            parts[torso].RemoveThis = true;
+            parts[leftArm].RemoveThis = true;
+            parts[rightArm].RemoveThis = true;
+            parts[leftLeg].RemoveThis = true;
+            parts[rightLeg].RemoveThis = true;
 
-            Parts[head] = null;
-            Parts[torso] = null;
-            Parts[leftArm] = null;
-            Parts[rightArm] = null;
-            Parts[leftLeg] = null;
-            Parts[rightLeg] = null;
+            parts[head] = null;
+            parts[torso] = null;
+            parts[leftArm] = null;
+            parts[rightArm] = null;
+            parts[leftLeg] = null;
+            parts[rightLeg] = null;
 
         }
 
