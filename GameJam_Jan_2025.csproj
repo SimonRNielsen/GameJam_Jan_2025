@@ -12,10 +12,16 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <Compile Remove="Content\Lyd\**" />
+    <Compile Remove="Content\Musik\**" />
+    <EmbeddedResource Remove="Content\Lyd\**" />
+    <EmbeddedResource Remove="Content\Musik\**" />
+    <None Remove="Content\Lyd\**" />
+    <None Remove="Content\Musik\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <Folder Include="Content\Lyd\" />
     <Folder Include="Content\Musik\" />
     <Folder Include="Content\Sprites\Background\" />

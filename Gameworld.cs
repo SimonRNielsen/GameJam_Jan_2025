@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -9,14 +10,14 @@ namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
     {
-        #region Fields
-
+    #region Fields
+        private static ContentManager Content2;
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        //lists that are important
-        private List<GameObject> activeGameObjects = new List<GameObject>();
-        private List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
-        private List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
+        private static List<GameObject> activeGameObjects = new List<GameObject>();
+        private static List<GameObject> gameObjectsToBeAdded = new List<GameObject>();
+        private static List<GameObject> gameObjectsToBeRemoved = new List<GameObject>();
         private Vector2 screenSize;
         private static Vector2 mousePosition;
         private static bool mouseLeftClick;
@@ -55,6 +56,7 @@ namespace GameJam_Jan_2025
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Content2 = Content;
             IsMouseVisible = false;
         }
 
@@ -77,6 +79,8 @@ namespace GameJam_Jan_2025
 
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
+
+            AddGameObject(new Timer());
 
             base.Initialize();
         }
@@ -109,7 +113,7 @@ namespace GameJam_Jan_2025
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                gameObject.Update(gameTime, screenSize);
+                gameObject.Update(gameTime);
             }
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {
@@ -161,8 +165,13 @@ namespace GameJam_Jan_2025
 #endif
 
             Texture2D mouse = Content.Load<Texture2D>("Sprites\\Mouse\\screwdriver_mousepointer");
-
             sprites.Add("mouse", mouse);
+
+            Texture2D timerBackground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer background");
+            sprites.Add("timerBackground", timerBackground);
+
+            Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
+            sprites.Add("timerForeground", timerForeground);
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
@@ -258,7 +267,7 @@ namespace GameJam_Jan_2025
         /// Gameobject will be added after next Update
         /// </summary>
         /// <param name="gameObject"></param>
-        public void AddGameObject(GameObject gameObject)
+        public static void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
             gameObject.LoadContent(Content);
@@ -269,7 +278,7 @@ namespace GameJam_Jan_2025
         /// Gameobject will be removed after next Update
         /// </summary>
         /// <param name="gameObject"></param>
-        public void RemoveGameObject(GameObject gameObject)
+        public static void RemoveGameObject(GameObject gameObject)
         {
             gameObjectsToBeRemoved.Add(gameObject);
         }

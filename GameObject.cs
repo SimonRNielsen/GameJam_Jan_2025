@@ -16,8 +16,9 @@ namespace GameJam_Jan_2025
         protected Vector2 position;
         protected float layer;
         //where the object/sprite originates, currently top left corner
-        private Vector2 origin;
-        protected float scale;
+        protected Vector2 origin;
+        protected float scale=1;
+        protected Color color = Color.White;
 
         //Properties
         public Vector2 Position { get => position; set => position = value; }
@@ -31,13 +32,13 @@ namespace GameJam_Jan_2025
         {
 
         }
-        public virtual void Update(GameTime gameTime, Vector2 screenSize)
+        public virtual void Update(GameTime gameTime)
         {
 
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin, scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, color, 0, origin, scale, SpriteEffects.None, layer);
         }
     }
 }

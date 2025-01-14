@@ -241,7 +241,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Robotparts/legR2.png
 
-#begin Sprites/Robotparts/legR3.png
+#begin Sprites/Timer/basic timer background.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,7 +251,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/Robotparts/legR3.png
+/build:Sprites/Timer/basic timer background.png
+
+#begin Sprites/Timer/basic timer foreground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Timer/basic timer foreground.png
 
 #begin Sprites/trickParts/trickPart1.jpg
 /importer:TextureImporter
