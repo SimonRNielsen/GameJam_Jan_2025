@@ -132,7 +132,6 @@ namespace GameJam_Jan_2025
             {
                 if (!grabbing)
                     mousePointer.CheckCollision(gameObject);
-                gameObject.Update(gameTime, screenSize);
                 if (gameObject.RemoveThis)
                     RemoveGameObject(gameObject);
                 gameObject.Update(gameTime);

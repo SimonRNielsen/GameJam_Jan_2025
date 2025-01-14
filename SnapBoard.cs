@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using GameJam_Jan_2025.Robot_bits;
 
 namespace GameJam_Jan_2025
 {
@@ -49,7 +48,7 @@ namespace GameJam_Jan_2025
         /// </summary>
         /// <param name="gameTime">Gameworld logic</param>
         /// <param name="screenSize">Huh?</param>
-        public override void Update(GameTime gameTime, Vector2 screenSize)
+        public override void Update(GameTime gameTime)
         {
 
             RobotBuilt(out bool robotBuilt, out bool incompatible);
@@ -60,7 +59,7 @@ namespace GameJam_Jan_2025
                 //Display incompatible warning
             }
 
-            base.Update(gameTime, screenSize);
+            base.Update(gameTime);
 
         }
 

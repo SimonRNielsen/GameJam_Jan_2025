@@ -18,10 +18,8 @@ namespace GameJam_Jan_2025
         protected float layer;
         //where the object/sprite originates, currently top left corner
         protected Vector2 origin;
-        protected float scale=1;
+        protected float scale = 1;
         protected Color color = Color.White;
-        private Vector2 origin;
-        protected float scale;
         private float rotation;
         private bool removeThis = false;
         private bool grabbed = false;
