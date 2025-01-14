@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam_Jan_2025
 {
     public class SnapBoard : GameObject
     {
+
+        #region Fields
 
         //Vectors for rectangles positions
         private Vector2 headPos;
@@ -16,6 +19,47 @@ namespace GameJam_Jan_2025
         private Vector2 storagePos1;
         private Vector2 storagePos2;
         private Vector2 storagePos3;
+        private Vector2 trashcanPos;
+
+        //Vectors for text placement
+        private Vector2 workshopText;
+        private Vector2 headText;
+        private Vector2 torsoText;
+        private Vector2 leftLegText;
+        private Vector2 rightLegText;
+        private Vector2 leftArmText;
+        private Vector2 rightArmText;
+        private Vector2 storageText;
+        private Vector2 trashcanText;
+
+        //Text strings
+        private string displayedTextString;
+        private string incompleteTextString = "Robot not completed";
+        private string incompatibleTextString = "Not all parts compatible";
+        private string readyToBuildTextString = "Robot ready to be built";
+        private string robotCompleteTextString = "Robot built";
+        private string scoreTextString;
+        private string headTextString = "Head";
+        private string torsoTextString = "Torso";
+        private string leftArmTextString = "Left arm";
+        private string rightArmTextString = "Right arm";
+        private string leftLegTextString = "Left leg";
+        private string rightLegTextString = "Right leg";
+        private string storageTextString = "Mess Box";
+        private string trashcanTextString = "Trashcan";
+
+        //Score ints
+        private int addScore;
+        private int score;
+
+        //Timer floats
+        private float duration;
+        private float displayTime = 5f;
+
+        //Text and rectangle draw effects
+        private float customLayer;
+        Color opaque = Color.Black * 0.25f;
+        Color textColor = Color.Black;
 
         //Rectangles for collision with parts
         private Rectangle head;
@@ -27,10 +71,22 @@ namespace GameJam_Jan_2025
         private Rectangle storage1;
         private Rectangle storage2;
         private Rectangle storage3;
+        private Rectangle trashcan;
 
         //Reference dictionaries
         public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
+
+        #endregion
+        #region Properties
+
+        /// <summary>
+        /// For extracting score when game ends
+        /// </summary>
+        public int Score { get => score; }
+
+        #endregion
+        #region Constructor
 
         /// <summary>
         /// Constructor for SnapBoard
@@ -38,25 +94,55 @@ namespace GameJam_Jan_2025
         public SnapBoard()
         {
             layer = 0.01f;
+            customLayer = layer + 0.05f;
             scale = 1f;
             AddAssemblyArea();
+            SetVectorsAndString();
             //sprite = Gameworld.sprites["snapBoard"];
+        }
+
+        #endregion
+        #region Methods
+
+        /// <summary>
+        /// Custom Draw to display certain strings and rectangles
+        /// </summary>
+        /// <param name="spriteBatch">Gameworld logic</param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
         }
 
         /// <summary>
         /// Override of base Update method for custom code
         /// </summary>
         /// <param name="gameTime">Gameworld logic</param>
-        /// <param name="screenSize">Huh?</param>
         public override void Update(GameTime gameTime)
         {
 
+            score += addScore;
+            addScore = 0;
+
             RobotBuilt(out bool robotBuilt, out bool incompatible);
             if (robotBuilt && !incompatible)
+            {
+                //Display ready to build text
+                //Insert "build robot" condition
                 ClearBench();
+            }
             else if (robotBuilt && incompatible)
             {
                 //Display incompatible warning
+            }
+            else
+            {
+                //Display assembly incomplete message
+            }
+
+            if (parts[trashcan] != null)
+            {
+                parts[trashcan].RemoveThis = true;
+                parts[trashcan] = null;
             }
 
             base.Update(gameTime);
@@ -77,13 +163,14 @@ namespace GameJam_Jan_2025
 
             headPos = new Vector2(robotPosX + (size / 2), robotPosY + (size / 2));
             torsoPos = new Vector2(robotPosX + (size / 2), robotPosY + size + (size / 2) + spacer);
-            leftArmPos = new Vector2(robotPosX + size + (size / 2) + spacer, robotPosY + size + (size / 2) + spacer);
-            rightArmPos = new Vector2(robotPosX - size + (size / 2) - spacer, robotPosY + size + (size / 2) + spacer);
-            leftLegPos = new Vector2(robotPosX + (size / 2) + (size / 2) + (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
-            rightLegPos = new Vector2(robotPosX - (size / 2) + (size / 2) - (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
+            leftArmPos = new Vector2(robotPosX - size + (size / 2) - spacer, robotPosY + size + (size / 2) + spacer);
+            rightArmPos = new Vector2(robotPosX + size + (size / 2) + spacer, robotPosY + size + (size / 2) + spacer);
+            leftLegPos = new Vector2(robotPosX - (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
+            rightLegPos = new Vector2(robotPosX + size + (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
             storagePos1 = new Vector2(robotPosX - size + (size / 2) - spacer, storagePosY + (size / 2));
             storagePos2 = new Vector2(robotPosX + (size / 2), storagePosY + (size / 2));
             storagePos3 = new Vector2(robotPosX + size + (size / 2) + spacer, storagePosY + (size / 2));
+            trashcanPos = new Vector2(robotPosX + (size * 2) + (spacer * 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
 
             head = new Rectangle((int)headPos.X - (size / 2), (int)headPos.Y - (size / 2), size, size);
             torso = new Rectangle((int)torsoPos.X - (size / 2), (int)torsoPos.Y - (size / 2), size, size);
@@ -94,7 +181,8 @@ namespace GameJam_Jan_2025
             storage1 = new Rectangle((int)storagePos1.X - (size / 2), (int)storagePos1.Y - (size / 2), size, size);
             storage2 = new Rectangle((int)storagePos2.X - (size / 2), (int)storagePos2.Y - (size / 2), size, size);
             storage3 = new Rectangle((int)storagePos3.X - (size / 2), (int)storagePos3.Y - (size / 2), size, size);
-            
+            trashcan = new Rectangle((int)trashcanPos.X - (size / 2), (int)trashcanPos.Y - (size / 2), size, size);
+
             parts.Add(head, null);
             parts.Add(torso, null);
             parts.Add(leftArm, null);
@@ -104,6 +192,7 @@ namespace GameJam_Jan_2025
             parts.Add(storage1, null);
             parts.Add(storage2, null);
             parts.Add(storage3, null);
+            parts.Add(trashcan, null);
 
             partsPositions.Add(head, headPos);
             partsPositions.Add(torso, torsoPos);
@@ -114,13 +203,32 @@ namespace GameJam_Jan_2025
             partsPositions.Add(storage1, storagePos1);
             partsPositions.Add(storage2, storagePos2);
             partsPositions.Add(storage3, storagePos3);
+            partsPositions.Add(trashcan, trashcanPos);
 
+        }
+
+        /// <summary>
+        /// Method to set Vectors and string
+        /// </summary>
+        private void SetVectorsAndString()
+        {
+            workshopText = Vector2.Zero;
+            headText = Vector2.Zero;
+            torsoText = Vector2.Zero;
+            leftLegText = Vector2.Zero;
+            rightLegText = Vector2.Zero;
+            leftArmText = Vector2.Zero;
+            rightArmText = Vector2.Zero;
+            storageText = Vector2.Zero;
+            trashcanText = Vector2.Zero;
+            scoreTextString = $"Score: {Score}";
         }
 
         /// <summary>
         /// Method to update position and index of Part
         /// </summary>
         /// <param name="gameObject">Transfered Part reference</param>
+        /// <returns>Bool to indicate if action was successful</returns>
         public bool UpdateSlot(GameObject gameObject)
         {
 
@@ -217,6 +325,8 @@ namespace GameJam_Jan_2025
             return incompatible;
 
         }
+
+        #endregion
 
     }
 
