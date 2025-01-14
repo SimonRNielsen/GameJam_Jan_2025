@@ -69,21 +69,21 @@ namespace GameJam_Jan_2025
         private void AddAssemblyArea()
         {
 
-            int size = 256;
-
+            int size = 200;
+            int spacer = 50;
             float robotPosX = 300;
-            float robotPosY = 10;
+            float robotPosY = 25;
             float storagePosY = 800;
 
             headPos = new Vector2(robotPosX + (size / 2), robotPosY + (size / 2));
-            torsoPos = new Vector2(robotPosX + (size / 2), robotPosY + size + (size / 2));
-            leftArmPos = new Vector2(robotPosX + size + (size / 2), robotPosY + size + (size / 2));
-            rightArmPos = new Vector2(robotPosX - size + (size / 2), robotPosY + size + (size / 2));
-            leftLegPos = new Vector2(robotPosX + (size / 2) + (size / 2), robotPosY + (size * 2) + (size / 2));
-            rightLegPos = new Vector2(robotPosX - (size / 2) + (size / 2), robotPosY + (size * 2) + (size / 2));
-            storagePos1 = new Vector2(robotPosX - size + (size / 2), storagePosY + (size / 2));
+            torsoPos = new Vector2(robotPosX + (size / 2), robotPosY + size + (size / 2) + spacer);
+            leftArmPos = new Vector2(robotPosX + size + (size / 2) + spacer, robotPosY + size + (size / 2) + spacer);
+            rightArmPos = new Vector2(robotPosX - size + (size / 2) - spacer, robotPosY + size + (size / 2) + spacer);
+            leftLegPos = new Vector2(robotPosX + (size / 2) + (size / 2) + (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
+            rightLegPos = new Vector2(robotPosX - (size / 2) + (size / 2) - (spacer / 2), robotPosY + (size * 2) + (size / 2) + (spacer * 2));
+            storagePos1 = new Vector2(robotPosX - size + (size / 2) - spacer, storagePosY + (size / 2));
             storagePos2 = new Vector2(robotPosX + (size / 2), storagePosY + (size / 2));
-            storagePos3 = new Vector2(robotPosX + size + (size / 2), storagePosY + (size / 2));
+            storagePos3 = new Vector2(robotPosX + size + (size / 2) + spacer, storagePosY + (size / 2));
 
             head = new Rectangle((int)headPos.X - (size / 2), (int)headPos.Y - (size / 2), size, size);
             torso = new Rectangle((int)torsoPos.X - (size / 2), (int)torsoPos.Y - (size / 2), size, size);
@@ -131,8 +131,9 @@ namespace GameJam_Jan_2025
         /// Method to update position and index of Part
         /// </summary>
         /// <param name="gameObject">Transfered Part reference</param>
-        public void UpdateSlot(GameObject gameObject)
+        public bool UpdateSlot(GameObject gameObject)
         {
+            bool success = true;
             float distance = 1000;
             Rectangle rectangle = new Rectangle();
 
@@ -146,8 +147,13 @@ namespace GameJam_Jan_2025
                 }
             }
 
-            gameObject.Position = PartsPositions[rectangle];
-            Parts[rectangle] = gameObject as Part;
+            if (Parts[rectangle] == null)
+            {
+                gameObject.Position = PartsPositions[rectangle];
+                Parts[rectangle] = gameObject as Part;
+            }
+            else
+                success = false;
 
             foreach (var part in Parts)
             {
@@ -158,6 +164,8 @@ namespace GameJam_Jan_2025
                     Parts[part.Key] = null;
                 }
             }
+
+            return success;
         }
 
 

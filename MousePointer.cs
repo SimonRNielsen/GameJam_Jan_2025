@@ -9,10 +9,7 @@ namespace GameJam_Jan_2025
 
         Texture2D sprite;
         private float rotation;
-        private int grabLimit = 1;
-        private int grabbed;
         private float oldMouseX;
-        private float oldMouseY;
         private float Pi = MathHelper.Pi;
         GameObject tempObject;
         Vector2 previousLocation;
@@ -51,26 +48,46 @@ namespace GameJam_Jan_2025
         /// <param name="spriteBatch">Gameworld logic</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            //if (tempObject == null)
-            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+            if (tempObject == null)
+                spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
         }
 
 
         public void Update(GameTime gameTime)
         {
 
+            if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
+            {
+                CheckCollision(tempObject);
+            }
+
+            if (tempObject != null && tempObject.Grabbed)
+            {
+                if (Gameworld.MouseLeftClick)
+                    tempObject.Position = Gameworld.MousePosition;
+                if (Gameworld.MouseRightClick)
+                {
+                    tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
+                    oldMouseX = Gameworld.MousePosition.X;
+                    if (tempObject.Rotation > (MathHelper.Pi * 2))
+                        tempObject.Rotation -= MathHelper.Pi * 2;
+                    if (tempObject.Rotation < -(MathHelper.Pi * 2))
+                        tempObject.Rotation += MathHelper.Pi * 2;
+                }
+            }
+
         }
 
         /// <summary>
         /// Used to handle events for MousePointer
         /// </summary>
-        /// <param name="gameTime">Gameworld logic</param>
+        /// <param name="gameObject">Object to be manipulated</param>
         public void CheckCollision(GameObject gameObject)
         {
-
+            /*
             if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
                 grabbed = 0;
-
+            */
             if (Gameworld.MouseLeftClick || Gameworld.MouseRightClick)
             {
                 if (Gameworld.MouseLeftClick)
@@ -82,6 +99,7 @@ namespace GameJam_Jan_2025
             if (!Gameworld.MouseRightClick && !Gameworld.MouseLeftClick && tempObject != null)
             {
 
+                //Rotation end logic
                 if (tempObject.Rotation < Pi / 4 && rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
                     tempObject.Rotation = 0;
                 else if (tempObject.Rotation > (Pi / 4) * 1 && tempObject.Rotation < (Pi / 4) * 3)
@@ -99,6 +117,7 @@ namespace GameJam_Jan_2025
                 else
                     tempObject.Rotation = 0;
 
+                //"Drop" logic
                 bool intersection = false;
 
                 foreach (Rectangle rectangle in Gameworld.snapBoard.Slots)
@@ -110,13 +129,19 @@ namespace GameJam_Jan_2025
                     }
                 }
 
+                bool success = false;
+
                 if (intersection)
-                    Gameworld.snapBoard.UpdateSlot(tempObject);
+                    success = Gameworld.snapBoard.UpdateSlot(tempObject);
                 else
                     tempObject.Position = previousLocation;
+                if (!success)
+                    tempObject.Position = previousLocation;
 
+                //Reset check parameters and clear tempObject
                 previousLocation = Vector2.Zero;
                 tempObject.Grabbed = false;
+                Gameworld.Grabbing = false;
                 tempObject = null;
             }
 
@@ -130,16 +155,13 @@ namespace GameJam_Jan_2025
 
             if (MouseOver(gameObject))
                 if (gameObject is ISnapable)
+                {
+                    Gameworld.Grabbing = true;
                     tempObject = gameObject;
+                    tempObject.Grabbed = true;
+                }
             if (previousLocation == Vector2.Zero && tempObject != null)
                 previousLocation = tempObject.Position;
-            grabbed++;
-            if (tempObject != null && grabbed <= grabLimit || tempObject != null && tempObject.Grabbed)
-            {
-                tempObject.Grabbed = true;
-                tempObject.Position = new Vector2(Gameworld.MousePosition.X, Gameworld.MousePosition.Y);
-            }
-
         }
 
         /// <summary>
@@ -149,24 +171,16 @@ namespace GameJam_Jan_2025
         {
             if (MouseOver(gameObject))
                 if (gameObject is ISnapable)
+                {
+                    Gameworld.Grabbing = true;
                     tempObject = gameObject;
+                    tempObject.Grabbed = true;
+                }
             if (previousLocation == Vector2.Zero && tempObject != null)
             {
                 previousLocation = tempObject.Position;
                 oldMouseX = Gameworld.MousePosition.X;
             }
-            grabbed++;
-            if (tempObject != null && grabbed <= grabLimit || tempObject != null && tempObject.Grabbed)
-            {
-                tempObject.Grabbed = true;
-                tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
-                oldMouseX = Gameworld.MousePosition.X;
-                if (tempObject.Rotation > (MathHelper.Pi * 2))
-                    tempObject.Rotation -= MathHelper.Pi * 2;
-                if (tempObject.Rotation < -(MathHelper.Pi * 2))
-                    tempObject.Rotation += MathHelper.Pi * 2;
-            }
-
         }
 
         /// <summary>

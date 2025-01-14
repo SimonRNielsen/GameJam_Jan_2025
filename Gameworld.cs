@@ -22,6 +22,7 @@ namespace GameJam_Jan_2025
         private static bool mouseLeftClick;
         private static bool mouseRightClick;
         private static MousePointer mousePointer;
+        private static bool grabbing = false;
         public static Dictionary<string, Texture2D> sprites = new Dictionary<string, Texture2D>();
         public static Dictionary<string, Texture2D[]> animations = new Dictionary<string, Texture2D[]>();
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
@@ -47,6 +48,9 @@ namespace GameJam_Jan_2025
         /// Property to register the position of the mouse
         /// </summary>
         public static Vector2 MousePosition { get => mousePosition; }
+
+
+        public static bool Grabbing { get => grabbing; set => grabbing = value; }
 
         #endregion
 
@@ -78,6 +82,7 @@ namespace GameJam_Jan_2025
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
+            activeGameObjects.Add(new TestDummy(new Vector2(1500, 500)));
             activeGameObjects.Add(new TestDummy(new Vector2(1000, 500)));
 
             base.Initialize();
@@ -99,23 +104,18 @@ namespace GameJam_Jan_2025
             // Handling and updating mouse input
             var mouseState = Mouse.GetState();
             mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
-            if (mouseState.LeftButton == ButtonState.Pressed)
-                mouseLeftClick = true;
-            if (mouseState.LeftButton == ButtonState.Released)
-                mouseLeftClick = false;
-            if (mouseState.RightButton == ButtonState.Pressed)
-                mouseRightClick = true;
-            if (mouseState.RightButton == ButtonState.Released)
-                mouseRightClick = false;
+            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
+            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
+            mousePointer.Update(gameTime);
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                mousePointer.CheckCollision(gameObject);
+                if (!grabbing)
+                    mousePointer.CheckCollision(gameObject);
                 gameObject.Update(gameTime, screenSize);
                 if (gameObject.RemoveThis)
                     RemoveGameObject(gameObject);
             }
-            mousePointer.Update(gameTime);
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {
                 activeGameObjects.Remove(gameObject);
