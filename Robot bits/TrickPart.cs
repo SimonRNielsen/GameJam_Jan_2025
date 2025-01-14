@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    internal class trickParts : Part
+    internal class TrickPart : Part
     {
-        public trickParts(int partType)
+        public TrickPart(int partType)
         {
             position = Gameworld.startingPosition;
             layer = 1;
