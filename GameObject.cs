@@ -34,7 +34,7 @@ namespace GameJam_Jan_2025
 
         public Rectangle CollisionBox
         {
-            get { return new Rectangle((int)Gameworld.MousePosition.X, (int)Gameworld.MousePosition.Y, sprite.Width, sprite.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height); }
         }
 
         //Constructors

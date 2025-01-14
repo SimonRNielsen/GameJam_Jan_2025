@@ -104,11 +104,12 @@ namespace GameJam_Jan_2025
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                mousePointer.MouseOver(gameObject);
+                mousePointer.CheckCollision(gameObject);
                 gameObject.Update(gameTime, screenSize);
                 if (gameObject.RemoveThis)
                     RemoveGameObject(gameObject);
             }
+            mousePointer.Update(gameTime);
             foreach (GameObject gameObject in gameObjectsToBeRemoved)
             {
                 activeGameObjects.Remove(gameObject);

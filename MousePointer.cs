@@ -50,8 +50,14 @@ namespace GameJam_Jan_2025
         /// <param name="spriteBatch">Gameworld logic</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (tempObject == null)
-                spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+            //if (tempObject == null)
+            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+        }
+
+
+        public void Update(GameTime gameTime)
+        {
+            
         }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace GameJam_Jan_2025
             if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
                 grabbed = 0;
 
-            if (Gameworld.MouseLeftClick && MouseOver(gameObject) || Gameworld.MouseRightClick && MouseOver(gameObject))
+            if (Gameworld.MouseLeftClick || Gameworld.MouseRightClick)
             {
                 if (Gameworld.MouseLeftClick)
                     LeftClickEvent(gameObject);
@@ -98,8 +104,9 @@ namespace GameJam_Jan_2025
                 if (intersection)
                     Gameworld.snapBoard.UpdateSlot(tempObject);
                 else
-                    gameObject.Position = previousLocation;
+                    tempObject.Position = previousLocation;
 
+                previousLocation = Vector2.Zero;
                 tempObject = null;
             }
 
@@ -108,17 +115,17 @@ namespace GameJam_Jan_2025
         /// <summary>
         /// Actions to perform or not perform if left mousebutton is pressed
         /// </summary>
-        /// <param name="leftClick">Checks state of left mousebutton</param>
         private void LeftClickEvent(GameObject gameObject)
         {
 
-            if (tempObject == null)
-                previousLocation = gameObject.Position;
-            tempObject = gameObject;
+            if (previousLocation == Vector2.Zero && tempObject != null)
+                previousLocation = tempObject.Position;
+            if (MouseOver(gameObject))
+                tempObject = gameObject;
             grabbed++;
-            if (gameObject is ISnapable && grabbed <= grabLimit)
+            if (tempObject is ISnapable && grabbed <= grabLimit)
             {
-                gameObject.Position = Gameworld.MousePosition;
+                tempObject.Position = new Vector2(Gameworld.MousePosition.X, Gameworld.MousePosition.Y);
             }
 
         }
@@ -126,18 +133,20 @@ namespace GameJam_Jan_2025
         /// <summary>
         /// Actions to perform or not perform if right mousebutton is pressed
         /// </summary>
-        /// <param name="rightClick">Checks state of right mousebutton</param>
         private void RightClickEvent(GameObject gameObject)
         {
-            if (tempObject == null)
+            if (previousLocation == Vector2.Zero && tempObject != null)
+            {
+                previousLocation = tempObject.Position;
                 oldMouseX = Gameworld.MousePosition.X;
+            }
             tempObject = gameObject;
             grabbed++;
-            if (gameObject is ISnapable && grabbed <= grabLimit)
+            if (tempObject is ISnapable && grabbed <= grabLimit)
             {
-                gameObject.Rotation += (oldMouseX - Gameworld.MousePosition.X) / 100;
-                if (gameObject.Rotation > (MathHelper.Pi * 2))
-                    gameObject.Rotation -= MathHelper.Pi * 2;
+                tempObject.Rotation += oldMouseX - Gameworld.MousePosition.X;
+                if (tempObject.Rotation > (MathHelper.Pi * 2))
+                    tempObject.Rotation -= MathHelper.Pi * 2;
             }
 
         }
