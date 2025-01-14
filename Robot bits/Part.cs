@@ -18,7 +18,7 @@ namespace GameJam_Jan_2025
         {
 
         }
-        public override void Update(GameTime gameTime, Vector2 screenSize)
+        public override void Update(GameTime gameTime)
         {
 
         }
