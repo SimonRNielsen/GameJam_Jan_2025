@@ -15,7 +15,7 @@ namespace GameJam_Jan_2025
         
 
 
-        public Head(int partType, Enum RobotType)
+        public Head(int partType)
         {
             position = Gameworld.startingPosition;
             layer = 1;
@@ -27,10 +27,10 @@ namespace GameJam_Jan_2025
                     this.sprite = Gameworld.sprites["head1"];
                     if (Gameworld.order == "baker")
                     {
-                        foreach (Part.Baker Enum in )
-                        {
+                        //foreach (Part.Baker Enum in )
+                        //{
 
-                        }
+                        //}
                     }
                     break;
                 case 2:
