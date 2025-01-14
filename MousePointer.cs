@@ -52,8 +52,10 @@ namespace GameJam_Jan_2025
                 spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
         }
 
-
-        public void Update(GameTime gameTime)
+        /// <summary>
+        /// Handles input and movement of objects
+        /// </summary>
+        public void Update()
         {
 
             if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
@@ -84,10 +86,7 @@ namespace GameJam_Jan_2025
         /// <param name="gameObject">Object to be manipulated</param>
         public void CheckCollision(GameObject gameObject)
         {
-            /*
-            if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
-                grabbed = 0;
-            */
+
             if (Gameworld.MouseLeftClick || Gameworld.MouseRightClick)
             {
                 if (Gameworld.MouseLeftClick)

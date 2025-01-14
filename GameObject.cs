@@ -39,7 +39,14 @@ namespace GameJam_Jan_2025
 
         public Rectangle CollisionBox
         {
-            get { return new Rectangle((int)(Position.X - (sprite.Width / 2) * scale), (int)(Position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale)); }
+
+            get
+            {
+                if (sprite != null)
+                    return new Rectangle((int)(Position.X - (sprite.Width / 2) * scale), (int)(Position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+                else 
+                    return new Rectangle();
+            }
         }
 
         //Constructors
@@ -56,7 +63,8 @@ namespace GameJam_Jan_2025
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
+            if (sprite != null)
+                spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
     }
 }

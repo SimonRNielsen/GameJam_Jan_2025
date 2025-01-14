@@ -82,7 +82,12 @@ namespace GameJam_Jan_2025
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
+            activeGameObjects.Add(snapBoard);
+            activeGameObjects.Add(new TestDummy(new Vector2(1250, 200)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1000, 200)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1750, 500)));
             activeGameObjects.Add(new TestDummy(new Vector2(1500, 500)));
+            activeGameObjects.Add(new TestDummy(new Vector2(1250, 500)));
             activeGameObjects.Add(new TestDummy(new Vector2(1000, 500)));
 
             base.Initialize();
@@ -106,7 +111,7 @@ namespace GameJam_Jan_2025
             mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
             mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
             mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
-            mousePointer.Update(gameTime);
+            mousePointer.Update();
 
             foreach (GameObject gameObject in activeGameObjects)
             {

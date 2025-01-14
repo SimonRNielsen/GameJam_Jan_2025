@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using GameJam_Jan_2025.Robot_bits;
 
 namespace GameJam_Jan_2025
 {
@@ -37,10 +38,10 @@ namespace GameJam_Jan_2025
         /// </summary>
         public SnapBoard()
         {
+            layer = 0.01f;
+            scale = 1f;
             AddAssemblyArea();
-            /* Sprite not added yet
-            sprite = Gameworld.sprites["snapBoard"];
-            */
+            //sprite = Gameworld.sprites["snapBoard"];
         }
 
         /// <summary>
@@ -53,17 +54,18 @@ namespace GameJam_Jan_2025
 
             RobotBuilt(out bool robotBuilt, out bool incompatible);
             if (robotBuilt && !incompatible)
-                ClearBench(robotBuilt);
+                ClearBench();
             else if (robotBuilt && incompatible)
             {
-
+                //Display incompatible warning
             }
+
             base.Update(gameTime, screenSize);
 
         }
 
         /// <summary>
-        /// Adds CollisionBoxes and references for interaction
+        /// Adds CollisionBoxes, Positions and references for interaction
         /// </summary>
         private void AddAssemblyArea()
         {
@@ -122,6 +124,7 @@ namespace GameJam_Jan_2025
         /// <param name="gameObject">Transfered Part reference</param>
         public bool UpdateSlot(GameObject gameObject)
         {
+
             bool success = true;
             float distance = 1000;
             Rectangle rectangle = new Rectangle();
@@ -157,9 +160,14 @@ namespace GameJam_Jan_2025
             return success;
         }
 
-
+        /// <summary>
+        /// Checks if all robot slots are populated
+        /// </summary>
+        /// <param name="completed">returns true if all building slots are populated</param>
+        /// <param name="incompatible">returns false if parts are in the correct slot</param>
         private void RobotBuilt(out bool completed, out bool incompatible)
         {
+
             completed = false;
             incompatible = true;
 
@@ -167,15 +175,16 @@ namespace GameJam_Jan_2025
             {
 
                 completed = true;
-
-                incompatible = false;
+                incompatible = CompatibilityCheck();
 
             }
 
         }
 
-
-        private void ClearBench(bool robotBuilt)
+        /// <summary>
+        /// Removes parts after the robot is "built"
+        /// </summary>
+        private void ClearBench()
         {
 
             parts[head].RemoveThis = true;
@@ -191,6 +200,22 @@ namespace GameJam_Jan_2025
             parts[rightArm] = null;
             parts[leftLeg] = null;
             parts[rightLeg] = null;
+
+        }
+
+        /// <summary>
+        /// Method to check if the correct parts are in the correct slots
+        /// </summary>
+        /// <returns>true if parts don't fit together, else false</returns>
+        private bool CompatibilityCheck()
+        {
+
+            bool incompatible = true;
+
+            if (parts[head] is Head && parts[torso] is Torso && parts[leftArm] is Arm && parts[rightArm] is Arm && parts[leftLeg] is Leg && parts[rightLeg] is Leg)
+                incompatible = false;
+
+            return incompatible;
 
         }
 

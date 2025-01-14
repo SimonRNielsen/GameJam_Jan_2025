@@ -10,6 +10,10 @@ namespace GameJam_Jan_2025
     internal class TestDummy : Part, ISnapable
     {
 
+        /// <summary>
+        /// Dummy for testing Drag n' drop
+        /// </summary>
+        /// <param name="position">Starting location of item</param>
         public TestDummy(Vector2 position)
         {
             scale = 1f;
@@ -17,7 +21,6 @@ namespace GameJam_Jan_2025
             this.position = position;
             sprite = Gameworld.sprites["testdummy"];
         }
-
 
     }
 }
