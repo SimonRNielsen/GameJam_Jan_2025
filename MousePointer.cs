@@ -136,6 +136,8 @@ namespace GameJam_Jan_2025
                     tempObject.Position = previousLocation;
                 if (!success)
                     tempObject.Position = previousLocation;
+                if (success)
+                    Gameworld.conveyorBelt.RemoveFromAllParts(tempObject);
 
                 //Reset check parameters and clear tempObject
                 previousLocation = Vector2.Zero;

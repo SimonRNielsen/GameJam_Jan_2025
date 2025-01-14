@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    public class Leg : Part
+    public class Leg : Part, ISnapable
     {
         public Leg(int partType)
         {

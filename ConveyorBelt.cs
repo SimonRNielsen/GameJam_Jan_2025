@@ -15,6 +15,7 @@ namespace GameJam_Jan_2025
 {
     public class ConveyorBelt : GameObject
     {
+
         //Fields
         private Vector2 itemPos1;
         private Vector2 itemPos2;
@@ -30,20 +31,20 @@ namespace GameJam_Jan_2025
         private Vector2 objectPos;
         int chainNumber;
 
-        private Random rnd=new Random();
+        private Random rnd = new Random();
 
         //Properties
         public Part[] AllParts { get => allParts; set => allParts = value; }
 
         //Constructors
-        public ConveyorBelt(Vector2 position) 
+        public ConveyorBelt(Vector2 position)
         {
             scale = 0.8f;
             chainNumber = 1;
             sprite = Gameworld.sprites["conveyorBelt"];
-            if (position.Y < 1080 - ((sprite.Height * scale)/2))
+            if (position.Y < 1080 - ((sprite.Height * scale) / 2))
             {
-                Position = new Vector2(position.X, 1080 - ((sprite.Height * scale)/2));
+                Position = new Vector2(position.X, 1080 - ((sprite.Height * scale) / 2));
             }
             else
             {
@@ -57,7 +58,7 @@ namespace GameJam_Jan_2025
         /// </summary>
         /// <param name="position"></param>
         /// <param name="numberInChain"></param>
-        public ConveyorBelt(Vector2 position,int numberInChain)
+        public ConveyorBelt(Vector2 position, int numberInChain)
         {
             chainNumber = numberInChain;
             objectPos = position;
@@ -81,20 +82,20 @@ namespace GameJam_Jan_2025
             if (chainNumber == 1)
             {
                 //adds the other belts for seamless looping
-                Gameworld.AddGameObject(new ConveyorBelt(position,chainNumber + 1));
+                Gameworld.AddGameObject(new ConveyorBelt(position, chainNumber + 1));
                 Gameworld.AddGameObject(new ConveyorBelt(position, chainNumber + 2));
 
 
                 allParts = new Part[5];
 
                 //randomize all parts
-                for (int i = 0; i < allParts.Length; i++) 
+                for (int i = 0; i < allParts.Length; i++)
                 {
                     allParts[i] = RandomizeItem();
                     Gameworld.AddGameObject(allParts[i]);
                 }
                 //checks whteher the positions are on the conveyor, adjusts them, then sets the parts to those positions
-                if (itemPos1.X > (sprite.Width * scale/2) -100)
+                if (itemPos1.X > (sprite.Width * scale / 2) - 100)
                 {
                     itemPos1 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos1.Y);
                 }
@@ -102,11 +103,11 @@ namespace GameJam_Jan_2025
                 {
                     itemPos1.X = -(sprite.Width * scale / 2) + 100;
                 }
-                allParts[0].Position = new Vector2(objectPos.X+itemPos1.X,-itemPos1.Y);
+                allParts[0].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
 
                 if (itemPos2.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos2 = new Vector2((sprite.Width * scale)/2 - 100, itemPos2.Y);
+                    itemPos2 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos2.Y);
                 }
                 else if (itemPos2.X < -(sprite.Width * scale / 2) + 100)
                 {
@@ -114,9 +115,9 @@ namespace GameJam_Jan_2025
                 }
                 allParts[1].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
 
-                if (itemPos3.X > (sprite.Width * scale)/2 - 100)
+                if (itemPos3.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos3 = new Vector2((sprite.Width * scale)/2 - 100, itemPos3.Y);
+                    itemPos3 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos3.Y);
                 }
                 else if (itemPos3.X < -(sprite.Width * scale / 2) + 100)
                 {
@@ -126,7 +127,7 @@ namespace GameJam_Jan_2025
 
                 if (itemPos4.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos4 = new Vector2((sprite.Width * scale)/2 - 100, itemPos4.Y);
+                    itemPos4 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos4.Y);
                 }
                 else if (itemPos4.X < -(sprite.Width * scale / 2) + 100)
                 {
@@ -134,9 +135,9 @@ namespace GameJam_Jan_2025
                 }
                 allParts[3].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
 
-                if (itemPos5.X > (sprite.Width * scale)/2 - 100)
+                if (itemPos5.X > (sprite.Width * scale) / 2 - 100)
                 {
-                    itemPos5 = new Vector2((sprite.Width * scale)/2 - 100, itemPos5.Y);
+                    itemPos5 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos5.Y);
                 }
                 else if (itemPos5.X < -(sprite.Width * scale / 2) + 100)
                 {
@@ -147,7 +148,7 @@ namespace GameJam_Jan_2025
             else
             {
                 //other conveyors are placed above the main one, in order
-                Position = new Vector2(objectPos.X, objectPos.Y - (sprite.Height * scale * (chainNumber-1)));
+                Position = new Vector2(objectPos.X, objectPos.Y - (sprite.Height * scale * (chainNumber - 1)));
             }
 
             base.LoadContent(content);
@@ -158,43 +159,49 @@ namespace GameJam_Jan_2025
             Position = new Vector2(position.X, position.Y + speed);
 
             //if past the bottom of the screen, conveyor is teleported to the top
-            if (Position.Y >= 1080+(sprite.Height * scale/2)) 
+            if (Position.Y >= 1080 + (sprite.Height * scale / 2))
             {
-                float difference = Position.Y-(1080+ (sprite.Height * scale / 2));
-                Position = new Vector2(objectPos.X, 1080+ (sprite.Height * scale / 2) - (sprite.Height * scale*2.5f)+difference);
+                float difference = Position.Y - (1080 + (sprite.Height * scale / 2));
+                Position = new Vector2(objectPos.X, 1080 + (sprite.Height * scale / 2) - (sprite.Height * scale * 2.5f) + difference);
             }
             base.Update(gameTime);
 
-            if (chainNumber == 1) 
+            if (chainNumber == 1)
             {
                 //moves each part
-                for(int i = 0; i < allParts.Length;i++)
+                for (int i = 0; i < allParts.Length; i++)
                 {
-                    allParts[i].Position= new Vector2(allParts[i].Position.X, allParts[i].Position.Y + speed);
-                    //teleports part to the top as with conveyor, but rerandomizes them
-                    if (allParts[i].Position.Y >= 1180) 
+                    if (allParts[i] != null)
                     {
-                        allParts[i] = RandomizeItem();
-                        Gameworld.AddGameObject(allParts[i]);
-                        switch (i)
+
+                        allParts[i].Position = new Vector2(allParts[i].Position.X, allParts[i].Position.Y + speed);
+                        //teleports part to the top as with conveyor, but rerandomizes them
+                        if (allParts[i].Position.Y >= 1180)
                         {
-                            case 0:
-                                allParts[i].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
-                                break;
-                            case 1:
-                                allParts[i].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
-                                break;
-                            case 2:
-                                allParts[i].Position = new Vector2(objectPos.X + itemPos3.X, -itemPos3.Y);
-                                break;
-                            case 3:
-                                allParts[i].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
-                                break;
-                            case 4:
-                                allParts[i].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
-                                break;
+                            allParts[i] = RandomizeItem();
+                            Gameworld.AddGameObject(allParts[i]);
+                            switch (i)
+                            {
+                                case 0:
+                                    allParts[i].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
+                                    break;
+                                case 1:
+                                    allParts[i].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
+                                    break;
+                                case 2:
+                                    allParts[i].Position = new Vector2(objectPos.X + itemPos3.X, -itemPos3.Y);
+                                    break;
+                                case 3:
+                                    allParts[i].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
+                                    break;
+                                case 4:
+                                    allParts[i].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
+                                    break;
+                            }
                         }
                     }
+                    else
+                        allParts[i] = RandomPart();
                 }
             }
         }
@@ -216,6 +223,48 @@ namespace GameJam_Jan_2025
                 default:
                     return null;
             }
+        }
+
+        public void RemoveFromAllParts(GameObject gameObject)
+        {
+            int index = 0;
+            for (int i = 0; i < AllParts.Length; i++)
+            {
+                if (AllParts[i] == gameObject)
+                    index = i;
+            }
+            allParts[index] = null;
+        }
+
+
+        private Part RandomPart()
+        {
+
+            Part part;
+            int parttype = rnd.Next(1, 8);
+
+            switch (parttype)
+            {
+                case 1:
+                    part = new Head(rnd.Next(1, 4));
+                    break;
+                case 2:
+                    part = new Torso(rnd.Next(1, 4));
+                    break;
+                case 3:
+                case 4:
+                    part = new Arm(rnd.Next(1, 7));
+                    break;
+                case 5:
+                case 6:
+                    part = new Leg(rnd.Next(1, 7));
+                    break;
+                default:
+                    part = new TrickPart(rnd.Next(1, 4));
+                    break;
+            }
+
+            return part;
         }
     }
 }

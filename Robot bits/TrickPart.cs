@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    internal class TrickPart : Part
+    internal class TrickPart : Part, ISnapable
     {
         public TrickPart(int partType)
         {
