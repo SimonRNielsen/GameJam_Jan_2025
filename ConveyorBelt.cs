@@ -72,8 +72,8 @@ namespace GameJam_Jan_2025
             itemPos1 = new Vector2(20, 200);
             itemPos2 = new Vector2(100, 480);
             itemPos3 = new Vector2(50, 720);
-            itemPos4 = new Vector2(0, 1000);
-            itemPos5 = new Vector2(300, 1210);
+            itemPos4 = new Vector2(0, 950);
+            itemPos5 = new Vector2(300, 1160);
 
             scale = 0.8f;
 
@@ -159,7 +159,7 @@ namespace GameJam_Jan_2025
                         switch (i)
                         {
                             case 0:
-                                allParts[i].Position= new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
+                                allParts[i].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
                                 break;
                             case 1:
                                 allParts[i].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
