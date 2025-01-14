@@ -88,7 +88,8 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            activeGameObjects.Add(new Head());    
+            gameObjectsToBeAdded.Add(new Head(new Vector2(200,200), 1));
+
 
         }
 
@@ -253,7 +254,8 @@ namespace GameJam_Jan_2025
         public static void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
-            gameObject.LoadContent(Content2);
+            gameObject.LoadContent(Content);
+
         }
 
         /// <summary>
