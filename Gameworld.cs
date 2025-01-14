@@ -99,7 +99,7 @@ namespace GameJam_Jan_2025
             gameObjectsToBeAdded.Add(new Arm(1));
             gameObjectsToBeAdded.Add(new Leg(4));
             gameObjectsToBeAdded.Add(new Leg(1));
-            gameObjectsToBeAdded.Add(new trickParts(1));
+            gameObjectsToBeAdded.Add(new TrickPart(1));
         }
 
         protected override void Update(GameTime gameTime)
