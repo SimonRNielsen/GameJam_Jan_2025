@@ -67,7 +67,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     tempObject.Position = Gameworld.MousePosition;
-                if (Gameworld.MouseRightClick)
+                else if (Gameworld.MouseRightClick)
                 {
                     tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
                     oldMouseX = Gameworld.MousePosition.X;
@@ -91,7 +91,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     LeftClickEvent(gameObject);
-                if (Gameworld.MouseRightClick)
+                else if (Gameworld.MouseRightClick)
                     RightClickEvent(gameObject);
             }
 
