@@ -11,7 +11,6 @@ namespace GameJam_Jan_2025
     public class Gameworld : Game
     {
     #region Fields
-        private static ContentManager Content2;
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -27,6 +26,7 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, Texture2D[]> animations = new Dictionary<string, Texture2D[]>();
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
+        private static Gameworld activeGameWorld;
 
         #endregion
 
@@ -54,8 +54,8 @@ namespace GameJam_Jan_2025
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Content2 = Content;
             IsMouseVisible = false;
+            activeGameWorld = this;
         }
 
         #endregion
@@ -88,8 +88,8 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            gameObjectsToBeAdded.Add(new Head(new Vector2(200,200), 1));
-
+            AddGameObject(new Head(new Vector2(200,200), 1));
+            AddGameObject(new ConveyorBelt(new Vector2(1200, 100)));
 
         }
 
@@ -113,10 +113,7 @@ namespace GameJam_Jan_2025
                 activeGameObjects.Remove(gameObject);
             }
             gameObjectsToBeRemoved.Clear();
-            foreach (GameObject gameObject in gameObjectsToBeAdded)
-            {
-                activeGameObjects.Add(gameObject);
-            }
+            activeGameObjects.AddRange(gameObjectsToBeAdded);
             gameObjectsToBeAdded.Clear();
 
             base.Update(gameTime);
@@ -165,6 +162,12 @@ namespace GameJam_Jan_2025
 
             Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
             sprites.Add("timerForeground", timerForeground);
+
+            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
+            sprites.Add ("button", button);
+
+            Texture2D conveyor = Content.Load<Texture2D>("Sprites\\basic conveyor");
+            sprites.Add("conveyorBelt", conveyor);
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
@@ -215,7 +218,6 @@ namespace GameJam_Jan_2025
             sprites.Add("robotLegR2", robotLegR2);
             sprites.Add("robotLegR3", robotLegR3);
             #endregion
-
         }
 
         /// <summary>
@@ -254,8 +256,7 @@ namespace GameJam_Jan_2025
         public static void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
-            gameObject.LoadContent(Content2);
-
+            gameObject.LoadContent(activeGameWorld.Content);
         }
 
         /// <summary>
