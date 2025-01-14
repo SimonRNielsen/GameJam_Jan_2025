@@ -90,7 +90,7 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AddGameObject(new Head(new Vector2(200,200), 1));
+            AddGameObject(new Head( 1));
             AddGameObject(new ConveyorBelt(new Vector2(1200, 100)));
 
             gameObjectsToBeAdded.Add(new Head(1));
