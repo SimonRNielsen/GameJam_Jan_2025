@@ -8,6 +8,11 @@ namespace GameJam_Jan_2025
         #region Fields
 
         Texture2D sprite;
+        private float rotation;
+        private float oldMouseX;
+        private float Pi = MathHelper.Pi;
+        GameObject tempObject;
+        Vector2 previousLocation;
 
         #endregion
 
@@ -43,7 +48,147 @@ namespace GameJam_Jan_2025
         /// <param name="spriteBatch">Gameworld logic</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+            if (tempObject == null)
+                spriteBatch.Draw(sprite, Gameworld.MousePosition, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+        }
+
+        /// <summary>
+        /// Handles input and movement of objects
+        /// </summary>
+        public void Update()
+        {
+
+            if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
+            {
+                CheckCollision(tempObject);
+            }
+
+            if (tempObject != null && tempObject.Grabbed)
+            {
+                if (Gameworld.MouseLeftClick)
+                    tempObject.Position = Gameworld.MousePosition;
+                if (Gameworld.MouseRightClick)
+                {
+                    tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
+                    oldMouseX = Gameworld.MousePosition.X;
+                    if (tempObject.Rotation > (MathHelper.Pi * 2))
+                        tempObject.Rotation -= MathHelper.Pi * 2;
+                    if (tempObject.Rotation < -(MathHelper.Pi * 2))
+                        tempObject.Rotation += MathHelper.Pi * 2;
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Used to handle events for MousePointer
+        /// </summary>
+        /// <param name="gameObject">Object to be manipulated</param>
+        public void CheckCollision(GameObject gameObject)
+        {
+
+            if (Gameworld.MouseLeftClick || Gameworld.MouseRightClick)
+            {
+                if (Gameworld.MouseLeftClick)
+                    LeftClickEvent(gameObject);
+                if (Gameworld.MouseRightClick)
+                    RightClickEvent(gameObject);
+            }
+
+            if (!Gameworld.MouseRightClick && !Gameworld.MouseLeftClick && tempObject != null)
+            {
+
+                //Rotation end logic
+                if (tempObject.Rotation < Pi / 4 && rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
+                    tempObject.Rotation = 0;
+                else if (tempObject.Rotation > (Pi / 4) * 1 && tempObject.Rotation < (Pi / 4) * 3)
+                    tempObject.Rotation = Pi / 2;
+                else if (tempObject.Rotation > (Pi / 4) * 3 && tempObject.Rotation < (Pi / 4) * 5)
+                    tempObject.Rotation = Pi;
+                else if (tempObject.Rotation > (Pi / 4) * 5 && tempObject.Rotation < (Pi / 4) * 7)
+                    tempObject.Rotation = (Pi / 2) * 3;
+                else if (tempObject.Rotation < -(Pi / 4) * 1 && tempObject.Rotation > -(Pi / 4) * 3)
+                    tempObject.Rotation = (Pi / 2) * 3;
+                else if (tempObject.Rotation < -(Pi / 4) * 3 && tempObject.Rotation > -(Pi / 4) * 5)
+                    tempObject.Rotation = Pi;
+                else if (tempObject.Rotation < -(Pi / 4) * 5 && tempObject.Rotation > -(Pi / 4) * 7)
+                    tempObject.Rotation = Pi / 2;
+                else
+                    tempObject.Rotation = 0;
+
+                //"Drop" logic
+                bool intersection = false;
+
+                foreach (Rectangle rectangle in Gameworld.snapBoard.parts.Keys)
+                {
+                    if (tempObject.CollisionBox.Intersects(rectangle))
+                    {
+                        intersection = true;
+                        break;
+                    }
+                }
+
+                bool success = false;
+
+                if (intersection)
+                    success = Gameworld.snapBoard.UpdateSlot(tempObject);
+                else
+                    tempObject.Position = previousLocation;
+                if (!success)
+                    tempObject.Position = previousLocation;
+
+                //Reset check parameters and clear tempObject
+                previousLocation = Vector2.Zero;
+                tempObject.Grabbed = false;
+                Gameworld.Grabbing = false;
+                tempObject = null;
+            }
+
+        }
+
+        /// <summary>
+        /// Actions to perform or not perform if left mousebutton is pressed
+        /// </summary>
+        private void LeftClickEvent(GameObject gameObject)
+        {
+
+            if (MouseOver(gameObject))
+                if (gameObject is ISnapable)
+                {
+                    Gameworld.Grabbing = true;
+                    tempObject = gameObject;
+                    tempObject.Grabbed = true;
+                }
+            if (previousLocation == Vector2.Zero && tempObject != null)
+                previousLocation = tempObject.Position;
+        }
+
+        /// <summary>
+        /// Actions to perform or not perform if right mousebutton is pressed
+        /// </summary>
+        private void RightClickEvent(GameObject gameObject)
+        {
+            if (MouseOver(gameObject))
+                if (gameObject is ISnapable)
+                {
+                    Gameworld.Grabbing = true;
+                    tempObject = gameObject;
+                    tempObject.Grabbed = true;
+                }
+            if (previousLocation == Vector2.Zero && tempObject != null)
+            {
+                previousLocation = tempObject.Position;
+                oldMouseX = Gameworld.MousePosition.X;
+            }
+        }
+
+        /// <summary>
+        /// Handles collision of mouse
+        /// </summary>
+        /// <param name="gameObject">Facilitates interaction with object</param>
+        public bool MouseOver(GameObject gameObject)
+        {
+            return gameObject.CollisionBox.Intersects(CollisionBox);
         }
 
         #endregion
