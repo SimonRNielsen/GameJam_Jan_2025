@@ -75,25 +75,25 @@ namespace GameJam_Jan_2025
             float robotPosY = 10;
             float storagePosY = 800;
 
-            headPos = new Vector2(robotPosX, robotPosY);
-            torsoPos = new Vector2(robotPosX, robotPosY + size);
-            leftArmPos = new Vector2(robotPosX + size, robotPosY + size);
-            rightArmPos = new Vector2(robotPosX - size, robotPosY + size);
-            leftLegPos = new Vector2(robotPosX + (size / 2), robotPosY + (size * 2));
-            rightLegPos = new Vector2(robotPosX - (size / 2), robotPosY + (size * 2));
-            storagePos1 = new Vector2(robotPosX - size, storagePosY);
-            storagePos2 = new Vector2(robotPosX, storagePosY);
-            storagePos3 = new Vector2(robotPosX + size, storagePosY);
+            headPos = new Vector2(robotPosX + (size / 2), robotPosY + (size / 2));
+            torsoPos = new Vector2(robotPosX + (size / 2), robotPosY + size + (size / 2));
+            leftArmPos = new Vector2(robotPosX + size + (size / 2), robotPosY + size + (size / 2));
+            rightArmPos = new Vector2(robotPosX - size + (size / 2), robotPosY + size + (size / 2));
+            leftLegPos = new Vector2(robotPosX + (size / 2) + (size / 2), robotPosY + (size * 2) + (size / 2));
+            rightLegPos = new Vector2(robotPosX - (size / 2) + (size / 2), robotPosY + (size * 2) + (size / 2));
+            storagePos1 = new Vector2(robotPosX - size + (size / 2), storagePosY + (size / 2));
+            storagePos2 = new Vector2(robotPosX + (size / 2), storagePosY + (size / 2));
+            storagePos3 = new Vector2(robotPosX + size + (size / 2), storagePosY + (size / 2));
 
-            head = new Rectangle((int)headPos.X, (int)headPos.Y, size, size);
-            torso = new Rectangle((int)torsoPos.X, (int)torsoPos.Y, size, size);
-            leftArm = new Rectangle((int)leftArmPos.X, (int)leftArmPos.Y, size, size);
-            rightArm = new Rectangle((int)rightArmPos.X, (int)rightArmPos.Y, size, size);
-            leftLeg = new Rectangle((int)leftLegPos.X, (int)leftLegPos.Y, size, size);
-            rightLeg = new Rectangle((int)rightLegPos.X, (int)rightLegPos.Y, size, size);
-            storage1 = new Rectangle((int)storagePos1.X, (int)storagePos1.Y, size, size);
-            storage2 = new Rectangle((int)storagePos2.X, (int)storagePos2.Y, size, size);
-            storage3 = new Rectangle((int)storagePos3.X, (int)storagePos3.Y, size, size);
+            head = new Rectangle((int)headPos.X - (size / 2), (int)headPos.Y - (size / 2), size, size);
+            torso = new Rectangle((int)torsoPos.X - (size / 2), (int)torsoPos.Y - (size / 2), size, size);
+            leftArm = new Rectangle((int)leftArmPos.X - (size / 2), (int)leftArmPos.Y - (size / 2), size, size);
+            rightArm = new Rectangle((int)rightArmPos.X - (size / 2), (int)rightArmPos.Y - (size / 2), size, size);
+            leftLeg = new Rectangle((int)leftLegPos.X - (size / 2), (int)leftLegPos.Y - (size / 2), size, size);
+            rightLeg = new Rectangle((int)rightLegPos.X - (size / 2), (int)rightLegPos.Y - (size / 2), size, size);
+            storage1 = new Rectangle((int)storagePos1.X - (size / 2), (int)storagePos1.Y - (size / 2), size, size);
+            storage2 = new Rectangle((int)storagePos2.X - (size / 2), (int)storagePos2.Y - (size / 2), size, size);
+            storage3 = new Rectangle((int)storagePos3.X - (size / 2), (int)storagePos3.Y - (size / 2), size, size);
 
             Slots.Add(head);
             Slots.Add(torso);

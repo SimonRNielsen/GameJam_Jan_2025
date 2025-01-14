@@ -13,6 +13,7 @@ namespace GameJam_Jan_2025
         private int grabbed;
         private float oldMouseX;
         private float oldMouseY;
+        private float Pi = MathHelper.Pi;
         GameObject tempObject;
         Vector2 previousLocation;
 
@@ -57,7 +58,7 @@ namespace GameJam_Jan_2025
 
         public void Update(GameTime gameTime)
         {
-            
+
         }
 
         /// <summary>
@@ -81,14 +82,22 @@ namespace GameJam_Jan_2025
             if (!Gameworld.MouseRightClick && !Gameworld.MouseLeftClick && tempObject != null)
             {
 
-                if (tempObject.Rotation < MathHelper.Pi / 4 || tempObject.Rotation > (MathHelper.Pi / 4) * 7)
+                if (tempObject.Rotation < Pi / 4 && rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
                     tempObject.Rotation = 0;
-                else if (tempObject.Rotation > (MathHelper.Pi / 4) * 1 && tempObject.Rotation < (MathHelper.Pi / 4) * 3)
-                    tempObject.Rotation = MathHelper.Pi / 2;
-                else if (tempObject.Rotation > (MathHelper.Pi / 4) * 3 && tempObject.Rotation < (MathHelper.Pi / 4) * 5)
-                    tempObject.Rotation = MathHelper.Pi;
-                else if (tempObject.Rotation > (MathHelper.Pi / 4) * 5 && tempObject.Rotation < (MathHelper.Pi / 4) * 7)
-                    tempObject.Rotation = (MathHelper.Pi / 2) * 3;
+                else if (tempObject.Rotation > (Pi / 4) * 1 && tempObject.Rotation < (Pi / 4) * 3)
+                    tempObject.Rotation = Pi / 2;
+                else if (tempObject.Rotation > (Pi / 4) * 3 && tempObject.Rotation < (Pi / 4) * 5)
+                    tempObject.Rotation = Pi;
+                else if (tempObject.Rotation > (Pi / 4) * 5 && tempObject.Rotation < (Pi / 4) * 7)
+                    tempObject.Rotation = (Pi / 2) * 3;
+                else if (tempObject.Rotation < -(Pi / 4) * 1 && tempObject.Rotation > -(Pi / 4) * 3)
+                    tempObject.Rotation = (Pi / 2) * 3;
+                else if (tempObject.Rotation < -(Pi / 4) * 3 && tempObject.Rotation > -(Pi / 4) * 5)
+                    tempObject.Rotation = Pi;
+                else if (tempObject.Rotation < -(Pi / 4) * 5 && tempObject.Rotation > -(Pi / 4) * 7)
+                    tempObject.Rotation = Pi / 2;
+                else
+                    tempObject.Rotation = 0;
 
                 bool intersection = false;
 
@@ -107,6 +116,7 @@ namespace GameJam_Jan_2025
                     tempObject.Position = previousLocation;
 
                 previousLocation = Vector2.Zero;
+                tempObject.Grabbed = false;
                 tempObject = null;
             }
 
@@ -118,13 +128,15 @@ namespace GameJam_Jan_2025
         private void LeftClickEvent(GameObject gameObject)
         {
 
+            if (MouseOver(gameObject))
+                if (gameObject is ISnapable)
+                    tempObject = gameObject;
             if (previousLocation == Vector2.Zero && tempObject != null)
                 previousLocation = tempObject.Position;
-            if (MouseOver(gameObject))
-                tempObject = gameObject;
             grabbed++;
-            if (tempObject is ISnapable && grabbed <= grabLimit)
+            if (tempObject != null && grabbed <= grabLimit || tempObject != null && tempObject.Grabbed)
             {
+                tempObject.Grabbed = true;
                 tempObject.Position = new Vector2(Gameworld.MousePosition.X, Gameworld.MousePosition.Y);
             }
 
@@ -135,18 +147,24 @@ namespace GameJam_Jan_2025
         /// </summary>
         private void RightClickEvent(GameObject gameObject)
         {
+            if (MouseOver(gameObject))
+                if (gameObject is ISnapable)
+                    tempObject = gameObject;
             if (previousLocation == Vector2.Zero && tempObject != null)
             {
                 previousLocation = tempObject.Position;
                 oldMouseX = Gameworld.MousePosition.X;
             }
-            tempObject = gameObject;
             grabbed++;
-            if (tempObject is ISnapable && grabbed <= grabLimit)
+            if (tempObject != null && grabbed <= grabLimit || tempObject != null && tempObject.Grabbed)
             {
-                tempObject.Rotation += oldMouseX - Gameworld.MousePosition.X;
+                tempObject.Grabbed = true;
+                tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
+                oldMouseX = Gameworld.MousePosition.X;
                 if (tempObject.Rotation > (MathHelper.Pi * 2))
                     tempObject.Rotation -= MathHelper.Pi * 2;
+                if (tempObject.Rotation < -(MathHelper.Pi * 2))
+                    tempObject.Rotation += MathHelper.Pi * 2;
             }
 
         }

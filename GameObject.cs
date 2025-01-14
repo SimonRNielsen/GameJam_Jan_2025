@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,9 @@ namespace GameJam_Jan_2025
         //where the object/sprite originates, currently top left corner
         private Vector2 origin;
         protected float scale;
-        private float rotation = 0;
+        private float rotation;
         private bool removeThis = false;
+        private bool grabbed = false;
 
         //Properties
         public Vector2 Position { get => position; set => position = value; }
@@ -32,9 +34,12 @@ namespace GameJam_Jan_2025
 
         public bool RemoveThis { get => removeThis; set => removeThis = value; }
 
+
+        public bool Grabbed { get => grabbed; set => grabbed = value; }
+
         public Rectangle CollisionBox
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height); }
+            get { return new Rectangle((int)(Position.X - (sprite.Width / 2) * scale), (int)(Position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale)); }
         }
 
         //Constructors
@@ -51,7 +56,7 @@ namespace GameJam_Jan_2025
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
     }
 }

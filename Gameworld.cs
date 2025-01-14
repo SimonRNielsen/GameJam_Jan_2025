@@ -99,8 +99,14 @@ namespace GameJam_Jan_2025
             // Handling and updating mouse input
             var mouseState = Mouse.GetState();
             mousePosition = new Vector2(mouseState.Position.X, mouseState.Position.Y);
-            mouseLeftClick = mouseState.LeftButton == ButtonState.Pressed;
-            mouseRightClick = mouseState.RightButton == ButtonState.Pressed;
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                mouseLeftClick = true;
+            if (mouseState.LeftButton == ButtonState.Released)
+                mouseLeftClick = false;
+            if (mouseState.RightButton == ButtonState.Pressed)
+                mouseRightClick = true;
+            if (mouseState.RightButton == ButtonState.Released)
+                mouseRightClick = false;
 
             foreach (GameObject gameObject in activeGameObjects)
             {
