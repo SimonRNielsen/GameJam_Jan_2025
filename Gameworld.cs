@@ -254,7 +254,7 @@ namespace GameJam_Jan_2025
         public static void AddGameObject(GameObject gameObject)
         {
             gameObjectsToBeAdded.Add(gameObject);
-            gameObject.LoadContent(Content);
+            gameObject.LoadContent(Content2);
 
         }
 
