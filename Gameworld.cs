@@ -128,6 +128,9 @@ namespace GameJam_Jan_2025
 
             Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
             sprites.Add("timerForeground", timerForeground);
+
+            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
+            sprites.Add("button", button);
         }
 
         private void AddAnimation(Dictionary<string, Texture2D[]> animations)
