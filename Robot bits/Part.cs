@@ -11,6 +11,7 @@ namespace GameJam_Jan_2025
 {
     public abstract class Part:GameObject
     {
+
         public Part() { }
 
         //Methods
@@ -18,7 +19,7 @@ namespace GameJam_Jan_2025
         {
 
         }
-        public override void Update(GameTime gameTime, Vector2 screenSize)
+        public override void Update(GameTime gameTime)
         {
 
         }
