@@ -8,7 +8,6 @@ namespace GameJam_Jan_2025
         #region Fields
 
         Texture2D sprite;
-        private float rotation;
         private float oldMouseX;
         private float Pi = MathHelper.Pi;
         GameObject tempObject;
@@ -99,7 +98,7 @@ namespace GameJam_Jan_2025
             {
 
                 //Rotation end logic
-                if (tempObject.Rotation < Pi / 4 && rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
+                if (tempObject.Rotation < Pi / 4 && tempObject.Rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
                     tempObject.Rotation = 0;
                 else if (tempObject.Rotation > (Pi / 4) * 1 && tempObject.Rotation < (Pi / 4) * 3)
                     tempObject.Rotation = Pi / 2;
