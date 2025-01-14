@@ -25,18 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Mouse/screwdriver_mousepointer.png
 
-#begin Sprites/simpleButton.png
-importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/simpleButton.png
-
 #begin Sprites/Timer/basic timer background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -287,5 +275,5 @@ importer:TextureImporter
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/Robotparts/legR3.png
+/build:Sprites/Mouse/screwdriver_mousepointer.png
 

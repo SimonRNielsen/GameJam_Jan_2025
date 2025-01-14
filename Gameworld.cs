@@ -165,9 +165,6 @@ namespace GameJam_Jan_2025
             Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
             sprites.Add("timerForeground", timerForeground);
 
-            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
-            sprites.Add("button", button);
-
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
             Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
