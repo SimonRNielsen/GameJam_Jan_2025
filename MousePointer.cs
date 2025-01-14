@@ -91,7 +91,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     LeftClickEvent(gameObject);
-                else if (Gameworld.MouseRightClick)
+                else 
                     RightClickEvent(gameObject);
             }
 
