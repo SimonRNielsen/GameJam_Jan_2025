@@ -13,30 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Lyd/Movement/moveSound.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Lyd/Movement/moveSound.mp3
-
-#begin Lyd/Movement/rotateSound.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Lyd/Movement/rotateSound.mp3
-
-#begin Lyd/Snapboard/buildSound.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Lyd/Snapboard/buildSound.mp3
-
-#begin Lyd/Snapboard/trashSound.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Lyd/Snapboard/trashSound.mp3
-
 #begin spriteFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

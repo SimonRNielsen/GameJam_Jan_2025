@@ -300,24 +300,6 @@ namespace GameJam_Jan_2025
         private void AddSounds(Dictionary<string, SoundEffect> sounds)
         {
 
-            #region Movement
-
-            SoundEffect moveSound = Content.Load<SoundEffect>("Lyd\\Movement\\moveSound");
-            SoundEffect rotateSound = Content.Load<SoundEffect>("Lyd\\Movement\\rotateSound");
-
-            sounds.Add("moveSound", moveSound);
-            sounds.Add("rotateSound", rotateSound);
-
-            #endregion
-            #region SnapBoard
-
-            SoundEffect buildSound = Content.Load<SoundEffect>("Lyd\\SnapBoard\\buildSound");
-            SoundEffect trashSound = Content.Load<SoundEffect>("Lyd\\SnapBoard\\trashSound");
-
-            sounds.Add("buildSound", buildSound);
-            sounds.Add("trashSound", trashSound);
-
-            #endregion
         }
 
         /// <summary>
