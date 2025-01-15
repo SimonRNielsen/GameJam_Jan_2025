@@ -62,7 +62,9 @@ namespace GameJam_Jan_2025
 
             if (!Gameworld.MouseLeftClick && !Gameworld.MouseRightClick)
             {
+
                 CheckCollision(tempObject);
+
                 if (leftButtonClicked && mouseClicked)
                 {
                     mouseClicked = false;
@@ -79,6 +81,7 @@ namespace GameJam_Jan_2025
                     mouseClicked = false;
                     Gameworld.sounds["rotateSound"].Play();
                 }
+
             }
 
             if (tempObject != null && tempObject.Grabbed)
