@@ -31,6 +31,7 @@ namespace GameJam_Jan_2025
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
         public static bool orderOnGoing;
+        private Song backgroundMusic;
 
         internal static SnapBoard snapBoard;
         internal static ConveyorBelt conveyorBelt;
@@ -117,6 +118,10 @@ namespace GameJam_Jan_2025
             gameObjectsToBeAdded.Add(new Leg(4));
             gameObjectsToBeAdded.Add(new Leg(1));
             gameObjectsToBeAdded.Add(new TrickPart(1));
+            backgroundMusic = music["backgroundMusic1"];
+            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.3f;
         }
 
         protected override void Update(GameTime gameTime)
@@ -333,7 +338,8 @@ namespace GameJam_Jan_2025
         /// <param name="music">Dictionary to have "Songs" added to</param>
         private void AddMusic(Dictionary<string, Song> music)
         {
-
+            Song music1 = Content.Load<Song>("Music\\steampunk-garage-142325");
+            music.Add("backgroundMusic1",music1);
         }
 
         #endregion

@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Music/steampunk-garage-142325.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/steampunk-garage-142325.mp3
+
 #begin spriteFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -391,7 +397,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/simpleButton.png
-
 
 #begin Sprites/simpleButton2.png
 /importer:TextureImporter
