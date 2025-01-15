@@ -25,7 +25,7 @@ namespace GameJam_Jan_2025
         private bool grabbed = false;
 
         //Properties
-        public Vector2 Position { get => position; set => position = value; }
+        public virtual Vector2 Position { get => position; set => position = value; }
 
         /// <summary>
         /// Handles external rotation of GameObject
@@ -65,7 +65,7 @@ namespace GameJam_Jan_2025
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (sprite != null)
-                spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
+                spriteBatch.Draw(sprite, position, null, color, rotation, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
     }
 }

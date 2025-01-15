@@ -17,6 +17,8 @@ namespace GameJam_Jan_2025
         private Texture2D foreground;
         private Texture2D background;
         private Vector2 foregroundOffset;
+        private bool timeStopped = false;
+        private Color countdownColor = Color.White;
 
         //Properties
 
@@ -27,9 +29,9 @@ namespace GameJam_Jan_2025
             
         }
 
-        public Timer(float time)
+        public Timer(float timeInSeconds)
         {
-            totalTimeSeconds = time;
+            totalTimeSeconds = timeInSeconds;
         }
 
         //Methods
@@ -38,35 +40,46 @@ namespace GameJam_Jan_2025
             Position=new Vector2(100,20);
             foreground = Gameworld.sprites["timerForeground"];
             background = Gameworld.sprites["timerBackground"];
-            foregroundOffset = new Vector2(20, 20);
+            foregroundOffset = new Vector2(29, 17);
             ResetTimer();
         }
         public override void Update(GameTime gameTime)
         {
-            countdown-= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (countdown <= 0)
+            if (!timeStopped)
             {
-                countdown = 0;
-                TimeUp();
+                countdown-= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (countdown <= 0)
+                {
+                    countdown = 0;
+                    TimeUp();
+                }
             }
-
+            if (countdown < 10)
+            {
+                countdownColor = Color.Red;
+            }
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(foreground, position, null, Color.White, 0, new Vector2(origin.X - (30 * scale), origin.Y - (16 * scale)), new Vector2((countdown / totalTimeSeconds) * scale, scale), SpriteEffects.None, layer + 0.1f);
+            spriteBatch.Draw(foreground, new Vector2(position.X+(foregroundOffset.X*scale),position.Y+(foregroundOffset.Y*scale)), null, countdownColor, 0, Vector2.Zero, new Vector2((countdown / totalTimeSeconds) * scale, scale), SpriteEffects.None, layer + 0.1f);
             spriteBatch.Draw(background, position, null, Color.White, 0, origin, scale, SpriteEffects.None, layer);
         }
 
         public void ResetTimer()
         {
             countdown = totalTimeSeconds;
+            timeStopped = false;
+        }
+        public void Stop()
+        {
+            timeStopped = true;
         }
 
         private void TimeUp()
         {
-            //also lose customer or something
-            Gameworld.RemoveGameObject(this);
+            timeStopped = true;
+            Gameworld.AddGameObject(new ResultsDisplay(false, Gameworld.snapBoard.Score));
         }
     }
 }

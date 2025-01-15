@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -18,6 +18,14 @@
     <EmbeddedResource Remove="Content\Musik\**" />
     <None Remove="Content\Lyd\**" />
     <None Remove="Content\Musik\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\Sprites\badSmiley.png" />
+    <None Remove="Content\Sprites\basic conveyor.png" />
+    <None Remove="Content\Sprites\midSmiley.png" />
+    <None Remove="Content\Sprites\orderboard.png" />
+    <None Remove="Content\Sprites\resultboard1.png" />
+    <None Remove="Content\Sprites\resultboard2.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />

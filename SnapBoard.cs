@@ -127,15 +127,17 @@ namespace GameJam_Jan_2025
             if (robotBuilt && !incompatible)
             {
                 //Display ready to build text
-                //Insert "build robot" condition
+                Button.ActivateBtn(true);
                 ClearBench();
             }
             else if (robotBuilt && incompatible)
             {
+                Button.ActivateBtn(false);
                 //Display incompatible warning
             }
             else
             {
+                Button.ActivateBtn(false);
                 //Display assembly incomplete message
             }
 

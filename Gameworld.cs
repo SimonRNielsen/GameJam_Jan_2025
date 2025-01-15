@@ -109,6 +109,10 @@ namespace GameJam_Jan_2025
             AddGameObject(new Head( 1));
             conveyorBelt = new ConveyorBelt(new Vector2(1200, 100));
             AddGameObject(conveyorBelt);
+            Button finishBuildBtn = new Button();
+            finishBuildBtn.Position = new Vector2(1560, 900);
+            AddGameObject(finishBuildBtn);
+            AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
 
             gameObjectsToBeAdded.Add(new Head(1));
             gameObjectsToBeAdded.Add(new Torso(1));
@@ -210,11 +214,32 @@ namespace GameJam_Jan_2025
             Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
             sprites.Add("timerForeground", timerForeground);
 
-            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
+            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton2");
             sprites.Add ("button", button);
 
             Texture2D conveyor = Content.Load<Texture2D>("Sprites\\basic conveyor");
             sprites.Add("conveyorBelt", conveyor);
+
+            Texture2D orderPaper= Content.Load<Texture2D>("Sprites\\order paper");
+            sprites.Add("orderPaper", orderPaper);
+
+            Texture2D orderBoard= Content.Load<Texture2D>("Sprites\\orderboard");
+            sprites.Add("orderBoard", orderBoard);
+
+            Texture2D resultBoard1= Content.Load<Texture2D>("Sprites\\results\\resultBoard1");
+            sprites.Add("resultBoard1",resultBoard1);
+
+            Texture2D resultBoard2 = Content.Load<Texture2D>("Sprites\\results\\resultBoard3");
+            sprites.Add("resultBoard2", resultBoard2);
+
+            Texture2D smiley1= Content.Load<Texture2D>("Sprites\\results\\goodSmiley");
+            sprites.Add("goodSmiley", smiley1);
+
+            Texture2D smiley2 = Content.Load<Texture2D>("Sprites\\results\\badSmiley");
+            sprites.Add("badSmiley", smiley2);
+
+            Texture2D smiley3 = Content.Load<Texture2D>("Sprites\\results\\midSmiley");
+            sprites.Add("midSmiley", smiley3);
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
@@ -370,6 +395,11 @@ namespace GameJam_Jan_2025
             //    gameObjectsToBeAdded.Add(new Leg(1));
             //    gameObjectsToBeAdded.Add(new trickParts(1));
             //}
+        }
+
+        public static void EndRound()
+        {
+
         }
         #endregion
     }

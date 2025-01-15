@@ -14,16 +14,20 @@ namespace GameJam_Jan_2025
     {
         //Fields
         private Rectangle hitbox;
-
+        private static bool btnActive = false;
         //Properties
 
         //Constructors
         public Button() 
         {
-            hitbox = new Rectangle((int)origin.X,(int)origin.Y, (int)(sprite.Width*scale), (int)(sprite.Height*scale));
             sprite = Gameworld.sprites["button"];
         }
         //Methods
+        public override void LoadContent(ContentManager content)
+        {
+            hitbox = new Rectangle((int)(Position.X- (sprite.Width * scale/2)), (int)(Position.Y - (sprite.Height * scale / 2)), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+            base.LoadContent(content);
+        }
         public override void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
@@ -38,20 +42,28 @@ namespace GameJam_Jan_2025
                     clicked = true;
                 }
             }
-            if (isHovering)
+            if (isHovering &&btnActive)
             {
-                color = Color.Gray;
+                color = Color.LightGray;
             }
-            else
+            else if ( btnActive)
             {
                 color = Color.White;
             }
-
-            if (clicked)
+            else
             {
-                //Do the things that must be done
+                color = Color.Gray;
+            }
+
+            if (clicked&& btnActive)
+            {
+                Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
             }
             base.Update(gameTime);
+        }
+        public static void ActivateBtn(bool active)
+        {
+            btnActive = active;
         }
     }
 }
