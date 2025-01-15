@@ -93,6 +93,11 @@ namespace GameJam_Jan_2025
         /// </summary>
         public int Score { get => score; }
 
+        /// <summary>
+        /// To access if something was put in the trashcan
+        /// </summary>
+        public Rectangle Trashcan { get => trashcan; }
+
         //Properties for setting target robot values
         public int DesiredHead { set => desiredHead = value; }
         public int DesiredTorso { set => desiredTorso = value; }
@@ -352,6 +357,7 @@ namespace GameJam_Jan_2025
             parts[leftLeg].RemoveThis = true;
             parts[rightLeg].RemoveThis = true;
 
+            Gameworld.sounds["buildSound"].Play();
             ScoreCalculation();
 
             parts[head] = null;
