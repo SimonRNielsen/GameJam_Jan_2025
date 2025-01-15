@@ -49,7 +49,7 @@ namespace GameJam_Jan_2025
         private string storageTextString = "Mess Box";
         private string trashcanTextString = "Trashcan";
 
-        //Score ints
+        //Score logic
         private int score;
         private int desiredHead = 1;
         private int desiredTorso = 1;
@@ -57,6 +57,7 @@ namespace GameJam_Jan_2025
         private int desiredRightArm = 1;
         private int desiredLeftLeg = 1;
         private int desiredRightLeg = 1;
+        public Timer timer;
 
         //Timer floats
         private float duration = 5.1f;
@@ -83,7 +84,6 @@ namespace GameJam_Jan_2025
         //Reference dictionaries
         public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
-        public Timer timer;
 
         #endregion
         #region Properties
