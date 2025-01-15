@@ -503,7 +503,12 @@ namespace GameJam_Jan_2025
                     if (parts[leftLeg].Sprite.Name.Contains("legL"))
                         correctLeftLegOrientation = 1;
                     else
-                        correctLeftLegOrientation = 10;
+                    {
+                        if (parts[leftLeg].PartType != 3)
+                            correctLeftLegOrientation = 10;
+                        else
+                            correctLeftLegOrientation = 1;
+                    }
                     break;
                 case (MathHelper.Pi / 2) * 3:
                     correctLeftLegOrientation = 5;
@@ -528,7 +533,12 @@ namespace GameJam_Jan_2025
                     if (parts[rightLeg].Sprite.Name.Contains("legR"))
                         correctRightLegOrientation = 1;
                     else
-                        correctRightLegOrientation = 10;
+                    {
+                        if (parts[rightLeg].PartType != 3)
+                            correctRightLegOrientation = 10;
+                        else
+                            correctRightLegOrientation = 1;
+                    }
                     break;
                 case (MathHelper.Pi / 2) * 3:
                     correctRightLegOrientation = 5;
