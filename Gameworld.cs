@@ -11,7 +11,7 @@ namespace GameJam_Jan_2025
     public class Gameworld : Game
     {
         #region Fields
-        
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private static List<GameObject> activeGameObjects = new List<GameObject>();
@@ -27,6 +27,7 @@ namespace GameJam_Jan_2025
         public static Dictionary<string, Texture2D[]> animations = new Dictionary<string, Texture2D[]>();
         public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
         public static Dictionary<string, Song> music = new Dictionary<string, Song>();
+        public static SpriteFont textFont;
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
         public static bool orderOnGoing;
@@ -53,7 +54,9 @@ namespace GameJam_Jan_2025
         /// </summary>
         public static Vector2 MousePosition { get => mousePosition; }
 
-
+        /// <summary>
+        /// Property to get/set Grabbing bool (prevents more than one object from being drag n' dropped simultaniuously)
+        /// </summary>
         public static bool Grabbing { get => grabbing; set => grabbing = value; }
 
         #endregion
@@ -83,20 +86,13 @@ namespace GameJam_Jan_2025
             AddAnimation(animations);
             AddSounds(sounds);
             AddMusic(music);
+            textFont = Content.Load<SpriteFont>("spriteFont");
 
             //Creation of MousePointer, MUST BE AFTER loading of sprites
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
             activeGameObjects.Add(snapBoard);
-            /*
-            activeGameObjects.Add(new TestDummy(new Vector2(1250, 200)));
-            activeGameObjects.Add(new TestDummy(new Vector2(1000, 200)));
-            activeGameObjects.Add(new TestDummy(new Vector2(1750, 500)));
-            activeGameObjects.Add(new TestDummy(new Vector2(1500, 500)));
-            activeGameObjects.Add(new TestDummy(new Vector2(1250, 500)));
-            activeGameObjects.Add(new TestDummy(new Vector2(1000, 500)));
-            */
-            AddGameObject(new Timer());
+            AddGameObject(new Timer(45));
 
             base.Initialize();
         }
@@ -106,8 +102,8 @@ namespace GameJam_Jan_2025
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AddGameObject(new Head( 1));
-            conveyorBelt = new ConveyorBelt(new Vector2(1200, 100));
+            AddGameObject(new Head(1));
+            conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
             AddGameObject(conveyorBelt);
 
             gameObjectsToBeAdded.Add(new Head(1));
@@ -135,6 +131,9 @@ namespace GameJam_Jan_2025
             {
                 if (!grabbing)
                     mousePointer.CheckCollision(gameObject);
+                if (snapBoard.timer == null)
+                    if (gameObject is Timer)
+                        snapBoard.timer = gameObject as Timer;
                 if (gameObject.RemoveThis)
                     RemoveGameObject(gameObject);
                 gameObject.Update(gameTime);
@@ -152,7 +151,7 @@ namespace GameJam_Jan_2025
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.LightSteelBlue);
 #if DEBUG
             bool disableCollisionDrawing = Keyboard.GetState().IsKeyDown(Keys.Space);
 #endif
@@ -170,10 +169,11 @@ namespace GameJam_Jan_2025
             }
 
 #if DEBUG
-            foreach (Rectangle rectangle in snapBoard.parts.Keys)
-            {
-                DrawDragNDropBoxes(rectangle);
-            }
+            if (disableCollisionDrawing)
+                foreach (Rectangle rectangle in snapBoard.parts.Keys)
+                {
+                    DrawDragNDropBoxes(rectangle);
+                }
 #endif
             mousePointer.Draw(_spriteBatch);
 
@@ -211,7 +211,7 @@ namespace GameJam_Jan_2025
             sprites.Add("timerForeground", timerForeground);
 
             Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
-            sprites.Add ("button", button);
+            sprites.Add("button", button);
 
             Texture2D conveyor = Content.Load<Texture2D>("Sprites\\basic conveyor");
             sprites.Add("conveyorBelt", conveyor);
@@ -241,8 +241,8 @@ namespace GameJam_Jan_2025
             Texture2D robotLegR2 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR2");
             Texture2D robotLegR3 = Content.Load<Texture2D>("Sprites\\Robotparts\\legR3");
 
-            sprites.Add("head1", robotHead1); 
-            sprites.Add("head2", robotHead2); 
+            sprites.Add("head1", robotHead1);
+            sprites.Add("head2", robotHead2);
             sprites.Add("head3", robotHead3);
 
             sprites.Add("robotBody1", robotBody1);
@@ -273,6 +273,13 @@ namespace GameJam_Jan_2025
             sprites.Add("trickPart1", trickPart1);
             sprites.Add("trickPart2", trickPart2);
             sprites.Add("trickPart3", trickPart3);
+            #endregion
+            #region Snapboard
+
+            Texture2D snapBoard = Content.Load<Texture2D>("Sprites\\SnapBoard\\blankSlot");
+
+            sprites.Add("snapBoard", snapBoard);
+
             #endregion
 
         }
@@ -326,6 +333,8 @@ namespace GameJam_Jan_2025
         }
 
 
+#if DEBUG
+
         private void DrawCollisionBox(GameObject gameObject)
         {
             Color color = Color.Red;
@@ -355,12 +364,15 @@ namespace GameJam_Jan_2025
             _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
             _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
         }
+
+#endif
+
         //Spawning robot parts
         static void spawnParts()
         {
             //if (orderOnGoing)
             //{
-                
+
 
             //    gameObjectsToBeAdded.Add(new Head(1));
             //    gameObjectsToBeAdded.Add(new Torso(1));

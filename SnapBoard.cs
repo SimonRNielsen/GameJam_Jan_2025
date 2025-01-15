@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameJam_Jan_2025
 {
@@ -37,7 +38,7 @@ namespace GameJam_Jan_2025
         private string incompleteTextString = "Robot not completed";
         private string incompatibleTextString = "Not all parts compatible";
         private string readyToBuildTextString = "Robot ready to be built";
-        private string robotCompleteTextString = "Robot built";
+        private string robotCompleteTextString = "Robot built ";
         private string scoreTextString;
         private string headTextString = "Head";
         private string torsoTextString = "Torso";
@@ -49,16 +50,22 @@ namespace GameJam_Jan_2025
         private string trashcanTextString = "Trashcan";
 
         //Score ints
-        private int addScore;
         private int score;
+        private int desiredHead;
+        private int desiredTorso;
+        private int desiredLeftArm;
+        private int desiredRightArm;
+        private int desiredLeftLeg;
+        private int desiredRightLeg;
 
         //Timer floats
-        private float duration;
+        private float duration = 5.1f;
         private float displayTime = 5f;
 
         //Text and rectangle draw effects
         private float customLayer;
-        Color opaque = Color.Black * 0.25f;
+        private float textScale = 1.5f;
+        Color opaque = Color.Black * 0.2f;
         Color textColor = Color.Black;
 
         //Rectangles for collision with parts
@@ -76,6 +83,7 @@ namespace GameJam_Jan_2025
         //Reference dictionaries
         public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
+        public Timer timer;
 
         #endregion
         #region Properties
@@ -84,6 +92,14 @@ namespace GameJam_Jan_2025
         /// For extracting score when game ends
         /// </summary>
         public int Score { get => score; }
+
+        //Properties for setting target robot values
+        public int DesiredHead { set => desiredHead = value; }
+        public int DesiredTorso { set => desiredTorso = value; }
+        public int DesiredLeftArm { set => desiredLeftArm = value; }
+        public int DesiredRightArm { set => desiredRightArm = value; }
+        public int DesiredLeftLeg { set => desiredLeftLeg = value; }
+        public int DesiredRightLeg { set => desiredRightLeg = value; }
 
         #endregion
         #region Constructor
@@ -94,11 +110,11 @@ namespace GameJam_Jan_2025
         public SnapBoard()
         {
             layer = 0.01f;
-            customLayer = layer + 0.05f;
+            customLayer = layer + 0.04f;
             scale = 1f;
             AddAssemblyArea();
             SetVectorsAndString();
-            //sprite = Gameworld.sprites["snapBoard"];
+            //sprite = Gameworld.sprites["background"];
         }
 
         #endregion
@@ -110,7 +126,22 @@ namespace GameJam_Jan_2025
         /// <param name="spriteBatch">Gameworld logic</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+
+            foreach (Rectangle rectangle in partsPositions.Keys)
+            {
+                spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+            }
+            spriteBatch.DrawString(Gameworld.textFont, displayedTextString, workshopText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, headTextString, headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, torsoTextString, torsoText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, leftArmTextString, leftArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, rightArmTextString, rightArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, leftLegTextString, leftLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, rightLegTextString, rightLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, storageTextString, storageText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, trashcanTextString, trashcanText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
             base.Draw(spriteBatch);
+
         }
 
         /// <summary>
@@ -120,23 +151,34 @@ namespace GameJam_Jan_2025
         public override void Update(GameTime gameTime)
         {
 
-            score += addScore;
-            addScore = 0;
+            duration += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             RobotBuilt(out bool robotBuilt, out bool incompatible);
             if (robotBuilt && !incompatible)
             {
-                //Display ready to build text
-                //Insert "build robot" condition
-                ClearBench();
+                displayedTextString = readyToBuildTextString;
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    duration = 0;
+                    ClearBench();
+                    timer.ResetTimer();
+                }
             }
             else if (robotBuilt && incompatible)
             {
-                //Display incompatible warning
+                displayedTextString = incompatibleTextString;
             }
             else
             {
-                //Display assembly incomplete message
+                if (duration >= displayTime)
+                    displayedTextString = incompleteTextString;
+                else
+                {
+                    displayedTextString = robotCompleteTextString;
+#if DEBUG
+                    displayedTextString += scoreTextString;
+#endif
+                }
             }
 
             if (parts[trashcan] != null)
@@ -144,6 +186,8 @@ namespace GameJam_Jan_2025
                 parts[trashcan].RemoveThis = true;
                 parts[trashcan] = null;
             }
+
+            workshopText = new Vector2(partsPositions[rightArm].X + 400 - (6 * displayedTextString.Length), partsPositions[rightArm].Y);
 
             base.Update(gameTime);
 
@@ -208,20 +252,23 @@ namespace GameJam_Jan_2025
         }
 
         /// <summary>
-        /// Method to set Vectors and string
+        /// Method to set Vectors
         /// </summary>
         private void SetVectorsAndString()
         {
-            workshopText = Vector2.Zero;
-            headText = Vector2.Zero;
-            torsoText = Vector2.Zero;
-            leftLegText = Vector2.Zero;
-            rightLegText = Vector2.Zero;
-            leftArmText = Vector2.Zero;
-            rightArmText = Vector2.Zero;
-            storageText = Vector2.Zero;
-            trashcanText = Vector2.Zero;
-            scoreTextString = $"Score: {Score}";
+
+            int textYDisplacement = 110;
+            int textXDisplacement = -6;
+
+            headText = new Vector2(partsPositions[head].X + (textXDisplacement * headTextString.Length), partsPositions[head].Y + textYDisplacement);
+            torsoText = new Vector2(partsPositions[torso].X + (textXDisplacement * torsoTextString.Length), partsPositions[torso].Y + textYDisplacement);
+            leftArmText = new Vector2(partsPositions[leftArm].X + (textXDisplacement * leftArmTextString.Length), partsPositions[leftArm].Y + textYDisplacement);
+            rightArmText = new Vector2(partsPositions[rightArm].X + (textXDisplacement * rightArmTextString.Length), partsPositions[rightArm].Y + textYDisplacement);
+            leftLegText = new Vector2(partsPositions[leftLeg].X + (textXDisplacement * leftLegTextString.Length), partsPositions[leftLeg].Y + textYDisplacement);
+            rightLegText = new Vector2(partsPositions[rightLeg].X + (textXDisplacement * rightLegTextString.Length), partsPositions[rightLeg].Y + textYDisplacement);
+            storageText = new Vector2(partsPositions[storage2].X + (textXDisplacement * storageTextString.Length), partsPositions[storage2].Y + textYDisplacement);
+            trashcanText = new Vector2(partsPositions[trashcan].X + (textXDisplacement * trashcanTextString.Length), partsPositions[trashcan].Y + textYDisplacement);
+
         }
 
         /// <summary>
@@ -301,6 +348,8 @@ namespace GameJam_Jan_2025
             parts[leftLeg].RemoveThis = true;
             parts[rightLeg].RemoveThis = true;
 
+            ScoreCalculation();
+
             parts[head] = null;
             parts[torso] = null;
             parts[leftArm] = null;
@@ -323,6 +372,199 @@ namespace GameJam_Jan_2025
                 incompatible = false;
 
             return incompatible;
+
+        }
+
+        /// <summary>
+        /// Calculates score from assembled robot
+        /// </summary>
+        private void ScoreCalculation()
+        {
+
+            int correctHeadOrientation = 1;
+            int correctTorsoOrientation = 1;
+            int correctLeftArmOrientation = 1;
+            int correctRightArmOrientation = 1;
+            int correctLeftLegOrientation = 1;
+            int correctRightLegOrientation = 1;
+
+            switch (parts[head].Rotation)
+            {
+                case 0:
+                    correctHeadOrientation = 10;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctHeadOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    correctHeadOrientation = 1;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctHeadOrientation = 5;
+                    break;
+                default:
+                    correctHeadOrientation = 3;
+                    break;
+            }
+
+            switch (parts[torso].Rotation)
+            {
+                case 0:
+                    correctTorsoOrientation = 10;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctTorsoOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    correctTorsoOrientation = 1;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctTorsoOrientation = 5;
+                    break;
+                default:
+                    correctTorsoOrientation = 3;
+                    break;
+            }
+
+            switch (parts[leftArm].Rotation)
+            {
+                case 0:
+                    if (parts[leftArm].Sprite.Name.Contains("armL"))
+                        correctLeftArmOrientation = 10;
+                    else
+                        correctLeftArmOrientation = 1;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctLeftArmOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    if (parts[leftArm].Sprite.Name.Contains("armL"))
+                        correctLeftArmOrientation = 1;
+                    else
+                        correctLeftArmOrientation = 10;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctLeftArmOrientation = 5;
+                    break;
+                default:
+                    correctLeftArmOrientation = 3;
+                    break;
+            }
+
+            switch (parts[rightArm].Rotation)
+            {
+                case 0:
+                    if (parts[rightArm].Sprite.Name.Contains("armR"))
+                        correctRightArmOrientation = 10;
+                    else
+                        correctRightArmOrientation = 1;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctRightArmOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    if (parts[rightArm].Sprite.Name.Contains("armR"))
+                        correctRightArmOrientation = 1;
+                    else
+                        correctRightArmOrientation = 10;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctRightArmOrientation = 5;
+                    break;
+                default:
+                    correctRightArmOrientation = 3;
+                    break;
+            }
+
+            switch (parts[leftLeg].Rotation)
+            {
+                case 0:
+                    if (parts[leftLeg].Sprite.Name.Contains("legL"))
+                        correctLeftLegOrientation = 10;
+                    else
+                        correctLeftLegOrientation = 1;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctLeftLegOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    if (parts[leftLeg].Sprite.Name.Contains("legL"))
+                        correctLeftLegOrientation = 1;
+                    else
+                        correctLeftLegOrientation = 10;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctLeftLegOrientation = 5;
+                    break;
+                default:
+                    correctLeftLegOrientation = 3;
+                    break;
+            }
+
+            switch (parts[rightLeg].Rotation)
+            {
+                case 0:
+                    if (parts[rightLeg].Sprite.Name.Contains("legR"))
+                        correctRightLegOrientation = 10;
+                    else
+                        correctRightLegOrientation = 1;
+                    break;
+                case MathHelper.Pi / 2:
+                    correctRightLegOrientation = 5;
+                    break;
+                case MathHelper.Pi:
+                    if (parts[rightLeg].Sprite.Name.Contains("legR"))
+                        correctRightLegOrientation = 1;
+                    else
+                        correctRightLegOrientation = 10;
+                    break;
+                case (MathHelper.Pi / 2) * 3:
+                    correctRightLegOrientation = 5;
+                    break;
+                default:
+                    correctRightLegOrientation = 3;
+                    break;
+            }
+
+            int correctHeadType = 1;
+            int correctTorsoType = 1;
+            int correctLeftArmType = 1;
+            int correctRightArmType = 1;
+            int correctLeftLegType = 1;
+            int correctRightLegType = 1;
+
+            if (desiredHead == parts[head].PartType)
+                correctHeadType = 10;
+            else
+                correctHeadType = 5;
+
+            if (desiredTorso == parts[torso].PartType)
+                correctTorsoType = 10;
+            else
+                correctTorsoType = 5;
+
+            if (desiredLeftArm == parts[leftArm].PartType)
+                correctLeftArmType = 10;
+            else
+                correctLeftArmType = 5;
+
+            if (desiredRightArm == parts[rightArm].PartType)
+                correctRightArmType = 10;
+            else
+                correctRightArmType = 5;
+
+            if (desiredLeftLeg == parts[leftLeg].PartType)
+                correctLeftLegType = 10;
+            else
+                correctLeftLegType = 5;
+
+            if (desiredRightLeg == parts[rightLeg].PartType)
+                correctRightLegType = 10;
+            else
+                correctRightLegType = 5;
+
+            score += (int)timer.Countdown * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
+            scoreTextString = $"{Score}";
 
         }
 

@@ -20,6 +20,7 @@ namespace GameJam_Jan_2025
 
         //Properties
 
+        public float Countdown { get => countdown; }
 
         //Constructors
         public Timer() 

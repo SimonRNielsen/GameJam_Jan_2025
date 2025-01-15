@@ -12,6 +12,13 @@ namespace GameJam_Jan_2025
     public abstract class Part:GameObject
     {
 
+        protected int partType;
+
+        /// <summary>
+        /// For identifying part type for score
+        /// </summary>
+        public int PartType { get => partType; }
+
         public Part() { }
 
         //Methods

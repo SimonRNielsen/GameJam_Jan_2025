@@ -25,12 +25,15 @@ namespace GameJam_Jan_2025
             {
                 case 1:
                     this.sprite = Gameworld.sprites["head1"];
+                    this.partType = partType;
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["head2"];
+                    this.partType = partType;
                     break;
                 case 3:
                     this.sprite = Gameworld.sprites["head3"];
+                    this.partType = partType;
                     break;
                 default:
                     break;
