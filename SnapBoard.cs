@@ -301,15 +301,16 @@ namespace GameJam_Jan_2025
             else
                 success = false;
 
-            foreach (var part in parts)
-            {
-                if (part.Key == rectangle)
-                    continue;
-                else if (part.Value == gameObject as Part)
+            if (success)
+                foreach (var part in parts)
                 {
-                    parts[part.Key] = null;
+                    if (part.Key == rectangle)
+                        continue;
+                    else if (part.Value == gameObject as Part)
+                    {
+                        parts[part.Key] = null;
+                    }
                 }
-            }
 
             return success;
         }
