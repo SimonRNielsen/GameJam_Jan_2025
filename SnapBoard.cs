@@ -51,12 +51,12 @@ namespace GameJam_Jan_2025
 
         //Score ints
         private int score;
-        private int desiredHead;
-        private int desiredTorso;
-        private int desiredLeftArm;
-        private int desiredRightArm;
-        private int desiredLeftLeg;
-        private int desiredRightLeg;
+        private int desiredHead = 1;
+        private int desiredTorso = 1;
+        private int desiredLeftArm = 1;
+        private int desiredRightArm = 1;
+        private int desiredLeftLeg = 1;
+        private int desiredRightLeg = 1;
 
         //Timer floats
         private float duration = 5.1f;
