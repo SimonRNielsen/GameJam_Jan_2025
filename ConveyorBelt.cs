@@ -86,7 +86,7 @@ namespace GameJam_Jan_2025
                 Gameworld.AddGameObject(new ConveyorBelt(position, chainNumber + 2));
 
 
-                allParts = new Part[5];
+                allParts = new Part[10];
 
                 //randomize all parts
                 for (int i = 0; i < allParts.Length; i++)
@@ -198,6 +198,21 @@ namespace GameJam_Jan_2025
                                     allParts[i].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
                                     break;
                             }
+
+                            switch (rnd.Next(1, 5))
+                            {
+                                case 2:
+                                    allParts[i].Rotation = MathHelper.Pi / 2;
+                                    break;
+                                case 3:
+                                    allParts[i].Rotation = MathHelper.Pi;
+                                    break;
+                                case 4:
+                                    allParts[i].Rotation = (MathHelper.Pi / 2) * 3;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     else
@@ -231,13 +246,13 @@ namespace GameJam_Jan_2025
         /// <param name="gameObject">Object to compare</param>
         public void RemoveFromAllParts(GameObject gameObject)
         {
-            int index = 0;
+
             for (int i = 0; i < AllParts.Length; i++)
             {
                 if (AllParts[i] == gameObject)
-                    index = i;
+                    AllParts[i] = null;
             }
-            allParts[index] = null;
+
         }
 
         /// <summary>
@@ -248,9 +263,8 @@ namespace GameJam_Jan_2025
         {
 
             Part part;
-            int parttype = rnd.Next(1, 8);
 
-            switch (parttype)
+            switch (rnd.Next(1, 8))
             {
                 case 1:
                     part = new Head(rnd.Next(1, 4));
@@ -268,6 +282,26 @@ namespace GameJam_Jan_2025
                     break;
                 default:
                     part = new TrickPart(rnd.Next(1, 4));
+                    break;
+            }
+            switch (rnd.Next(1, 6))
+            {
+                case 1:
+                    part.Position = new Vector2(itemPos1.X + rnd.Next(-20, 21), itemPos1.Y + rnd.Next(-20, 21));
+                    break;
+                case 2:
+                    part.Position = new Vector2(itemPos2.X + rnd.Next(-20, 21), itemPos2.Y + rnd.Next(-20, 21));
+                    break;
+                case 3:
+                    part.Position = new Vector2(itemPos3.X + rnd.Next(-20, 21), itemPos3.Y + rnd.Next(-20, 21));
+                    break;
+                case 4:
+                    part.Position = new Vector2(itemPos4.X + rnd.Next(-20, 21), itemPos4.Y + rnd.Next(-20, 21));
+                    break;
+                case 5:
+                    part.Position = new Vector2(itemPos5.X + rnd.Next(-20, 21), itemPos5.Y + rnd.Next(-20, 21));
+                    break;
+                default:
                     break;
             }
 
