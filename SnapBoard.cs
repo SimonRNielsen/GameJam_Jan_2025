@@ -283,6 +283,7 @@ namespace GameJam_Jan_2025
             float distance = 1000;
             Rectangle rectangle = new Rectangle();
 
+            //Determines the most likely target for dropped object
             foreach (var partPosition in partsPositions)
             {
                 float newDistance = Vector2.Distance(partPosition.Value, gameObject.Position);
@@ -293,6 +294,7 @@ namespace GameJam_Jan_2025
                 }
             }
 
+            //Determines if the target slot is empty or not
             if (parts[rectangle] == null)
             {
                 gameObject.Position = partsPositions[rectangle];
@@ -301,6 +303,7 @@ namespace GameJam_Jan_2025
             else
                 success = false;
 
+            //Redirects reference slot for the object
             if (success)
                 foreach (var part in parts)
                 {
