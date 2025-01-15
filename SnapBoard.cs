@@ -98,7 +98,7 @@ namespace GameJam_Jan_2025
         /// </summary>
         public Rectangle Trashcan { get => trashcan; }
 
-        //Properties for setting target robot values
+        //Properties for setting target robot PartType values
         public int DesiredHead { set => desiredHead = value; }
         public int DesiredTorso { set => desiredTorso = value; }
         public int DesiredLeftArm { set => desiredLeftArm = value; }
@@ -391,6 +391,8 @@ namespace GameJam_Jan_2025
         private void ScoreCalculation()
         {
 
+            #region Part Orientation evaluation
+
             int correctHeadOrientation = 1;
             int correctTorsoOrientation = 1;
             int correctLeftArmOrientation = 1;
@@ -536,6 +538,9 @@ namespace GameJam_Jan_2025
                     break;
             }
 
+            #endregion
+            #region PartType comparison
+
             int correctHeadType = 1;
             int correctTorsoType = 1;
             int correctLeftArmType = 1;
@@ -573,7 +578,12 @@ namespace GameJam_Jan_2025
             else
                 correctRightLegType = 5;
 
-            score += (int)timer.Countdown * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
+            #endregion
+
+            if ((int)timer.Countdown < 1)
+                score += 1 * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
+            else
+                score += (int)timer.Countdown * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
             scoreTextString = $"{Score}";
 
         }
