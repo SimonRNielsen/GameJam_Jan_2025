@@ -14,7 +14,6 @@ namespace GameJam_Jan_2025
         public TrickPart(int partType)
         {
             position = Gameworld.startingPosition;
-            layer = 1;
             scale = 0.2f;
 
             switch (partType)

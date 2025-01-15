@@ -25,6 +25,7 @@ namespace GameJam_Jan_2025
         //Constructors
         public OrderPaper(string order,Vector2 position)
         {
+            layer = 0.7f;
             this.position = position;
             hiddenPos = position;
             visiblePos = new Vector2(position.X, position.Y - (600 * scale));

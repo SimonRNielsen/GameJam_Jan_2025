@@ -21,6 +21,7 @@ namespace GameJam_Jan_2025
         public Button() 
         {
             sprite = Gameworld.sprites["button"];
+            layer = 0.6f;
         }
         //Methods
         public override void LoadContent(ContentManager content)
@@ -58,6 +59,7 @@ namespace GameJam_Jan_2025
             if (clicked&& btnActive)
             {
                 Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
+                Timer.Stop();
             }
             base.Update(gameTime);
         }

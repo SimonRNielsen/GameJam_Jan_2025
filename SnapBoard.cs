@@ -85,6 +85,8 @@ namespace GameJam_Jan_2025
         public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
 
+        //(unneccesary) bool to check when finish button is pressed
+        private bool stillBuilding = true;
         #endregion
         #region Properties
 
@@ -157,19 +159,22 @@ namespace GameJam_Jan_2025
             if (robotBuilt && !incompatible)
             {
                 displayedTextString = readyToBuildTextString;
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                Button.ActivateBtn(true);
+                if (!stillBuilding)
                 {
                     duration = 0;
                     ClearBench();
-                    timer.ResetTimer();
+                    stillBuilding = true;
                 }
             }
             else if (robotBuilt && incompatible)
             {
+                Button.ActivateBtn(false);
                 displayedTextString = incompatibleTextString;
             }
             else
             {
+                Button.ActivateBtn(false);
                 if (duration >= displayTime)
                     displayedTextString = incompleteTextString;
                 else
@@ -570,6 +575,11 @@ namespace GameJam_Jan_2025
             score += (int)timer.Countdown * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
             scoreTextString = $"{Score}";
 
+        }
+
+        public void FinishUp()
+        {
+            stillBuilding = false;
         }
 
         #endregion

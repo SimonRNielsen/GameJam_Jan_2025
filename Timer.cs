@@ -17,7 +17,7 @@ namespace GameJam_Jan_2025
         private Texture2D foreground;
         private Texture2D background;
         private Vector2 foregroundOffset;
-        private bool timeStopped = false;
+        private static bool timeStopped = false;
         private Color countdownColor = Color.White;
 
         //Properties
@@ -72,9 +72,10 @@ namespace GameJam_Jan_2025
             countdown = totalTimeSeconds;
             timeStopped = false;
         }
-        public void Stop()
+        public static void Stop()
         {
             timeStopped = true;
+            ConveyorBelt.Stop();
         }
 
         private void TimeUp()
