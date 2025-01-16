@@ -636,7 +636,7 @@ namespace GameJam_Jan_2025
 
         public static void FinishUp()
         {
-            //stillBuilding = false;
+            stillBuilding = false;
         }
         /// <summary>
         /// Assertains how many "errors" have been made in the building process, with a max of 12 assessment-points
