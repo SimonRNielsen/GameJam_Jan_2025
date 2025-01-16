@@ -274,6 +274,19 @@ namespace GameJam_Jan_2025
             sprites.Add("trickPart1", trickPart1);
             sprites.Add("trickPart2", trickPart2);
             sprites.Add("trickPart3", trickPart3);
+
+            //new trickparts
+            Texture2D trickPartHead = Content.Load<Texture2D>("Sprites\\trickParts\\trickPartHead");
+            Texture2D trickPartBody = Content.Load<Texture2D>("Sprites\\trickParts\\trickPartBody");
+            Texture2D trickPartArm1 = Content.Load<Texture2D>("Sprites\\trickParts\\trickPartArm1");
+            Texture2D trickPartArm2 = Content.Load<Texture2D>("Sprites\\trickParts\\trickPartArm2");
+            Texture2D trickPartLeg = Content.Load<Texture2D>("Sprites\\trickParts\\trickPartLeg");
+
+            sprites.Add("trickPartHead", trickPartHead);
+            sprites.Add("trickPartBody", trickPartBody);
+            sprites.Add("trickPartArm1", trickPartArm1);
+            sprites.Add("trickPartArm2", trickPartArm2);
+            sprites.Add("trickPartLeg", trickPartLeg);
             #endregion
             #region Snapboard
 
