@@ -475,43 +475,7 @@ namespace GameJam_Jan_2025
             _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
         }
 #endif
-        /// <summary>
-        /// Method to change type of robot requested
-        /// </summary>
-        /// <param name="desiredRobot">Changes parameters dependant on which type of robot is requested</param>
-        public static void DesignateOrder(RobotType desiredRobot)
-        {
-
-            switch (desiredRobot)
-            {
-                case RobotType.Baker:
-                    snapBoard.DesiredHead = 1;
-                    snapBoard.DesiredTorso = 1;
-                    snapBoard.DesiredLeftArm = 1;
-                    snapBoard.DesiredRightArm = 1;
-                    snapBoard.DesiredLeftLeg = 1;
-                    snapBoard.DesiredRightLeg = 1;
-                    break;
-                case RobotType.Soldier:
-                    snapBoard.DesiredHead = 2;
-                    snapBoard.DesiredTorso = 2;
-                    snapBoard.DesiredLeftArm = 2;
-                    snapBoard.DesiredRightArm = 2;
-                    snapBoard.DesiredLeftLeg = 2;
-                    snapBoard.DesiredRightLeg = 2;
-                    break;
-                case RobotType.Musician:
-                    snapBoard.DesiredHead = 3;
-                    snapBoard.DesiredTorso = 3;
-                    snapBoard.DesiredLeftArm = 3;
-                    snapBoard.DesiredRightArm = 3;
-                    snapBoard.DesiredLeftLeg = 3;
-                    snapBoard.DesiredRightLeg = 3;
-                    break;
-            }
-
-        }
-       
+               
         #endregion
     }
 }
