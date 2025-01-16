@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -20,6 +20,12 @@
     <None Remove="Content\Musik\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Content\Sprites\badSmiley.png" />
+    <None Remove="Content\Sprites\basic conveyor.png" />
+    <None Remove="Content\Sprites\midSmiley.png" />
+    <None Remove="Content\Sprites\orderboard.png" />
+    <None Remove="Content\Sprites\resultboard1.png" />
+    <None Remove="Content\Sprites\resultboard2.png" />
     <Content Include="Content\Lyd\Movement\moveSound.mp3" />
     <Content Include="Content\Lyd\Movement\rotateSound.mp3" />
     <Content Include="Content\Lyd\Review\averageReviewSound.mp3" />

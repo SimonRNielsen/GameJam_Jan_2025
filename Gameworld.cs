@@ -30,6 +30,9 @@ namespace GameJam_Jan_2025
         public static SpriteFont textFont;
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
+
+        public static bool orderOnGoing;
+        private Song backgroundMusic;
         public static string order;
         public static int point;
 
@@ -106,6 +109,11 @@ namespace GameJam_Jan_2025
             AddGameObject(new Head(1));
             conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
             AddGameObject(conveyorBelt);
+            AddGameObject(new StartOrderAndEndResultsBoard(1));
+            Button finishBuildBtn = new Button(true);
+            finishBuildBtn.Position = new Vector2(1560, 900);
+            AddGameObject(finishBuildBtn);
+            AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
 
             gameObjectsToBeAdded.Add(new Head(1));
             gameObjectsToBeAdded.Add(new Torso(1));
@@ -114,6 +122,11 @@ namespace GameJam_Jan_2025
             gameObjectsToBeAdded.Add(new Leg(4));
             gameObjectsToBeAdded.Add(new Leg(1));
             gameObjectsToBeAdded.Add(new TrickPart(1));
+            backgroundMusic = music["backgroundMusic1"];
+            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.3f;
+            Timer.Stop();
         }
 
         protected override void Update(GameTime gameTime)
@@ -211,11 +224,32 @@ namespace GameJam_Jan_2025
             Texture2D timerForeground = Content.Load<Texture2D>("Sprites\\Timer\\basic timer foreground");
             sprites.Add("timerForeground", timerForeground);
 
-            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton");
-            sprites.Add("button", button);
+            Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton2");
+            sprites.Add ("button", button);
 
             Texture2D conveyor = Content.Load<Texture2D>("Sprites\\basic conveyor");
             sprites.Add("conveyorBelt", conveyor);
+
+            Texture2D orderPaper= Content.Load<Texture2D>("Sprites\\order paper");
+            sprites.Add("orderPaper", orderPaper);
+
+            Texture2D orderBoard= Content.Load<Texture2D>("Sprites\\orderboard");
+            sprites.Add("orderBoard", orderBoard);
+
+            Texture2D resultBoard1= Content.Load<Texture2D>("Sprites\\results\\resultBoard1");
+            sprites.Add("resultBoard1",resultBoard1);
+
+            Texture2D resultBoard2 = Content.Load<Texture2D>("Sprites\\results\\resultBoard3");
+            sprites.Add("resultBoard2", resultBoard2);
+
+            Texture2D smiley1= Content.Load<Texture2D>("Sprites\\results\\goodSmiley");
+            sprites.Add("goodSmiley", smiley1);
+
+            Texture2D smiley2 = Content.Load<Texture2D>("Sprites\\results\\badSmiley");
+            sprites.Add("badSmiley", smiley2);
+
+            Texture2D smiley3 = Content.Load<Texture2D>("Sprites\\results\\midSmiley");
+            sprites.Add("midSmiley", smiley3);
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
@@ -298,11 +332,27 @@ namespace GameJam_Jan_2025
             #region Snapboard
 
             Texture2D snapBoard = Content.Load<Texture2D>("Sprites\\SnapBoard\\blankSlot");
-
             sprites.Add("snapBoard", snapBoard);
 
             #endregion
+            #region cutscenes
+            Texture2D customerEnter1 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes1");
+            sprites.Add("enterCutscene1", customerEnter1);
+            Texture2D customerEnter2 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes2");
+            sprites.Add("enterCutscene2", customerEnter2);
+            Texture2D customerEnter3 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes3");
+            sprites.Add("enterCutscene3", customerEnter3);
+            Texture2D customerEnter4 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes4");
+            sprites.Add("enterCutscene4", customerEnter4);
+            Texture2D customerEnter5 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes5");
+            sprites.Add("orderCutscene", customerEnter5);
 
+            Texture2D win = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes_win");
+            sprites.Add("winScreen", win);
+
+            Texture2D lose = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes_lose");
+            sprites.Add("loseScreen", lose);
+            #endregion
         }
 
         /// <summary>
@@ -359,7 +409,8 @@ namespace GameJam_Jan_2025
         /// <param name="music">Dictionary to have "Songs" added to</param>
         private void AddMusic(Dictionary<string, Song> music)
         {
-
+            Song music1 = Content.Load<Song>("Music\\steampunk-garage-142325");
+            music.Add("backgroundMusic1",music1);
         }
 
         #endregion

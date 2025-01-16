@@ -21,11 +21,18 @@ namespace GameJam_Jan_2025
         private Vector2 itemPos3;
         private Vector2 itemPos4;
         private Vector2 itemPos5;
+        private Vector2 itemPos6;
+        private Vector2 itemPos7;
+        private Vector2 itemPos8;
+        private Vector2 itemPos9;
+        private Vector2 itemPos10;
 
 
         private Part[] allParts;
 
         private int speed = 3;
+
+        private static bool stopped = false;
 
         private Vector2 objectPos;
         int chainNumber;
@@ -70,10 +77,15 @@ namespace GameJam_Jan_2025
         {
             //starting positions of items, will be automatically adjusted if needed
             itemPos1 = new Vector2(20, 200);
-            itemPos2 = new Vector2(100, 480);
-            itemPos3 = new Vector2(50, 720);
-            itemPos4 = new Vector2(0, 950);
-            itemPos5 = new Vector2(300, 1160);
+            itemPos2 = new Vector2(-100, 280);
+            itemPos3 = new Vector2(50, 420);
+            itemPos4 = new Vector2(0, 550);
+            itemPos5 = new Vector2(-50, 660);
+            itemPos6 = new Vector2(170, 750);
+            itemPos7 = new Vector2(60, 880);
+            itemPos8 = new Vector2(-100, 1050);
+            itemPos9 = new Vector2(-20, 1150);
+            itemPos10 = new Vector2(300, 1260);
 
             scale = 0.8f;
 
@@ -143,6 +155,56 @@ namespace GameJam_Jan_2025
                     itemPos5.X = -(sprite.Width * scale / 2) + 100;
                 }
                 allParts[4].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
+
+                if (itemPos6.X > (sprite.Width * scale) / 2 - 100)
+                {
+                    itemPos6 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos6.Y);
+                }
+                else if (itemPos6.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos6.X = -(sprite.Width * scale / 2) + 100;
+                }
+                allParts[5].Position = new Vector2(objectPos.X + itemPos6.X, -itemPos6.Y);
+
+                if (itemPos7.X > (sprite.Width * scale) / 2 - 100)
+                {
+                    itemPos7 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos7.Y);
+                }
+                else if (itemPos7.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos7.X = -(sprite.Width * scale / 2) + 100;
+                }
+                allParts[6].Position = new Vector2(objectPos.X + itemPos7.X, -itemPos7.Y);
+
+                if (itemPos8.X > (sprite.Width * scale) / 2 - 100)
+                {
+                    itemPos8 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos8.Y);
+                }
+                else if (itemPos8.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos8.X = -(sprite.Width * scale / 2) + 100;
+                }
+                allParts[7].Position = new Vector2(objectPos.X + itemPos8.X, -itemPos8.Y);
+
+                if (itemPos9.X > (sprite.Width * scale) / 2 - 100)
+                {
+                    itemPos9 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos9.Y);
+                }
+                else if (itemPos9.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos9.X = -(sprite.Width * scale / 2) + 100;
+                }
+                allParts[8].Position = new Vector2(objectPos.X + itemPos9.X, -itemPos9.Y);
+
+                if (itemPos10.X > (sprite.Width * scale) / 2 - 100)
+                {
+                    itemPos10 = new Vector2((sprite.Width * scale) / 2 - 100, itemPos10.Y);
+                }
+                else if (itemPos10.X < -(sprite.Width * scale / 2) + 100)
+                {
+                    itemPos10.X = -(sprite.Width * scale / 2) + 100;
+                }
+                allParts[9].Position = new Vector2(objectPos.X + itemPos10.X, -itemPos10.Y);
             }
             else
             {
@@ -154,70 +216,74 @@ namespace GameJam_Jan_2025
         }
         public override void Update(GameTime gameTime)
         {
-            //moves conveyor
-            Position = new Vector2(position.X, position.Y + speed);
-
-            //if past the bottom of the screen, conveyor is teleported to the top
-            if (Position.Y >= 1080 + (sprite.Height * scale / 2))
+            if (!stopped)
             {
-                float difference = Position.Y - (1080 + (sprite.Height * scale / 2));
-                Position = new Vector2(objectPos.X, 1080 + (sprite.Height * scale / 2) - (sprite.Height * scale * 2.5f) + difference);
-            }
-            base.Update(gameTime);
+                //moves conveyor
+                Position = new Vector2(position.X, position.Y + speed);
 
-            if (chainNumber == 1)
-            {
-                //moves each part
-                for (int i = 0; i < allParts.Length; i++)
+                //if past the bottom of the screen, conveyor is teleported to the top
+                if (Position.Y >= 1080 + (sprite.Height * scale / 2))
                 {
-                    if (allParts[i] != null)
+                    float difference = Position.Y - (1080 + (sprite.Height * scale / 2));
+                    Position = new Vector2(objectPos.X, 1080 + (sprite.Height * scale / 2) - (sprite.Height * scale * 2.5f) + difference);
+                }
+                base.Update(gameTime);
+
+                if (chainNumber == 1)
+                {
+                    //moves each part
+                    for (int i = 0; i < allParts.Length; i++)
                     {
-
-                        allParts[i].Position = new Vector2(allParts[i].Position.X, allParts[i].Position.Y + speed);
-                        //teleports part to the top as with conveyor, but rerandomizes them
-                        if (allParts[i].Position.Y >= 1180)
+                        if (allParts[i] != null)
                         {
-                            allParts[i] = RandomizeItem();
-                            Gameworld.AddGameObject(allParts[i]);
-                            switch (i)
-                            {
-                                case 0:
-                                    allParts[i].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
-                                    break;
-                                case 1:
-                                    allParts[i].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
-                                    break;
-                                case 2:
-                                    allParts[i].Position = new Vector2(objectPos.X + itemPos3.X, -itemPos3.Y);
-                                    break;
-                                case 3:
-                                    allParts[i].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
-                                    break;
-                                case 4:
-                                    allParts[i].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
-                                    break;
-                            }
 
-                            switch (rnd.Next(1, 5))
+                            allParts[i].Position = new Vector2(allParts[i].Position.X, allParts[i].Position.Y + speed);
+                            //teleports part to the top as with conveyor, but rerandomizes them
+                            if (allParts[i].Position.Y >= 1180)
                             {
-                                case 2:
-                                    allParts[i].Rotation = MathHelper.Pi / 2;
-                                    break;
-                                case 3:
-                                    allParts[i].Rotation = MathHelper.Pi;
-                                    break;
-                                case 4:
-                                    allParts[i].Rotation = (MathHelper.Pi / 2) * 3;
-                                    break;
-                                default:
-                                    break;
+                                allParts[i] = RandomizeItem();
+                                Gameworld.AddGameObject(allParts[i]);
+                                switch (i)
+                                {
+                                    case 0:
+                                        allParts[i].Position = new Vector2(objectPos.X + itemPos1.X, -itemPos1.Y);
+                                        break;
+                                    case 1:
+                                        allParts[i].Position = new Vector2(objectPos.X + itemPos2.X, -itemPos2.Y);
+                                        break;
+                                    case 2:
+                                        allParts[i].Position = new Vector2(objectPos.X + itemPos3.X, -itemPos3.Y);
+                                        break;
+                                    case 3:
+                                        allParts[i].Position = new Vector2(objectPos.X + itemPos4.X, -itemPos4.Y);
+                                        break;
+                                    case 4:
+                                        allParts[i].Position = new Vector2(objectPos.X + itemPos5.X, -itemPos5.Y);
+                                        break;
+                                }
+
+                                switch (rnd.Next(1, 5))
+                                {
+                                    case 2:
+                                        allParts[i].Rotation = MathHelper.Pi / 2;
+                                        break;
+                                    case 3:
+                                        allParts[i].Rotation = MathHelper.Pi;
+                                        break;
+                                    case 4:
+                                        allParts[i].Rotation = (MathHelper.Pi / 2) * 3;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
+                        else
+                            allParts[i] = RandomPart();
                     }
-                    else
-                        allParts[i] = RandomPart();
                 }
             }
+            
         }
 
         private Part RandomizeItem()
@@ -305,6 +371,14 @@ namespace GameJam_Jan_2025
             }
 
             return part;
+        }
+        public static void Stop()
+        {
+            stopped = true;
+        }
+        public static void Start()
+        {
+            stopped = false;
         }
     }
 }

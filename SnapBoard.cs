@@ -82,6 +82,8 @@ namespace GameJam_Jan_2025
         public Dictionary<Rectangle, Part> parts = new Dictionary<Rectangle, Part>();
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
 
+        //(unneccesary) bool to check when finish button is pressed
+        private bool stillBuilding = true;
         #endregion
         #region Properties
 
@@ -136,7 +138,15 @@ namespace GameJam_Jan_2025
 
             foreach (Rectangle rectangle in partsPositions.Keys)
             {
-                spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                if (rectangle != trashcan)
+                {
+                    spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                }
+                else
+                {
+                    spriteBatch.Draw(Gameworld.sprites["trashcan"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["trashcan"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["trashcan"].Height / 2)), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                }
+                
             }
             spriteBatch.DrawString(Gameworld.textFont, displayedTextString, workshopText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
             spriteBatch.DrawString(Gameworld.textFont, "Head", headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
@@ -165,19 +175,22 @@ namespace GameJam_Jan_2025
             if (robotBuilt && !incompatible)
             {
                 displayedTextString = readyToBuildTextString;
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                Button.ActivateBtn(true);
+                if (!stillBuilding)
                 {
                     duration = 0;
                     ClearBench();
-                    timer.ResetTimer();
+                    stillBuilding = true;
                 }
             }
             else if (robotBuilt && incompatible)
             {
+                Button.ActivateBtn(false);
                 displayedTextString = incompatibleTextString;
             }
             else
             {
+                Button.ActivateBtn(false);
                 if (duration >= displayTime)
                     displayedTextString = incompleteTextString;
                 else
@@ -616,6 +629,10 @@ namespace GameJam_Jan_2025
 
         }
 
+        public void FinishUp()
+        {
+            stillBuilding = false;
+        }
         /// <summary>
         /// Assertains how many "errors" have been made in the building process, with a max of 12 assessment-points
         /// </summary>

@@ -12,17 +12,49 @@ namespace GameJam_Jan_2025
     public class Button : GameObject
     {
         //Fields
+        private bool isFinishBtn;
         private Rectangle hitbox;
+        private static bool btnActive = false;
+        private StartOrderAndEndResultsBoard boardToClose;
 
         //Properties
 
         //Constructors
-        public Button() 
+        public Button(bool isFinishBtn) 
         {
-            hitbox = new Rectangle((int)origin.X,(int)origin.Y, (int)(sprite.Width*scale), (int)(sprite.Height*scale));
-            sprite = Gameworld.sprites["button"];
+            this.isFinishBtn = isFinishBtn;
+            if (isFinishBtn)
+            {
+                sprite = Gameworld.sprites["button"];
+            }
+            else
+            {
+                //use other button sprite
+                sprite = Gameworld.sprites["button"];
+            }
+            layer = 0.6f;
+        }
+        public Button(bool isFinishBtn,StartOrderAndEndResultsBoard boardToClose)
+        {
+            this.isFinishBtn = isFinishBtn;
+            if (isFinishBtn)
+            {
+                sprite = Gameworld.sprites["button"];
+            }
+            else
+            {
+                //use other button sprite
+                sprite = Gameworld.sprites["button"];
+            }
+            layer = 1f;
+            this.boardToClose = boardToClose;
         }
         //Methods
+        public override void LoadContent(ContentManager content)
+        {
+            hitbox = new Rectangle((int)(Position.X- (sprite.Width * scale/2)), (int)(Position.Y - (sprite.Height * scale / 2)), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+            base.LoadContent(content);
+        }
         public override void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
@@ -37,7 +69,11 @@ namespace GameJam_Jan_2025
                     clicked = true;
                 }
             }
-            if (isHovering)
+            if (isHovering &&(btnActive||!isFinishBtn))
+            {
+                color = Color.LightGray;
+            }
+            else if ( !btnActive&& isFinishBtn)
             {
                 color = Color.Gray;
             }
@@ -46,11 +82,24 @@ namespace GameJam_Jan_2025
                 color = Color.White;
             }
 
-            if (clicked)
+            if (clicked&& btnActive&&isFinishBtn)
             {
-                //Do the things that must be done
+                Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
+                Timer.Stop();
+            }
+            else if (clicked&&!isFinishBtn)
+            {
+                Timer.ResetTimer();
+                Gameworld.order += 1;
+                OrderPaper.NewOrder(boardToClose.Order);
+                Gameworld.RemoveGameObject(boardToClose);
+                Gameworld.RemoveGameObject(this);
             }
             base.Update(gameTime);
+        }
+        public static void ActivateBtn(bool active)
+        {
+            btnActive = active;
         }
     }
 }

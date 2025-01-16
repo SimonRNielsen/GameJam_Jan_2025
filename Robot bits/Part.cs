@@ -19,7 +19,10 @@ namespace GameJam_Jan_2025
         /// </summary>
         public int PartType { get => partType; }
 
-        public Part() { }
+        public Part() 
+        {
+            layer = 0.5f;
+        }
 
         //Methods
         public override void LoadContent(ContentManager content)
