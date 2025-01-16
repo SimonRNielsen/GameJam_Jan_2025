@@ -318,6 +318,18 @@ namespace GameJam_Jan_2025
             sounds.Add("trashSound", trashSound);
 
             #endregion
+            #region Review
+
+            SoundEffect badReview = Content.Load<SoundEffect>("Lyd\\Review\\badReviewSound");
+            SoundEffect averageReview = Content.Load<SoundEffect>("Lyd\\Review\\averageReviewSound");
+            SoundEffect goodReview = Content.Load<SoundEffect>("Lyd\\Review\\goodReviewSound");
+
+            sounds.Add("badReview", badReview);
+            sounds.Add("averageReview", averageReview);
+            sounds.Add("goodReview", goodReview);
+
+            #endregion
+
         }
 
         /// <summary>

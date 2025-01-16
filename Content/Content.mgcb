@@ -25,6 +25,24 @@
 /processorParam:Quality=Best
 /build:Lyd/Movement/rotateSound.mp3
 
+#begin Lyd/Review/averageReviewSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Lyd/Review/averageReviewSound.mp3
+
+#begin Lyd/Review/badReviewSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Lyd/Review/badReviewSound.mp3
+
+#begin Lyd/Review/goodReviewSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Lyd/Review/goodReviewSound.mp3
+
 #begin Lyd/Snapboard/buildSound.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

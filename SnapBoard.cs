@@ -32,24 +32,21 @@ namespace GameJam_Jan_2025
         private Vector2 rightArmText;
         private Vector2 storageText;
         private Vector2 trashcanText;
+        private Vector2 reviewCounters;
 
         //Text strings
         private string displayedTextString;
         private string incompleteTextString = "Robot not completed";
         private string incompatibleTextString = "Not all parts compatible";
         private string readyToBuildTextString = "Robot ready to be built";
-        private string robotCompleteTextString = "Robot built ";
+        private string robotCompleteTextString = "Robot built "; //Extra space is not an error
         private string scoreTextString;
-        private string headTextString = "Head";
-        private string torsoTextString = "Torso";
-        private string leftArmTextString = "Left arm";
-        private string rightArmTextString = "Right arm";
-        private string leftLegTextString = "Left leg";
-        private string rightLegTextString = "Right leg";
-        private string storageTextString = "Mess Box";
-        private string trashcanTextString = "Trashcan";
 
         //Score logic
+        private int goodReview;
+        private int averageReview;
+        private int badReview;
+        private byte latestReview;
         private int score;
         private int desiredHead = 1;
         private int desiredTorso = 1;
@@ -65,7 +62,7 @@ namespace GameJam_Jan_2025
 
         //Text and rectangle draw effects
         private float customLayer;
-        private float textScale = 1.5f;
+        private float textScale = 1.6f;
         Color opaque = Color.Black * 0.2f;
         Color textColor = Color.Black;
 
@@ -94,6 +91,11 @@ namespace GameJam_Jan_2025
         public int Score { get => score; }
 
         /// <summary>
+        /// For exporting what last review was, if necessary
+        /// </summary>
+        public byte LatestReview { get => latestReview; }
+
+        /// <summary>
         /// To access if something was put in the trashcan
         /// </summary>
         public Rectangle Trashcan { get => trashcan; }
@@ -119,7 +121,7 @@ namespace GameJam_Jan_2025
             scale = 1f;
             AddAssemblyArea();
             SetVectorsAndString();
-            //sprite = Gameworld.sprites["background"];
+            //sprite = Gameworld.sprites["snapBoardBackground"];
         }
 
         #endregion
@@ -137,14 +139,15 @@ namespace GameJam_Jan_2025
                 spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
             }
             spriteBatch.DrawString(Gameworld.textFont, displayedTextString, workshopText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, headTextString, headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, torsoTextString, torsoText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, leftArmTextString, leftArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, rightArmTextString, rightArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, leftLegTextString, leftLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, rightLegTextString, rightLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, storageTextString, storageText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
-            spriteBatch.DrawString(Gameworld.textFont, trashcanTextString, trashcanText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Head", headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Torso", torsoText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Left arm", leftArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Right arm", rightArmText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Left leg", leftLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Right leg", rightLegText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Mess box", storageText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, "Trashcan", trashcanText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
+            spriteBatch.DrawString(Gameworld.textFont, $"Good reviews: {goodReview}\nAverage reviews: {averageReview}\nBad reviews: {badReview}", reviewCounters, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
             base.Draw(spriteBatch);
 
         }
@@ -257,7 +260,7 @@ namespace GameJam_Jan_2025
         }
 
         /// <summary>
-        /// Method to set Vectors
+        /// Method to set Vectors and string
         /// </summary>
         private void SetVectorsAndString()
         {
@@ -265,14 +268,15 @@ namespace GameJam_Jan_2025
             int textYDisplacement = 110;
             int textXDisplacement = -6;
 
-            headText = new Vector2(partsPositions[head].X + (textXDisplacement * headTextString.Length), partsPositions[head].Y + textYDisplacement);
-            torsoText = new Vector2(partsPositions[torso].X + (textXDisplacement * torsoTextString.Length), partsPositions[torso].Y + textYDisplacement);
-            leftArmText = new Vector2(partsPositions[leftArm].X + (textXDisplacement * leftArmTextString.Length), partsPositions[leftArm].Y + textYDisplacement);
-            rightArmText = new Vector2(partsPositions[rightArm].X + (textXDisplacement * rightArmTextString.Length), partsPositions[rightArm].Y + textYDisplacement);
-            leftLegText = new Vector2(partsPositions[leftLeg].X + (textXDisplacement * leftLegTextString.Length), partsPositions[leftLeg].Y + textYDisplacement);
-            rightLegText = new Vector2(partsPositions[rightLeg].X + (textXDisplacement * rightLegTextString.Length), partsPositions[rightLeg].Y + textYDisplacement);
-            storageText = new Vector2(partsPositions[storage2].X + (textXDisplacement * storageTextString.Length), partsPositions[storage2].Y + textYDisplacement);
-            trashcanText = new Vector2(partsPositions[trashcan].X + (textXDisplacement * trashcanTextString.Length), partsPositions[trashcan].Y + textYDisplacement);
+            headText = new Vector2(partsPositions[head].X + (textXDisplacement * 4), partsPositions[head].Y + textYDisplacement);
+            torsoText = new Vector2(partsPositions[torso].X + (textXDisplacement * 5), partsPositions[torso].Y + textYDisplacement);
+            leftArmText = new Vector2(partsPositions[leftArm].X + (textXDisplacement * 8), partsPositions[leftArm].Y + textYDisplacement);
+            rightArmText = new Vector2(partsPositions[rightArm].X + (textXDisplacement * 9), partsPositions[rightArm].Y + textYDisplacement);
+            leftLegText = new Vector2(partsPositions[leftLeg].X + (textXDisplacement * 8), partsPositions[leftLeg].Y + textYDisplacement);
+            rightLegText = new Vector2(partsPositions[rightLeg].X + (textXDisplacement * 9), partsPositions[rightLeg].Y + textYDisplacement);
+            storageText = new Vector2(partsPositions[storage2].X + (textXDisplacement * 8), partsPositions[storage2].Y + textYDisplacement);
+            trashcanText = new Vector2(partsPositions[trashcan].X + (textXDisplacement * 8), partsPositions[trashcan].Y + textYDisplacement);
+            reviewCounters = new Vector2(partsPositions[rightArm].X + 400 - (6 * 13), partsPositions[rightArm].Y + 200);
 
         }
 
@@ -590,12 +594,84 @@ namespace GameJam_Jan_2025
 
             #endregion
 
-            if ((int)timer.Countdown < 1)
-                score += 1 * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
-            else
-                score += (int)timer.Countdown * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
+            latestReview = RobotReview(correctHeadType, correctTorsoType, correctLeftArmType, correctRightArmType, correctLeftLegType, correctRightLegType, correctHeadOrientation, correctTorsoOrientation, correctLeftArmOrientation, correctRightArmOrientation, correctLeftLegOrientation, correctRightLegOrientation);
+
+            switch (latestReview)
+            {
+                case 1:
+                    goodReview++;
+                    Gameworld.sounds["goodReview"].Play();
+                    break;
+                case 2:
+                    averageReview++;
+                    Gameworld.sounds["averageReview"].Play();
+                    break;
+                case 3:
+                    badReview++;
+                    Gameworld.sounds["badReview"].Play();
+                    break;
+            }
+
+            score += MathHelper.Max(1, (int)timer.Countdown) * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
             scoreTextString = $"{Score}";
 
+        }
+
+        /// <summary>
+        /// Assertains how many "errors" have been made in the building process, with a max of 12 assessment-points
+        /// </summary>
+        /// <param name="headType">Heads type</param>
+        /// <param name="torsoType">Torsos type</param>
+        /// <param name="leftArmType">Left arms type</param>
+        /// <param name="rightArmType">Right arms type</param>
+        /// <param name="leftLegType">Left legs type</param>
+        /// <param name="rightLegType">Right legs type</param>
+        /// <param name="headOrientation">Heads rotation</param>
+        /// <param name="torsoOrientation">Torsos rotation</param>
+        /// <param name="leftArmOrientation">Left arms rotation</param>
+        /// <param name="rightArmOrientation">Right arms rotation</param>
+        /// <param name="leftLegOrientation">Left legs rotation</param>
+        /// <param name="rightLegOrientation">right legs rotation</param>
+        /// <returns>1 (1 or less errors), 2 (2-5 errors) or 3 (more than 5 errors)</returns>
+        private byte RobotReview(int headType, int torsoType, int leftArmType, int rightArmType, int leftLegType, int rightLegType, int headOrientation, int torsoOrientation, int leftArmOrientation, int rightArmOrientation, int leftLegOrientation, int rightLegOrientation)
+        {
+            byte review;
+            int errors = 0;
+            int[] errorpoints = new int[12] { headType, torsoType, leftArmType, rightArmType, leftLegType, rightLegType, headOrientation, torsoOrientation, leftArmOrientation, rightArmOrientation, leftLegOrientation, rightLegOrientation};
+
+            foreach (int i in errorpoints)
+            {
+                if (i < 10)
+                    errors++;
+            }
+
+            switch (errors)
+            {
+                case 0:
+                case 1:
+                    review = 1;
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    review = 2;
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                    review = 3;
+                    break;
+                default:
+                    review = 2;
+                    break;
+            }
+
+            return review;
         }
 
         #endregion
