@@ -100,15 +100,15 @@ namespace GameJam_Jan_2025
                 {
                     Gameworld.orderNumber += 1;
                     Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(Gameworld.orderNumber));
-                    
+                    SnapBoard.FinishUp();
                     Gameworld.RemoveGameObject(boardToClose);
                     Gameworld.RemoveGameObject(this);
                     alreadyClicked = true;
                 }
-                else
+                else 
                 {
                     OrderPaper.NewOrder(StartOrderAndEndResultsBoard.Order);
-                    SnapBoard.FinishUp();
+                    
                     Gameworld.RemoveGameObject(boardToClose);
                     Gameworld.RemoveGameObject(this);
                     alreadyClicked=true;
