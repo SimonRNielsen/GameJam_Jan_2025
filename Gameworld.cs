@@ -253,8 +253,8 @@ namespace GameJam_Jan_2025
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
-            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
-            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head2");
+            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head3");
 
             Texture2D robotBody1 = Content.Load<Texture2D>("Sprites\\Robotparts\\body1");
             Texture2D robotBody2 = Content.Load<Texture2D>("Sprites\\Robotparts\\body2");

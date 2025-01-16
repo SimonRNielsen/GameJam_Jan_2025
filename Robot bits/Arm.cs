@@ -22,15 +22,15 @@ namespace GameJam_Jan_2025
             {
                 case 1:
                     this.sprite = Gameworld.sprites["robotArmL1"];
-                    this.partType = partType;
+                    this.partType = 1;
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["robotArmL2"];
-                    this.partType = partType;
+                    this.partType = 2;
                     break;
                 case 3:
                     this.sprite = Gameworld.sprites["robotArmL3"];
-                    this.partType = partType;
+                    this.partType = 3;
                     break;
                 case 4:
                     this.sprite = Gameworld.sprites["robotArmR1"];

@@ -24,6 +24,7 @@ namespace GameJam_Jan_2025
             {
                 case 1:
                     this.sprite = Gameworld.sprites["head1"];
+                    this.partType = partType;
                     if (Gameworld.order == "baker")
                     {
                         //foreach (Part.Baker Enum in )
