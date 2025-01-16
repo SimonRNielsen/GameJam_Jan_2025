@@ -16,7 +16,7 @@ namespace GameJam_Jan_2025
 
             position = Gameworld.startingPosition;
             layer = 1;
-            scale = 0.5f;
+            scale = 1f;
 
             switch (partType)
             {
