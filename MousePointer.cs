@@ -12,9 +12,6 @@ namespace GameJam_Jan_2025
         private float Pi = MathHelper.Pi;
         GameObject tempObject;
         Vector2 previousLocation;
-        private bool leftButtonClicked;
-        private bool mouseClicked;
-        private bool itemTrashed;
 
         #endregion
 
@@ -87,15 +84,9 @@ namespace GameJam_Jan_2025
             if (tempObject != null && tempObject.Grabbed)
             {
                 if (Gameworld.MouseLeftClick)
-                {
                     tempObject.Position = Gameworld.MousePosition;
-                    leftButtonClicked = true;
-                    mouseClicked = true;
-                }
                 else if (Gameworld.MouseRightClick)
                 {
-                    leftButtonClicked = false;
-                    mouseClicked = true;
                     tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
                     oldMouseX = Gameworld.MousePosition.X;
                     if (tempObject.Rotation > (MathHelper.Pi * 2))
@@ -118,7 +109,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     LeftClickEvent(gameObject);
-                else
+                else 
                     RightClickEvent(gameObject);
             }
 
@@ -164,13 +155,7 @@ namespace GameJam_Jan_2025
                 if (!success)
                     tempObject.Position = previousLocation;
                 if (success)
-                {
-                    if (tempObject.Position == Gameworld.snapBoard.partsPositions[Gameworld.snapBoard.Trashcan])
-                        itemTrashed = true;
-                    else
-                        itemTrashed = false;
                     Gameworld.conveyorBelt.RemoveFromAllParts(tempObject);
-                }
 
                 //Reset check parameters and clear tempObject
                 previousLocation = Vector2.Zero;

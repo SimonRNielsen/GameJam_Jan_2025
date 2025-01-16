@@ -19,13 +19,19 @@ namespace GameJam_Jan_2025
         {
             position = Gameworld.startingPosition;
             layer = 1;
-            scale = 0.5f;
+            scale = 1f;
 
             switch (partType)
             {
                 case 1:
                     this.sprite = Gameworld.sprites["head1"];
-                    this.partType = partType;
+                    if (Gameworld.order == "baker")
+                    {
+                        //foreach (Part.Baker Enum in )
+                        //{
+
+                        //}
+                    }
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["head2"];

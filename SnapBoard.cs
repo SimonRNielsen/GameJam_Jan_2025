@@ -361,7 +361,6 @@ namespace GameJam_Jan_2025
             parts[leftLeg].RemoveThis = true;
             parts[rightLeg].RemoveThis = true;
 
-            Gameworld.sounds["buildSound"].Play();
             ScoreCalculation();
 
             parts[head] = null;
