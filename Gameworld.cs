@@ -111,7 +111,7 @@ namespace GameJam_Jan_2025
             AddGameObject(conveyorBelt);
             AddGameObject(new StartOrderAndEndResultsBoard(1));
             Button finishBuildBtn = new Button(true);
-            finishBuildBtn.Position = new Vector2(1560, 900);
+            finishBuildBtn.Position = new Vector2(1000, 200);
             AddGameObject(finishBuildBtn);
             AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
 
