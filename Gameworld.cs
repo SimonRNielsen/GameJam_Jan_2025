@@ -97,7 +97,7 @@ namespace GameJam_Jan_2025
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
             activeGameObjects.Add(snapBoard);
-            AddGameObject(new Timer(45));
+            AddGameObject(new Timer(60));
 
             base.Initialize();
         }
@@ -112,7 +112,7 @@ namespace GameJam_Jan_2025
             AddGameObject(conveyorBelt);
             AddGameObject(new StartOrderAndEndResultsBoard(1));
             Button finishBuildBtn = new Button(true);
-            finishBuildBtn.Position = new Vector2(1560, 900);
+            finishBuildBtn.Position = new Vector2(1000, 200);
             AddGameObject(finishBuildBtn);
             AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
 
@@ -399,6 +399,13 @@ namespace GameJam_Jan_2025
             sounds.Add("badReview", badReview);
             sounds.Add("averageReview", averageReview);
             sounds.Add("goodReview", goodReview);
+
+            #endregion
+            #region Misc
+
+            SoundEffect ding = Content.Load<SoundEffect>("Lyd\\Misc\\dingSound");
+
+            sounds.Add("ding", ding);
 
             #endregion
 

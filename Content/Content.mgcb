@@ -13,12 +13,11 @@
 
 #---------------------------------- Content ---------------------------------#
 
-
-#begin Music/steampunk-garage-142325.mp3
+#begin Lyd/Misc/dingSound.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Music/steampunk-garage-142325.mp3
+/build:Lyd/Misc/dingSound.mp3
 
 #begin Lyd/Movement/moveSound.mp3
 /importer:Mp3Importer
@@ -61,6 +60,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Lyd/Snapboard/trashSound.mp3
+
+#begin Music/steampunk-garage-142325.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/steampunk-garage-142325.mp3
 
 #begin spriteFont.spritefont
 /importer:FontDescriptionImporter

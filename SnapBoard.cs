@@ -47,6 +47,7 @@ namespace GameJam_Jan_2025
         private static int averageReview;
         private static int badReview;
         private byte latestReview;
+        private int buildScore;
         private int score;
         private int desiredHead = 1;
         private int desiredTorso = 1;
@@ -91,6 +92,11 @@ namespace GameJam_Jan_2025
         /// For extracting score when game ends
         /// </summary>
         public int Score { get => score; }
+
+        /// <summary>
+        /// Gets the score from the last build
+        /// </summary>
+        public int BuildScore { get => buildScore; }
 
         /// <summary>
         /// For exporting what last review was, if necessary
@@ -354,7 +360,7 @@ namespace GameJam_Jan_2025
             completed = false;
             incompatible = true;
 
-            if (parts[head] != null && parts[torso] != null && parts[leftArm] != null && parts[rightArm] != null && parts[leftLeg] != null && parts[rightLeg] != null)
+            if (CheckSlots())
             {
 
                 completed = true;
@@ -376,8 +382,6 @@ namespace GameJam_Jan_2025
             parts[rightArm].RemoveThis = true;
             parts[leftLeg].RemoveThis = true;
             parts[rightLeg].RemoveThis = true;
-
-            ScoreCalculation();
 
             parts[head] = null;
             parts[torso] = null;
@@ -407,7 +411,7 @@ namespace GameJam_Jan_2025
         /// <summary>
         /// Calculates score from assembled robot
         /// </summary>
-        private void ScoreCalculation()
+        public void ScoreCalculation()
         {
 
             #region Part Orientation evaluation
@@ -460,7 +464,7 @@ namespace GameJam_Jan_2025
             switch (parts[leftArm].Rotation)
             {
                 case 0:
-                    if (parts[leftArm].Sprite.Name.Contains("armL"))
+                    if (parts[leftArm].Sprite.Name.Contains("armR"))
                         correctLeftArmOrientation = 10;
                     else
                         correctLeftArmOrientation = 1;
@@ -469,7 +473,7 @@ namespace GameJam_Jan_2025
                     correctLeftArmOrientation = 5;
                     break;
                 case MathHelper.Pi:
-                    if (parts[leftArm].Sprite.Name.Contains("armL"))
+                    if (parts[leftArm].Sprite.Name.Contains("armR"))
                         correctLeftArmOrientation = 1;
                     else
                         correctLeftArmOrientation = 10;
@@ -485,7 +489,7 @@ namespace GameJam_Jan_2025
             switch (parts[rightArm].Rotation)
             {
                 case 0:
-                    if (parts[rightArm].Sprite.Name.Contains("armR"))
+                    if (parts[rightArm].Sprite.Name.Contains("armL"))
                         correctRightArmOrientation = 10;
                     else
                         correctRightArmOrientation = 1;
@@ -494,7 +498,7 @@ namespace GameJam_Jan_2025
                     correctRightArmOrientation = 5;
                     break;
                 case MathHelper.Pi:
-                    if (parts[rightArm].Sprite.Name.Contains("armR"))
+                    if (parts[rightArm].Sprite.Name.Contains("armL"))
                         correctRightArmOrientation = 1;
                     else
                         correctRightArmOrientation = 10;
@@ -510,7 +514,7 @@ namespace GameJam_Jan_2025
             switch (parts[leftLeg].Rotation)
             {
                 case 0:
-                    if (parts[leftLeg].Sprite.Name.Contains("legL"))
+                    if (parts[leftLeg].Sprite.Name.Contains("legR"))
                         correctLeftLegOrientation = 10;
                     else
                         correctLeftLegOrientation = 1;
@@ -519,11 +523,11 @@ namespace GameJam_Jan_2025
                     correctLeftLegOrientation = 5;
                     break;
                 case MathHelper.Pi:
-                    if (parts[leftLeg].Sprite.Name.Contains("legL"))
+                    if (parts[leftLeg].Sprite.Name.Contains("legR"))
                         correctLeftLegOrientation = 1;
                     else
                     {
-                        if (parts[leftLeg].PartType != 3)
+                        if (parts[leftLeg].PartType == desiredLeftLeg)
                             correctLeftLegOrientation = 10;
                         else
                             correctLeftLegOrientation = 1;
@@ -540,7 +544,7 @@ namespace GameJam_Jan_2025
             switch (parts[rightLeg].Rotation)
             {
                 case 0:
-                    if (parts[rightLeg].Sprite.Name.Contains("legR"))
+                    if (parts[rightLeg].Sprite.Name.Contains("legL"))
                         correctRightLegOrientation = 10;
                     else
                         correctRightLegOrientation = 1;
@@ -549,11 +553,11 @@ namespace GameJam_Jan_2025
                     correctRightLegOrientation = 5;
                     break;
                 case MathHelper.Pi:
-                    if (parts[rightLeg].Sprite.Name.Contains("legR"))
+                    if (parts[rightLeg].Sprite.Name.Contains("legL"))
                         correctRightLegOrientation = 1;
                     else
                     {
-                        if (parts[rightLeg].PartType != 3)
+                        if (parts[rightLeg].PartType == desiredRightLeg)
                             correctRightLegOrientation = 10;
                         else
                             correctRightLegOrientation = 1;
@@ -615,20 +619,18 @@ namespace GameJam_Jan_2025
             {
                 case 1:
                     goodReview++;
-                    Gameworld.sounds["goodReview"].Play();
                     break;
                 case 2:
                     averageReview++;
-                    Gameworld.sounds["averageReview"].Play();
                     break;
                 case 3:
                     badReview++;
-                    Gameworld.sounds["badReview"].Play();
                     break;
             }
 
-            score += MathHelper.Max(1, (int)timer.Countdown) * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
-            scoreTextString = $"{Score}";
+            buildScore = MathHelper.Max(1, (int)timer.Countdown) * (correctHeadType + correctHeadOrientation + correctTorsoType + correctTorsoOrientation + correctLeftArmType + correctLeftArmOrientation + correctRightArmType + correctRightArmOrientation + correctLeftLegType + correctLeftLegOrientation + correctRightLegType + correctRightLegOrientation);
+            score += buildScore;
+            scoreTextString = $"{score}";
 
         }
 
@@ -691,6 +693,20 @@ namespace GameJam_Jan_2025
             }
 
             return review;
+        }
+
+        /// <summary>
+        /// Bool to check if all slots are filled with correct items
+        /// </summary>
+        /// <returns>true if all slots are filled, else false</returns>
+        public bool CheckSlots()
+        {
+
+            bool checkSlots = false;
+            if (parts[head] != null && parts[torso] != null && parts[leftArm] != null && parts[rightArm] != null && parts[leftLeg] != null && parts[rightLeg] != null)
+                checkSlots = true;
+            return checkSlots;
+
         }
 
         #endregion

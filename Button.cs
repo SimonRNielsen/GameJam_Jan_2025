@@ -89,7 +89,7 @@ namespace GameJam_Jan_2025
 
             if (clicked&& btnActive&&isFinishBtn&&!alreadyClicked)
             {
-                Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
+                Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.BuildScore));
                 Timer.Stop();
                 alreadyClicked = true;
             }

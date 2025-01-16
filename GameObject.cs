@@ -59,8 +59,11 @@ namespace GameJam_Jan_2025
             get
             {
                 if (sprite != null)
-                    return new Rectangle((int)(Position.X - (sprite.Width / 2) * scale), (int)(Position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
-                else 
+                    if (rotation == 0 || rotation == MathHelper.Pi)
+                        return new Rectangle((int)(Position.X - (sprite.Width / 2) * scale), (int)(Position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+                    else
+                        return new Rectangle((int)(Position.X - (sprite.Height / 2) * scale), (int)(Position.Y - (sprite.Width / 2) * scale), (int)(sprite.Height * scale), (int)(sprite.Width * scale));
+                else
                     return new Rectangle();
             }
         }
