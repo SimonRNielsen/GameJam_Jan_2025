@@ -38,7 +38,7 @@ namespace GameJam_Jan_2025
         public override void LoadContent(ContentManager content)
         {
             position = new Vector2(960, 540);
-            layer = 0.7f;
+            layer = 0.9f;
             sprites[0] = Gameworld.sprites["enterCutscene1"];
             sprites[1] = Gameworld.sprites["enterCutscene2"];
             sprites[2] = Gameworld.sprites["enterCutscene3"];
