@@ -8,7 +8,6 @@ namespace GameJam_Jan_2025
         #region Fields
 
         Texture2D sprite;
-        private float rotation;
         private float oldMouseX;
         private float Pi = MathHelper.Pi;
         GameObject tempObject;
@@ -67,7 +66,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     tempObject.Position = Gameworld.MousePosition;
-                if (Gameworld.MouseRightClick)
+                else if (Gameworld.MouseRightClick)
                 {
                     tempObject.Rotation += (Gameworld.MousePosition.X - oldMouseX) / 100f;
                     oldMouseX = Gameworld.MousePosition.X;
@@ -91,7 +90,7 @@ namespace GameJam_Jan_2025
             {
                 if (Gameworld.MouseLeftClick)
                     LeftClickEvent(gameObject);
-                if (Gameworld.MouseRightClick)
+                else 
                     RightClickEvent(gameObject);
             }
 
@@ -99,7 +98,7 @@ namespace GameJam_Jan_2025
             {
 
                 //Rotation end logic
-                if (tempObject.Rotation < Pi / 4 && rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
+                if (tempObject.Rotation < Pi / 4 && tempObject.Rotation > 0 || tempObject.Rotation > (Pi / 4) * 7)
                     tempObject.Rotation = 0;
                 else if (tempObject.Rotation > (Pi / 4) * 1 && tempObject.Rotation < (Pi / 4) * 3)
                     tempObject.Rotation = Pi / 2;
@@ -136,6 +135,8 @@ namespace GameJam_Jan_2025
                     tempObject.Position = previousLocation;
                 if (!success)
                     tempObject.Position = previousLocation;
+                if (success)
+                    Gameworld.conveyorBelt.RemoveFromAllParts(tempObject);
 
                 //Reset check parameters and clear tempObject
                 previousLocation = Vector2.Zero;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
-    public class Head : Part
+    public class Head : Part, ISnapable
     {
         
 
@@ -19,7 +19,7 @@ namespace GameJam_Jan_2025
         {
             position = Gameworld.startingPosition;
             layer = 1;
-            scale = 0.5f;
+            scale = 1f;
 
             switch (partType)
             {
@@ -35,9 +35,11 @@ namespace GameJam_Jan_2025
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["head2"];
+                    this.partType = partType;
                     break;
                 case 3:
                     this.sprite = Gameworld.sprites["head3"];
+                    this.partType = partType;
                     break;
                 default:
                     break;

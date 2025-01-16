@@ -25,6 +25,9 @@ namespace GameJam_Jan_2025
         private bool grabbed = false;
 
         //Properties
+        /// <summary>
+        /// Allows for external manipulation and reference of objects position
+        /// </summary>
         public Vector2 Position { get => position; set => position = value; }
 
         /// <summary>
@@ -32,12 +35,24 @@ namespace GameJam_Jan_2025
         /// </summary>
         public float Rotation { get => rotation; set => rotation = value; }
 
-
+        /// <summary>
+        /// Marks item for removal
+        /// </summary>
         public bool RemoveThis { get => removeThis; set => removeThis = value; }
 
-
+        /// <summary>
+        /// Marks item as grabbed, and allows manipulation for drag n' drop
+        /// </summary>
         public bool Grabbed { get => grabbed; set => grabbed = value; }
 
+        /// <summary>
+        /// Allows access to info on sprite (for score calculation)
+        /// </summary>
+        public Texture2D Sprite { get => sprite; }
+
+        /// <summary>
+        /// CollisionBox for interactions
+        /// </summary>
         public Rectangle CollisionBox
         {
 
