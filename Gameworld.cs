@@ -96,7 +96,7 @@ namespace GameJam_Jan_2025
             mousePointer = new MousePointer();
             snapBoard = new SnapBoard();
             activeGameObjects.Add(snapBoard);
-            AddGameObject(new Timer(45));
+            AddGameObject(new Timer(60));
 
             base.Initialize();
         }
