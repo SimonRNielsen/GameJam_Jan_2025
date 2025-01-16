@@ -289,7 +289,7 @@ namespace GameJam_Jan_2025
             sprites.Add("trickPartLeg", trickPartLeg);
             #endregion
             #region trash and square
-            Texture2D trashcan = Content.Load<Texture2D>("Sprites\\trashcan");
+            Texture2D trashcan = Content.Load<Texture2D>("Sprites\\trash");
             sprites.Add("trashcan", trashcan);
 
             Texture2D square = Content.Load<Texture2D>("Sprites\\square");
