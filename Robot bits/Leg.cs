@@ -14,8 +14,8 @@ namespace GameJam_Jan_2025
         public Leg(int partType)
         {
             position = Gameworld.startingPosition;
-
-            scale = 0.5f;
+            layer = 1;
+            scale = 1f;
 
             switch (partType)
             {

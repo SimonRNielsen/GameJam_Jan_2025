@@ -18,13 +18,20 @@ namespace GameJam_Jan_2025
         public Head(int partType)
         {
             position = Gameworld.startingPosition;
-            scale = 0.5f;
+            layer = 1;
+            scale = 1f;
 
             switch (partType)
             {
                 case 1:
                     this.sprite = Gameworld.sprites["head1"];
-                    this.partType = partType;
+                    if (Gameworld.order == "baker")
+                    {
+                        //foreach (Part.Baker Enum in )
+                        //{
+
+                        //}
+                    }
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["head2"];
