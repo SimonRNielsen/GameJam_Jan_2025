@@ -12,14 +12,14 @@ namespace GameJam_Jan_2025
     public class OrderPaper:GameObject
     {
         //Fields
-        private string order;
+        private static string order;
         private bool visible = false;
         private Rectangle hitbox;
         private Vector2 visiblePos;
         private Vector2 hiddenPos;
         private float clickTimer = 0.2f;
         private float countdown;
-        private Vector2 textPosition = new Vector2(20, 50);
+        private Vector2 textPosition = new Vector2(600, 800);
         //Properties
 
         //Constructors
@@ -29,7 +29,7 @@ namespace GameJam_Jan_2025
             this.position = position;
             hiddenPos = position;
             visiblePos = new Vector2(position.X, position.Y - (600 * scale));
-            this.order = order;
+            OrderPaper.order = order;
             sprite = Gameworld.sprites["orderPaper"];
             hitbox = new Rectangle((int)(Position.X - (sprite.Width * scale / 2)), (int)(Position.Y - (sprite.Height * scale / 2)), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
         }
@@ -83,8 +83,13 @@ namespace GameJam_Jan_2025
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.DrawString(Gameworld.textFont,("Order\n"+order), new Vector2(position.X+textPosition.X,position.Y+textPosition.Y), color,null, new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer+0.1f);
+            spriteBatch.DrawString(Gameworld.textFont,("Order\n\n"+order), new Vector2(position.X+textPosition.X,position.Y+textPosition.Y), Color.Black,0, new Vector2(sprite.Width*scale/2,sprite.Height*scale/2), scale*3, SpriteEffects.None, layer+0.1f);
             base.Draw(spriteBatch);
+        }
+
+        public static void NewOrder(string order)
+        {
+            OrderPaper.order = order;
         }
     }
 }

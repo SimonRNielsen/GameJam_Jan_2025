@@ -19,6 +19,7 @@ namespace GameJam_Jan_2025
         private Vector2 foregroundOffset;
         private static bool timeStopped = false;
         private Color countdownColor = Color.White;
+        private static bool timeReset = false;
 
         //Properties
 
@@ -46,6 +47,11 @@ namespace GameJam_Jan_2025
         }
         public override void Update(GameTime gameTime)
         {
+            if (timeReset)
+            {
+                timeReset = false;
+                countdown = totalTimeSeconds;
+            }
             if (!timeStopped)
             {
                 countdown-= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -67,10 +73,11 @@ namespace GameJam_Jan_2025
             spriteBatch.Draw(background, position, null, Color.White, 0, origin, scale, SpriteEffects.None, layer);
         }
 
-        public void ResetTimer()
+        public static void ResetTimer()
         {
-            countdown = totalTimeSeconds;
+            timeReset = true;
             timeStopped = false;
+            ConveyorBelt.Start();
         }
         public static void Stop()
         {

@@ -13,15 +13,42 @@ namespace GameJam_Jan_2025
     public class Button : GameObject
     {
         //Fields
+        private bool isFinishBtn;
         private Rectangle hitbox;
         private static bool btnActive = false;
+        private StartOrderAndEndResultsBoard boardToClose;
+
         //Properties
 
         //Constructors
-        public Button() 
+        public Button(bool isFinishBtn) 
         {
-            sprite = Gameworld.sprites["button"];
+            this.isFinishBtn = isFinishBtn;
+            if (isFinishBtn)
+            {
+                sprite = Gameworld.sprites["button"];
+            }
+            else
+            {
+                //use other button sprite
+                sprite = Gameworld.sprites["button"];
+            }
             layer = 0.6f;
+        }
+        public Button(bool isFinishBtn,StartOrderAndEndResultsBoard boardToClose)
+        {
+            this.isFinishBtn = isFinishBtn;
+            if (isFinishBtn)
+            {
+                sprite = Gameworld.sprites["button"];
+            }
+            else
+            {
+                //use other button sprite
+                sprite = Gameworld.sprites["button"];
+            }
+            layer = 1f;
+            this.boardToClose = boardToClose;
         }
         //Methods
         public override void LoadContent(ContentManager content)
@@ -43,23 +70,31 @@ namespace GameJam_Jan_2025
                     clicked = true;
                 }
             }
-            if (isHovering &&btnActive)
+            if (isHovering &&(btnActive||!isFinishBtn))
             {
                 color = Color.LightGray;
             }
-            else if ( btnActive)
-            {
-                color = Color.White;
-            }
-            else
+            else if ( !btnActive&& isFinishBtn)
             {
                 color = Color.Gray;
             }
+            else
+            {
+                color = Color.White;
+            }
 
-            if (clicked&& btnActive)
+            if (clicked&& btnActive&&isFinishBtn)
             {
                 Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
                 Timer.Stop();
+            }
+            else if (clicked&&!isFinishBtn)
+            {
+                Timer.ResetTimer();
+                Gameworld.order += 1;
+                OrderPaper.NewOrder(boardToClose.Order);
+                Gameworld.RemoveGameObject(boardToClose);
+                Gameworld.RemoveGameObject(this);
             }
             base.Update(gameTime);
         }

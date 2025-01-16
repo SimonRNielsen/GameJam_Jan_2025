@@ -131,7 +131,15 @@ namespace GameJam_Jan_2025
 
             foreach (Rectangle rectangle in partsPositions.Keys)
             {
-                spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                if (rectangle != trashcan)
+                {
+                    spriteBatch.Draw(Gameworld.sprites["snapBoard"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["snapBoard"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["snapBoard"].Height / 2)), rectangle, opaque, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                }
+                else
+                {
+                    spriteBatch.Draw(Gameworld.sprites["trashcan"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["trashcan"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["trashcan"].Height / 2)), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
+                }
+                
             }
             spriteBatch.DrawString(Gameworld.textFont, displayedTextString, workshopText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
             spriteBatch.DrawString(Gameworld.textFont, headTextString, headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);

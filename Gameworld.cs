@@ -109,7 +109,8 @@ namespace GameJam_Jan_2025
             AddGameObject(new Head(1));
             conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
             AddGameObject(conveyorBelt);
-            Button finishBuildBtn = new Button();
+            AddGameObject(new StartOrderAndEndResultsBoard(1));
+            Button finishBuildBtn = new Button(true);
             finishBuildBtn.Position = new Vector2(1560, 900);
             AddGameObject(finishBuildBtn);
             AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
@@ -125,6 +126,7 @@ namespace GameJam_Jan_2025
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.3f;
+            Timer.Stop();
         }
 
         protected override void Update(GameTime gameTime)
@@ -321,7 +323,7 @@ namespace GameJam_Jan_2025
             sprites.Add("trickPartLeg", trickPartLeg);
             #endregion
             #region trash and square
-            Texture2D trashcan = Content.Load<Texture2D>("Sprites\\trashcan");
+            Texture2D trashcan = Content.Load<Texture2D>("Sprites\\trash");
             sprites.Add("trashcan", trashcan);
 
             Texture2D square = Content.Load<Texture2D>("Sprites\\square");
@@ -330,11 +332,27 @@ namespace GameJam_Jan_2025
             #region Snapboard
 
             Texture2D snapBoard = Content.Load<Texture2D>("Sprites\\SnapBoard\\blankSlot");
-
             sprites.Add("snapBoard", snapBoard);
 
             #endregion
+            #region cutscenes
+            Texture2D customerEnter1 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes1");
+            sprites.Add("enterCutscene1", customerEnter1);
+            Texture2D customerEnter2 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes2");
+            sprites.Add("enterCutscene2", customerEnter2);
+            Texture2D customerEnter3 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes3");
+            sprites.Add("enterCutscene3", customerEnter3);
+            Texture2D customerEnter4 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes4");
+            sprites.Add("enterCutscene4", customerEnter4);
+            Texture2D customerEnter5 = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes5");
+            sprites.Add("orderCutscene", customerEnter5);
 
+            Texture2D win = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes_win");
+            sprites.Add("winScreen", win);
+
+            Texture2D lose = Content.Load<Texture2D>("Sprites\\cutscenes\\cutscenes_lose");
+            sprites.Add("loseScreen", lose);
+            #endregion
         }
 
         /// <summary>

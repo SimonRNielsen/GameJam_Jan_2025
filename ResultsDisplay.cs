@@ -29,7 +29,7 @@ namespace GameJam_Jan_2025
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.DrawString(Gameworld.textFont, response+"\n\nPoints: "+points, position, Color.Black,null,Vector2.Zero,scale,SpriteEffects.None,layer+0.1f);
+            spriteBatch.DrawString(Gameworld.textFont, response+"\n\nPoints: "+points, new Vector2(position.X - 170, position.Y - 200), Color.Black,0,Vector2.Zero,scale*2.5f,SpriteEffects.None,layer+0.1f);
             spriteBatch.Draw(smiley, new Vector2(position.X+200,position.Y-50), null, Color.White, 0, Vector2.Zero, scale*0.8f, SpriteEffects.None, layer + 0.1f);
             base.Draw(spriteBatch);
         }
