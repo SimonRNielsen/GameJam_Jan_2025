@@ -17,6 +17,7 @@ namespace GameJam_Jan_2025
         private static bool btnActive = false;
         private GameObject boardToClose;
         private bool alreadyClicked = false;
+        private Random rng = new Random();
 
         //Properties
 
@@ -65,7 +66,7 @@ namespace GameJam_Jan_2025
             if (mouseHitbox.Intersects(hitbox))
             {
                 isHovering = true;
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (mouseState.LeftButton == ButtonState.Pressed && !Gameworld.Grabbing)
                 {
                     clicked = true;
                 }
@@ -99,7 +100,7 @@ namespace GameJam_Jan_2025
                 if(boardToClose is ResultsDisplay)
                 {
                     Gameworld.orderNumber += 1;
-                    Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(Gameworld.orderNumber));
+                    Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
                     SnapBoard.FinishUp();
                     Gameworld.RemoveGameObject(boardToClose);
                     Gameworld.RemoveGameObject(this);

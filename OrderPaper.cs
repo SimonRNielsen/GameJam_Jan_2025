@@ -48,7 +48,7 @@ namespace GameJam_Jan_2025
             if (mouseHitbox.Intersects(hitbox))
             {
                 isHovering = true;
-                if (mouseState.LeftButton == ButtonState.Pressed && countdown <= 0) 
+                if (mouseState.LeftButton == ButtonState.Pressed && countdown <= 0 && !Gameworld.Grabbing) 
                 {
                     clicked = true;
                 }
