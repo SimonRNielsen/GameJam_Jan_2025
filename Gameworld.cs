@@ -288,6 +288,13 @@ namespace GameJam_Jan_2025
             sprites.Add("trickPartArm2", trickPartArm2);
             sprites.Add("trickPartLeg", trickPartLeg);
             #endregion
+            #region trash and square
+            Texture2D trashcan = Content.Load<Texture2D>("Sprites\\trashcan");
+            sprites.Add("trashcan", trashcan);
+
+            Texture2D square = Content.Load<Texture2D>("Sprites\\square");
+            sprites.Add("square", square);
+            #endregion
             #region Snapboard
 
             Texture2D snapBoard = Content.Load<Texture2D>("Sprites\\SnapBoard\\blankSlot");
