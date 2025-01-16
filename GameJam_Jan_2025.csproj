@@ -26,11 +26,17 @@
     <None Remove="Content\Sprites\orderboard.png" />
     <None Remove="Content\Sprites\resultboard1.png" />
     <None Remove="Content\Sprites\resultboard2.png" />
+    <Content Include="Content\Lyd\Movement\moveSound.mp3" />
+    <Content Include="Content\Lyd\Movement\rotateSound.mp3" />
+    <Content Include="Content\Lyd\Review\averageReviewSound.mp3" />
+    <Content Include="Content\Lyd\Review\badReviewSound.mp3" />
+    <Content Include="Content\Lyd\Review\goodReviewSound.mp3" />
+    <Content Include="Content\Lyd\Snapboard\buildSound.mp3" />
+    <Content Include="Content\Lyd\Snapboard\trashSound.mp3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <Folder Include="Content\Lyd\" />
     <Folder Include="Content\Musik\" />
     <Folder Include="Content\Sprites\Background\" />
   </ItemGroup>

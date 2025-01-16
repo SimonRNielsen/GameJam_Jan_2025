@@ -371,6 +371,36 @@ namespace GameJam_Jan_2025
         private void AddSounds(Dictionary<string, SoundEffect> sounds)
         {
 
+            #region Movement
+
+            SoundEffect moveSound = Content.Load<SoundEffect>("Lyd\\Movement\\moveSound");
+            SoundEffect rotateSound = Content.Load<SoundEffect>("Lyd\\Movement\\rotateSound");
+
+            sounds.Add("moveSound", moveSound);
+            sounds.Add("rotateSound", rotateSound);
+
+            #endregion
+            #region SnapBoard
+
+            SoundEffect buildSound = Content.Load<SoundEffect>("Lyd\\SnapBoard\\buildSound");
+            SoundEffect trashSound = Content.Load<SoundEffect>("Lyd\\SnapBoard\\trashSound");
+
+            sounds.Add("buildSound", buildSound);
+            sounds.Add("trashSound", trashSound);
+
+            #endregion
+            #region Review
+
+            SoundEffect badReview = Content.Load<SoundEffect>("Lyd\\Review\\badReviewSound");
+            SoundEffect averageReview = Content.Load<SoundEffect>("Lyd\\Review\\averageReviewSound");
+            SoundEffect goodReview = Content.Load<SoundEffect>("Lyd\\Review\\goodReviewSound");
+
+            sounds.Add("badReview", badReview);
+            sounds.Add("averageReview", averageReview);
+            sounds.Add("goodReview", goodReview);
+
+            #endregion
+
         }
 
         /// <summary>

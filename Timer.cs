@@ -39,10 +39,11 @@ namespace GameJam_Jan_2025
         //Methods
         public override void LoadContent(ContentManager content)
         {
-            Position=new Vector2(100,20);
+            Position=new Vector2(512,20);
             foreground = Gameworld.sprites["timerForeground"];
             background = Gameworld.sprites["timerBackground"];
             foregroundOffset = new Vector2(29, 17);
+            scale = 0.79f;
             ResetTimer();
         }
         public override void Update(GameTime gameTime)
