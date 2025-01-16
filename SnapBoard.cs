@@ -43,9 +43,9 @@ namespace GameJam_Jan_2025
         private string scoreTextString;
 
         //Score logic
-        private int goodReview;
-        private int averageReview;
-        private int badReview;
+        private static int goodReview;
+        private static int averageReview;
+        private static int badReview;
         private byte latestReview;
         private int score;
         private int desiredHead = 1;
@@ -83,7 +83,7 @@ namespace GameJam_Jan_2025
         public Dictionary<Rectangle, Vector2> partsPositions = new Dictionary<Rectangle, Vector2>();
 
         //(unneccesary) bool to check when finish button is pressed
-        private bool stillBuilding = true;
+        private static bool stillBuilding = true;
         #endregion
         #region Properties
 
@@ -109,6 +109,9 @@ namespace GameJam_Jan_2025
         public int DesiredRightArm { set => desiredRightArm = value; }
         public int DesiredLeftLeg { set => desiredLeftLeg = value; }
         public int DesiredRightLeg { set => desiredRightLeg = value; }
+        public static int GoodReview { get => goodReview; private set => goodReview = value; }
+        public static int AverageReview { get => averageReview; private set => averageReview = value; }
+        public static int BadReview { get => badReview; private set => badReview = value; }
 
         #endregion
         #region Constructor
@@ -629,9 +632,9 @@ namespace GameJam_Jan_2025
 
         }
 
-        public void FinishUp()
+        public static void FinishUp()
         {
-            stillBuilding = false;
+            //stillBuilding = false;
         }
         /// <summary>
         /// Assertains how many "errors" have been made in the building process, with a max of 12 assessment-points

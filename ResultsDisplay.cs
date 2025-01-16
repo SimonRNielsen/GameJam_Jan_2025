@@ -24,6 +24,9 @@ namespace GameJam_Jan_2025
             this.points = points;
             layer = 0.9f;
             position = new Vector2(960, 540);
+            Button btn = new Button(false,this);
+            btn.Position = new Vector2(1000, 800);
+            Gameworld.AddGameObject(btn);
             RateResult();
         }
 

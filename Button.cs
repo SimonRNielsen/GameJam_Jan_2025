@@ -15,7 +15,8 @@ namespace GameJam_Jan_2025
         private bool isFinishBtn;
         private Rectangle hitbox;
         private static bool btnActive = false;
-        private StartOrderAndEndResultsBoard boardToClose;
+        private GameObject boardToClose;
+        private bool alreadyClicked = false;
 
         //Properties
 
@@ -34,7 +35,7 @@ namespace GameJam_Jan_2025
             }
             layer = 0.6f;
         }
-        public Button(bool isFinishBtn,StartOrderAndEndResultsBoard boardToClose)
+        public Button(bool isFinishBtn,GameObject boardToClose)
         {
             this.isFinishBtn = isFinishBtn;
             if (isFinishBtn)
@@ -69,6 +70,10 @@ namespace GameJam_Jan_2025
                     clicked = true;
                 }
             }
+            else
+            {
+                alreadyClicked = false;
+            }
             if (isHovering &&(btnActive||!isFinishBtn))
             {
                 color = Color.LightGray;
@@ -82,24 +87,40 @@ namespace GameJam_Jan_2025
                 color = Color.White;
             }
 
-            if (clicked&& btnActive&&isFinishBtn)
+            if (clicked&& btnActive&&isFinishBtn&&!alreadyClicked)
             {
                 Gameworld.AddGameObject(new ResultsDisplay(true, Gameworld.snapBoard.Score));
                 Timer.Stop();
+                alreadyClicked = true;
             }
-            else if (clicked&&!isFinishBtn)
+            else if (clicked&&!isFinishBtn&&!alreadyClicked)
             {
                 Timer.ResetTimer();
-                Gameworld.order += 1;
-                OrderPaper.NewOrder(boardToClose.Order);
-                Gameworld.RemoveGameObject(boardToClose);
-                Gameworld.RemoveGameObject(this);
+                if(boardToClose is ResultsDisplay)
+                {
+                    Gameworld.orderNumber += 1;
+                    Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(Gameworld.orderNumber));
+                    
+                    Gameworld.RemoveGameObject(boardToClose);
+                    Gameworld.RemoveGameObject(this);
+                    alreadyClicked = true;
+                }
+                else
+                {
+                    OrderPaper.NewOrder(StartOrderAndEndResultsBoard.Order);
+                    SnapBoard.FinishUp();
+                    Gameworld.RemoveGameObject(boardToClose);
+                    Gameworld.RemoveGameObject(this);
+                    alreadyClicked=true;
+                }
+                
             }
             base.Update(gameTime);
         }
         public static void ActivateBtn(bool active)
         {
             btnActive = active;
+            
         }
     }
 }

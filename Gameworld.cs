@@ -34,6 +34,7 @@ namespace GameJam_Jan_2025
         public static bool orderOnGoing;
         private Song backgroundMusic;
         public static string order;
+        public static int orderNumber=1;
         public static int point;
 
         internal static SnapBoard snapBoard;
@@ -125,7 +126,7 @@ namespace GameJam_Jan_2025
             backgroundMusic = music["backgroundMusic1"];
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.3f;
+            MediaPlayer.Volume = 0.1f;
             Timer.Stop();
         }
 
@@ -253,8 +254,8 @@ namespace GameJam_Jan_2025
 
             #region parts
             Texture2D robotHead1 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
-            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
-            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head1");
+            Texture2D robotHead2 = Content.Load<Texture2D>("Sprites\\Robotparts\\head2");
+            Texture2D robotHead3 = Content.Load<Texture2D>("Sprites\\Robotparts\\head3");
 
             Texture2D robotBody1 = Content.Load<Texture2D>("Sprites\\Robotparts\\body1");
             Texture2D robotBody2 = Content.Load<Texture2D>("Sprites\\Robotparts\\body2");
