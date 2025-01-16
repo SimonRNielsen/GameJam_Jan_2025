@@ -84,6 +84,7 @@ namespace GameJam_Jan_2025
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(Gameworld.textFont,("Order\n\n"+order), new Vector2(position.X+textPosition.X,position.Y+textPosition.Y), Color.Black,0, new Vector2(sprite.Width*scale/2,sprite.Height*scale/2), scale*3, SpriteEffects.None, layer+0.1f);
+            spriteBatch.DrawString(Gameworld.textFont, ("PS: the conveyor is slightly\nbroken, so some of the parts it \nproduces are kind of a mess. \nJust avoid them, and you should \nbe fine"), new Vector2(position.X + textPosition.X-200, position.Y + textPosition.Y+80), Color.Black, 0, new Vector2(sprite.Width * scale / 2, sprite.Height * scale / 2), scale * 2, SpriteEffects.None, layer + 0.1f);
             base.Draw(spriteBatch);
         }
 

@@ -15,7 +15,7 @@ namespace GameJam_Jan_2025
         {
             position = Gameworld.startingPosition;
             scale = 1f;
-
+            this.partType = partType;
             switch (partType)
             {
                 case 1:
