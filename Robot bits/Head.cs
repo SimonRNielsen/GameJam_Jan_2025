@@ -19,7 +19,7 @@ namespace GameJam_Jan_2025
         {
             position = Gameworld.startingPosition;
             scale = 1f;
-
+            this.partType = partType;
             switch (partType)
             {
                 case 1:
@@ -35,11 +35,9 @@ namespace GameJam_Jan_2025
                     break;
                 case 2:
                     this.sprite = Gameworld.sprites["head2"];
-                    this.partType = partType;
                     break;
                 case 3:
                     this.sprite = Gameworld.sprites["head3"];
-                    this.partType = partType;
                     break;
                 default:
                     break;

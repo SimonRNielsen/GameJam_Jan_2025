@@ -12,24 +12,25 @@ namespace GameJam_Jan_2025
 {
     public class StartOrderAndEndResultsBoard:GameObject
     {
-        private string order1="Yes, robot please";
-        private string order2="Text goes here";
-        private string order3 = "Text goes here";
+        private string order1 = "Our head chef just quit \nlast minute and we need a \nreplacement, fast!";
+        private string order2 = "I need to prototype a new \ntype of cembat drone. \nGot anything that might \ndo the job?";
+        private string order3 = "The band just can't seem \nto get their act together. \nAny chance your bots \nhave musical talent?";
         //text for the end of the game
-        private string loseText = "Text goes here";
-        private string winText = "Text goes here";
+        private string loseText = "Your store was shut down, due to bad reviews...";
+        private string winText = "You are amazing, and your robot building business will be known for years!";
         private int customer;
         private Texture2D[] sprites = new Texture2D[5];
-        private int spriteNumber=1;
+        private int spriteNumber=0;
         private float timeBetweenImages = 1;
         private float countdown;
         private bool imagesDone = false;
+        private int finalScore;
         private bool playOnce = true;
         private Vector2 textPosition = new Vector2(-850,-450);
         //change this
         private Vector2 buttonPosition = new Vector2(400, 600);
 
-        public string Order { get; private set; }
+        public static string Order { get; private set; }
 
         public StartOrderAndEndResultsBoard(int orderNumber) 
         { 
@@ -38,6 +39,7 @@ namespace GameJam_Jan_2025
 
         public override void LoadContent(ContentManager content)
         {
+            countdown = timeBetweenImages;
             position = new Vector2(960, 540);
             layer = 0.9f;
             sprites[0] = Gameworld.sprites["enterCutscene1"];
@@ -45,8 +47,32 @@ namespace GameJam_Jan_2025
             sprites[2] = Gameworld.sprites["enterCutscene3"];
             sprites[3] = Gameworld.sprites["enterCutscene4"];
             sprites[4] = Gameworld.sprites["orderCutscene"];
-
-            sprite=sprites[0];
+            if (customer == 1)
+            {
+                sprite = sprites[0];
+            }
+            else if (customer > 3)
+            {
+                Button restartBtn = new Button(false, this);
+                restartBtn.Position = new Vector2(500, 600);
+                Gameworld.AddGameObject(restartBtn);
+                finalScore=(SnapBoard.GoodReview*3)+SnapBoard.AverageReview-(SnapBoard.BadReview*3);
+                if (finalScore > 4)
+                {
+                    sprite = Gameworld.sprites["winScreen"];
+                }
+                else
+                {
+                    sprite = Gameworld.sprites["loseScreen"];
+                    spriteNumber = 5;
+                    imagesDone = true;
+                }
+            }
+            else 
+            {
+                sprite = sprites[1];
+                spriteNumber = 1;
+            }
             base.LoadContent(content);
         }
 
@@ -101,23 +127,37 @@ namespace GameJam_Jan_2025
         {
             if (imagesDone)
             {
-                string order="";
-                switch (customer)
+                if (customer < 4)
                 {
-                    case 1:
-                        order = order1;
-                        Order = order1;
-                        break;
-                    case 2: 
-                        order = order2;
-                        Order = order2;
-                        break;
-                    case 3:
-                        order = order3;
-                        Order = order3;
-                        break;
+                    string order = "";
+                    switch (customer)
+                    {
+                        case 1:
+                            order = order1;
+                            Order = order1;
+                            break;
+                        case 2:
+                            order = order2;
+                            Order = order2;
+                            break;
+                        case 3:
+                            order = order3;
+                            Order = order3;
+                            break;
+                    }
+                    spriteBatch.DrawString(Gameworld.textFont, ("Order:\n\n" + order), new Vector2(position.X + textPosition.X, position.Y + textPosition.Y), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
                 }
-                spriteBatch.DrawString(Gameworld.textFont, ("Order:\n\n" + order), new Vector2(position.X + textPosition.X, position.Y + textPosition.Y), Color.Black, 0, Vector2.Zero, scale * 2, SpriteEffects.None, 1);
+                else 
+                {
+                    if (finalScore > 4)
+                    {
+                        spriteBatch.DrawString(Gameworld.textFont, winText, new Vector2(position.X-100, position.Y -40), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
+                    }
+                    else
+                    {
+                        spriteBatch.DrawString(Gameworld.textFont, loseText, new Vector2(position.X - 100, position.Y - 40), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
+                    }
+                }
             }
             base.Draw(spriteBatch);
         }
