@@ -24,6 +24,7 @@ namespace GameJam_Jan_2025
         private float timeBetweenImages = 1;
         private float countdown;
         private bool imagesDone = false;
+        private bool playOnce = true;
         private Vector2 textPosition = new Vector2(-850,-450);
         //change this
         private Vector2 buttonPosition = new Vector2(400, 600);
@@ -77,6 +78,11 @@ namespace GameJam_Jan_2025
                         case 4:
                             countdown = 0;
                             sprite = sprites[4];
+                            if (playOnce)
+                            {
+                                playOnce = false;
+                                Gameworld.sounds["ding"].Play();
+                            }
                             imagesDone = true;
                             Button btn = new Button(false,this);
                             btn.Position = buttonPosition;

@@ -400,6 +400,13 @@ namespace GameJam_Jan_2025
             sounds.Add("goodReview", goodReview);
 
             #endregion
+            #region Misc
+
+            SoundEffect ding = Content.Load<SoundEffect>("Lyd\\Misc\\dingSound");
+
+            sounds.Add("ding", ding);
+
+            #endregion
 
         }
 
