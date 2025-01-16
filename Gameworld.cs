@@ -367,22 +367,7 @@ namespace GameJam_Jan_2025
 
 #endif
 
-        //Spawning robot parts
-        static void spawnParts()
-        {
-            //if (orderOnGoing)
-            //{
-
-
-            //    gameObjectsToBeAdded.Add(new Head(1));
-            //    gameObjectsToBeAdded.Add(new Torso(1));
-            //    gameObjectsToBeAdded.Add(new Arm(4));
-            //    gameObjectsToBeAdded.Add(new Arm(1));
-            //    gameObjectsToBeAdded.Add(new Leg(4));
-            //    gameObjectsToBeAdded.Add(new Leg(1));
-            //    gameObjectsToBeAdded.Add(new trickParts(1));
-            //}
-        }
+       
         #endregion
     }
 }
