@@ -40,17 +40,18 @@ namespace GameJam_Jan_2025
             sprites[2] = Gameworld.sprites["enterCutscene3"];
             sprites[3] = Gameworld.sprites["enterCutscene4"];
             sprites[4] = Gameworld.sprites["orderCutscene"];
-            if (customer == 1)
+            if (Gameworld.numberOfOrders == 1)
             {
                 sprite = sprites[0];
 
             }
-            else if (customer > 3)
+            
+            else if (Gameworld.numberOfOrders > 3)
             {
                 Button restartBtn = new Button(false, this);
-                restartBtn.Position = new Vector2(500, 600);
+                restartBtn.Position = new Vector2(900, 900);
                 Gameworld.AddGameObject(restartBtn);
-                finalScore=(SnapBoard.GoodReview*3)+SnapBoard.AverageReview-(SnapBoard.BadReview*3);
+                finalScore = (SnapBoard.GoodReview * 3) + SnapBoard.AverageReview - (SnapBoard.BadReview * 3);
                 if (finalScore > 4)
                 {
                     sprite = Gameworld.sprites["winScreen"];
@@ -63,6 +64,7 @@ namespace GameJam_Jan_2025
                     spriteNumber = 5;
                     imagesDone = true;
                 }
+                Gameworld.numberOfOrders = 5;
             }
             else 
             {
@@ -118,7 +120,7 @@ namespace GameJam_Jan_2025
         {
             if (imagesDone)
             {
-                if (customer < 4)
+                if (Gameworld.numberOfOrders<4)
                 {
                     string order = "";
                     switch (customer)
@@ -145,11 +147,11 @@ namespace GameJam_Jan_2025
                 {
                     if (finalScore > 4)
                     {
-                        spriteBatch.DrawString(Gameworld.textFont, winText + "\nFinal score: " + Gameworld.snapBoard.Score, new Vector2(position.X - 100, position.Y - 40), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
+                        spriteBatch.DrawString(Gameworld.textFont, winText + "\nFinal score: " + Gameworld.snapBoard.Score, new Vector2(position.X-500, position.Y + 150), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
                     }
                     else
                     {
-                        spriteBatch.DrawString(Gameworld.textFont, loseText + "\nFinal score: " + Gameworld.snapBoard.Score, new Vector2(position.X - 100, position.Y - 40), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
+                        spriteBatch.DrawString(Gameworld.textFont, loseText + "\nFinal score: " + Gameworld.snapBoard.Score, new Vector2(position.X-500, position.Y +150), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
                     }
                 }
             }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 
 /*
@@ -42,6 +43,7 @@ namespace GameJam_Jan_2025
         private Song backgroundMusic;
         public static string order;
         public static int orderNumber=1;
+        public static int numberOfOrders = 1;
         public static int point;
 
         internal static SnapBoard snapBoard;
@@ -112,12 +114,12 @@ namespace GameJam_Jan_2025
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Random rng = new Random();
             // TODO: use this.Content to load your game content here
             AddGameObject(new Head(1));
             conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
             AddGameObject(conveyorBelt);
-            AddGameObject(new StartOrderAndEndResultsBoard(orderNumber));
+            AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
             Button finishBuildBtn = new Button(true);
             finishBuildBtn.Position = new Vector2(1050, 200);
             AddGameObject(finishBuildBtn);
@@ -459,6 +461,7 @@ namespace GameJam_Jan_2025
             SnapBoard.Reset();
             Timer.Stop();
             orderNumber = 1;
+            numberOfOrders = 1;
             foreach (GameObject gameObject in activeGameObjects)
             {
                 if(gameObject is Part||gameObject is ConveyorBelt)
@@ -478,7 +481,8 @@ namespace GameJam_Jan_2025
             
             AddGameObject(conveyorBelt);
             Timer.Stop();
-            AddGameObject(new StartOrderAndEndResultsBoard(orderNumber));
+            Random rng = new Random();
+            AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
         }
 
 

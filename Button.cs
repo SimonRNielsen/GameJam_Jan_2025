@@ -95,13 +95,13 @@ namespace GameJam_Jan_2025
                 Timer.ResetTimer();
                 if(boardToClose is ResultsDisplay)
                 {
-                    if (Gameworld.orderNumber > 2)
+                    if (Gameworld.numberOfOrders>3)
                     {
                         Gameworld.RestartGame();
                     }
                     else
                     {
-                        Gameworld.orderNumber += 1;
+                        Gameworld.numberOfOrders += 1;
                         Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
                         SnapBoard.FinishUp();
                     }
