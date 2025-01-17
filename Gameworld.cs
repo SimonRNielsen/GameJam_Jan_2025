@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
+/*
+Game has been made with use of free assets found on:
+https://www.vecteezy.com/ (screwdriver sprite)
+https://pixabay.com/ (sound & music)
+*/
+
 namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
