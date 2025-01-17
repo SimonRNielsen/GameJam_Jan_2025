@@ -1,14 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
@@ -291,11 +283,11 @@ namespace GameJam_Jan_2025
             switch (rnd.Next(0, 5))
             {
                 case 0:
-                    return new Arm(rnd.Next(1, 6));
+                    return new Arm(rnd.Next(1, 7));
                 case 1:
                     return new Head(rnd.Next(1, 4));
                 case 2:
-                    return new Leg(rnd.Next(1, 6));
+                    return new Leg(rnd.Next(1, 7));
                 case 3:
                     return new Torso(rnd.Next(1, 4));
                 case 4:
