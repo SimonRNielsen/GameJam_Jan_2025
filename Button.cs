@@ -28,7 +28,7 @@ namespace GameJam_Jan_2025
             else
             {
                 //use other button sprite
-                sprite = Gameworld.sprites["button"];
+                sprite = Gameworld.sprites["continueButton"];
             }
             layer = 0.6f;
         }
@@ -42,7 +42,7 @@ namespace GameJam_Jan_2025
             else
             {
                 //use other button sprite
-                sprite = Gameworld.sprites["button"];
+                sprite = Gameworld.sprites["continueButton"];
             }
             layer = 1f;
             this.boardToClose = boardToClose;
@@ -95,10 +95,18 @@ namespace GameJam_Jan_2025
                 Timer.ResetTimer();
                 if(boardToClose is ResultsDisplay)
                 {
-                    Gameworld.orderNumber += 1;
-                    Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
-                    SnapBoard.FinishUp();
+                    if (Gameworld.orderNumber > 2)
+                    {
+                        Gameworld.RestartGame();
+                    }
+                    else
+                    {
+                        Gameworld.orderNumber += 1;
+                        Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(Gameworld.orderNumber));
+                        SnapBoard.FinishUp();
+                    }
                     Gameworld.RemoveGameObject(boardToClose);
+
                     Gameworld.RemoveGameObject(this);
                     alreadyClicked = true;
                 }
