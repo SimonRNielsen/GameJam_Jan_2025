@@ -48,7 +48,7 @@ namespace GameJam_Jan_2025
         private static int badReview;
         private byte latestReview;
         private int buildScore;
-        private int score;
+        private static int score;
         private int desiredHead = 1;
         private int desiredTorso = 1;
         private int desiredLeftArm = 1;
@@ -637,6 +637,15 @@ namespace GameJam_Jan_2025
         public static void FinishUp()
         {
             stillBuilding = false;
+        }
+
+        public static void Reset()
+        {
+            stillBuilding = false;
+            score = 0;
+            goodReview = 0;
+            badReview = 0;
+            averageReview = 0;
         }
         /// <summary>
         /// Assertains how many "errors" have been made in the building process, with a max of 12 assessment-points

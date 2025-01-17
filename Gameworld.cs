@@ -110,7 +110,7 @@ namespace GameJam_Jan_2025
             AddGameObject(new Head(1));
             conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
             AddGameObject(conveyorBelt);
-            AddGameObject(new StartOrderAndEndResultsBoard(1));
+            AddGameObject(new StartOrderAndEndResultsBoard(orderNumber));
             Button finishBuildBtn = new Button(true);
             finishBuildBtn.Position = new Vector2(1000, 200);
             AddGameObject(finishBuildBtn);
@@ -227,6 +227,9 @@ namespace GameJam_Jan_2025
 
             Texture2D button = Content.Load<Texture2D>("Sprites\\simpleButton2");
             sprites.Add ("button", button);
+
+            Texture2D button2 = Content.Load<Texture2D>("Sprites\\simpleButton3");
+            sprites.Add("continueButton", button2);
 
             Texture2D conveyor = Content.Load<Texture2D>("Sprites\\basic conveyor");
             sprites.Add("conveyorBelt", conveyor);
@@ -440,6 +443,33 @@ namespace GameJam_Jan_2025
         public static void RemoveGameObject(GameObject gameObject)
         {
             gameObjectsToBeRemoved.Add(gameObject);
+        }
+
+        public static void RestartGame()
+        {
+            SnapBoard.Reset();
+            Timer.Stop();
+            orderNumber = 1;
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                if(gameObject is Part||gameObject is ConveyorBelt)
+                {
+                    RemoveGameObject(gameObject);
+                }
+            }
+            AddGameObject(new Head(1));
+            gameObjectsToBeAdded.Add(new Head(1));
+            gameObjectsToBeAdded.Add(new Torso(1));
+            gameObjectsToBeAdded.Add(new Arm(4));
+            gameObjectsToBeAdded.Add(new Arm(1));
+            gameObjectsToBeAdded.Add(new Leg(4));
+            gameObjectsToBeAdded.Add(new Leg(1));
+            gameObjectsToBeAdded.Add(new TrickPart(1));            
+            conveyorBelt = new ConveyorBelt(new Vector2(1550, 100));
+            
+            AddGameObject(conveyorBelt);
+            Timer.Stop();
+            AddGameObject(new StartOrderAndEndResultsBoard(orderNumber));
         }
 
 
