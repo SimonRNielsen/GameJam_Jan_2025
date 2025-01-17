@@ -30,6 +30,7 @@ namespace GameJam_Jan_2025
         public static SpriteFont textFont;
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
+        private static Texture2D backgroundTexture;
 
         public static bool orderOnGoing;
         private Song backgroundMusic;
@@ -115,6 +116,7 @@ namespace GameJam_Jan_2025
             finishBuildBtn.Position = new Vector2(1050, 200);
             AddGameObject(finishBuildBtn);
             AddGameObject(new OrderPaper("test message", new Vector2(1050, 1300)));
+            backgroundTexture = Content.Load<Texture2D>("Sprites\\Background\\background_pattern");
 
             gameObjectsToBeAdded.Add(new Head(1));
             gameObjectsToBeAdded.Add(new Torso(1));
@@ -171,6 +173,7 @@ namespace GameJam_Jan_2025
             bool disableCollisionDrawing = Keyboard.GetState().IsKeyDown(Keys.Space);
 #endif
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+            _spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 
             foreach (GameObject gameObject in activeGameObjects)
             {
