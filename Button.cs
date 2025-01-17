@@ -102,7 +102,7 @@ namespace GameJam_Jan_2025
                     else
                     {
                         Gameworld.orderNumber += 1;
-                        Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(Gameworld.orderNumber));
+                        Gameworld.AddGameObject(new StartOrderAndEndResultsBoard(rng.Next(1, 4)));
                         SnapBoard.FinishUp();
                     }
                     Gameworld.RemoveGameObject(boardToClose);
