@@ -1,12 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1.Effects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
@@ -132,14 +126,17 @@ namespace GameJam_Jan_2025
                         case 1:
                             order = order1;
                             Order = order1;
+                            DesignateOrder(RobotType.Baker);
                             break;
                         case 2:
                             order = order2;
                             Order = order2;
+                            DesignateOrder(RobotType.Soldier);
                             break;
                         case 3:
                             order = order3;
                             Order = order3;
+                            DesignateOrder(RobotType.Musician);
                             break;
                     }
                     spriteBatch.DrawString(Gameworld.textFont, ("Order:\n\n" + order), new Vector2(position.X + textPosition.X, position.Y + textPosition.Y), Color.Black, 0, Vector2.Zero, scale * 3, SpriteEffects.None, 1);
@@ -157,6 +154,43 @@ namespace GameJam_Jan_2025
                 }
             }
             base.Draw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Method to change type of robot requested
+        /// </summary>
+        /// <param name="desiredRobot">Changes parameters dependant on which type of robot is requested</param>
+        private void DesignateOrder(RobotType desiredRobot)
+        {
+
+            switch (desiredRobot)
+            {
+                case RobotType.Baker:
+                    Gameworld.snapBoard.DesiredHead = 1;
+                    Gameworld.snapBoard.DesiredTorso = 1;
+                    Gameworld.snapBoard.DesiredLeftArm = 1;
+                    Gameworld.snapBoard.DesiredRightArm = 1;
+                    Gameworld.snapBoard.DesiredLeftLeg = 1;
+                    Gameworld.snapBoard.DesiredRightLeg = 1;
+                    break;
+                case RobotType.Soldier:
+                    Gameworld.snapBoard.DesiredHead = 2;
+                    Gameworld.snapBoard.DesiredTorso = 2;
+                    Gameworld.snapBoard.DesiredLeftArm = 2;
+                    Gameworld.snapBoard.DesiredRightArm = 2;
+                    Gameworld.snapBoard.DesiredLeftLeg = 2;
+                    Gameworld.snapBoard.DesiredRightLeg = 2;
+                    break;
+                case RobotType.Musician:
+                    Gameworld.snapBoard.DesiredHead = 3;
+                    Gameworld.snapBoard.DesiredTorso = 3;
+                    Gameworld.snapBoard.DesiredLeftArm = 3;
+                    Gameworld.snapBoard.DesiredRightArm = 3;
+                    Gameworld.snapBoard.DesiredLeftLeg = 3;
+                    Gameworld.snapBoard.DesiredRightLeg = 3;
+                    break;
+            }
+
         }
     }
 }

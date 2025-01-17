@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
+/*
+Game has been made with use of free assets found on:
+https://www.vecteezy.com/ (screwdriver sprite)
+https://pixabay.com/ (sound & music)
+*/
+
 namespace GameJam_Jan_2025
 {
     public class Gameworld : Game
@@ -30,6 +36,7 @@ namespace GameJam_Jan_2025
         public static SpriteFont textFont;
         private static Gameworld activeGameWorld;
         public static Vector2 startingPosition = new Vector2(1400, -100);
+        private static Texture2D backgroundTexture;
 
         public static bool orderOnGoing;
         private Song backgroundMusic;
@@ -112,9 +119,10 @@ namespace GameJam_Jan_2025
             AddGameObject(conveyorBelt);
             AddGameObject(new StartOrderAndEndResultsBoard(orderNumber));
             Button finishBuildBtn = new Button(true);
-            finishBuildBtn.Position = new Vector2(1000, 200);
+            finishBuildBtn.Position = new Vector2(1050, 200);
             AddGameObject(finishBuildBtn);
-            AddGameObject(new OrderPaper("test message", new Vector2(1000, 1300)));
+            AddGameObject(new OrderPaper("test message", new Vector2(1050, 1300)));
+            backgroundTexture = Content.Load<Texture2D>("Sprites\\Background\\background_pattern");
 
             gameObjectsToBeAdded.Add(new Head(1));
             gameObjectsToBeAdded.Add(new Torso(1));
@@ -171,6 +179,7 @@ namespace GameJam_Jan_2025
             bool disableCollisionDrawing = Keyboard.GetState().IsKeyDown(Keys.Space);
 #endif
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+            _spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 
             foreach (GameObject gameObject in activeGameObjects)
             {
@@ -504,10 +513,8 @@ namespace GameJam_Jan_2025
             _spriteBatch.Draw(sprites["debug"], rightLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
             _spriteBatch.Draw(sprites["debug"], leftLine, null, color, 0, Vector2.Zero, SpriteEffects.None, 1f);
         }
-
 #endif
-
-       
+               
         #endregion
     }
 }

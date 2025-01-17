@@ -2,10 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameJam_Jan_2025
 {
@@ -17,6 +13,7 @@ namespace GameJam_Jan_2025
         private static bool btnActive = false;
         private GameObject boardToClose;
         private bool alreadyClicked = false;
+        private Random rng = new Random();
 
         //Properties
 
@@ -65,7 +62,7 @@ namespace GameJam_Jan_2025
             if (mouseHitbox.Intersects(hitbox))
             {
                 isHovering = true;
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (mouseState.LeftButton == ButtonState.Pressed && !Gameworld.Grabbing)
                 {
                     clicked = true;
                 }
