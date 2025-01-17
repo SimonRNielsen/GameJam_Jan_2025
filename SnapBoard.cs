@@ -208,6 +208,11 @@ namespace GameJam_Jan_2025
                     displayedTextString += scoreTextString;
 #endif
                 }
+                if (!stillBuilding)
+                {
+                    stillBuilding = true;
+                    ClearBench();
+                }
             }
 
             if (parts[trashcan] != null)
@@ -374,13 +379,30 @@ namespace GameJam_Jan_2025
         /// </summary>
         private void ClearBench()
         {
-
-            parts[head].RemoveThis = true;
-            parts[torso].RemoveThis = true;
-            parts[leftArm].RemoveThis = true;
-            parts[rightArm].RemoveThis = true;
-            parts[leftLeg].RemoveThis = true;
-            parts[rightLeg].RemoveThis = true;
+            if (parts[head] != null)
+            {
+                parts[head].RemoveThis = true;
+            }
+            if (parts[torso] != null)
+            {
+                parts[torso].RemoveThis = true;
+            }
+            if (parts[leftArm] != null)
+            {
+                parts[leftArm].RemoveThis = true;
+            }
+            if (parts[rightArm] != null)
+            {
+                parts[rightArm].RemoveThis = true;
+            }
+            if (parts[leftLeg] != null)
+            {
+                parts[leftLeg].RemoveThis = true;
+            }
+            if (parts[rightLeg] != null)
+            {
+                parts[rightLeg].RemoveThis = true;
+            }
 
             parts[head] = null;
             parts[torso] = null;
