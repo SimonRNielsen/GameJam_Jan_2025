@@ -154,7 +154,7 @@ namespace GameJam_Jan_2025
                 {
                     spriteBatch.Draw(Gameworld.sprites["trashcan"], new Vector2(partsPositions[rectangle].X - (Gameworld.sprites["trashcan"].Width / 2), partsPositions[rectangle].Y - (Gameworld.sprites["trashcan"].Height / 2)), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, layer);
                 }
-                
+
             }
             spriteBatch.DrawString(Gameworld.textFont, displayedTextString, workshopText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
             spriteBatch.DrawString(Gameworld.textFont, "Head", headText, textColor, 0f, Vector2.Zero, textScale, SpriteEffects.None, customLayer);
@@ -372,15 +372,20 @@ namespace GameJam_Jan_2025
         /// <summary>
         /// Removes parts after the robot is "built"
         /// </summary>
-        private void ClearBench()
+        public void ClearBench()
         {
-
-            parts[head].RemoveThis = true;
-            parts[torso].RemoveThis = true;
-            parts[leftArm].RemoveThis = true;
-            parts[rightArm].RemoveThis = true;
-            parts[leftLeg].RemoveThis = true;
-            parts[rightLeg].RemoveThis = true;
+            if (parts[head] != null)
+                parts[head].RemoveThis = true;
+            if (parts[torso] != null)
+                parts[torso].RemoveThis = true;
+            if (parts[leftArm] != null)
+                parts[leftArm].RemoveThis = true;
+            if (parts[rightArm] != null)
+                parts[rightArm].RemoveThis = true;
+            if (parts[leftLeg] != null)
+                parts[leftLeg].RemoveThis = true;
+            if (parts[rightLeg] != null)
+                parts[rightLeg].RemoveThis = true;
 
             parts[head] = null;
             parts[torso] = null;
@@ -666,7 +671,7 @@ namespace GameJam_Jan_2025
         {
             byte review;
             int errors = 0;
-            int[] errorpoints = new int[12] { headType, torsoType, leftArmType, rightArmType, leftLegType, rightLegType, headOrientation, torsoOrientation, leftArmOrientation, rightArmOrientation, leftLegOrientation, rightLegOrientation};
+            int[] errorpoints = new int[12] { headType, torsoType, leftArmType, rightArmType, leftLegType, rightLegType, headOrientation, torsoOrientation, leftArmOrientation, rightArmOrientation, leftLegOrientation, rightLegOrientation };
 
             foreach (int i in errorpoints)
             {

@@ -41,6 +41,7 @@ namespace GameJam_Jan_2025
                 smiley = Gameworld.sprites["badSmiley"];
                 response = "This isn't even finished! I'm not paying!";
                 Gameworld.sounds["badReview"].Play();
+                Gameworld.snapBoard.ClearBench();
             }
             else if (Gameworld.snapBoard.LatestReview == 1)
             {
